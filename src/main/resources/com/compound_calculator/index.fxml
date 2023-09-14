@@ -2,15 +2,42 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.VBox?>
 
 <?import javafx.scene.control.Button?>
-<VBox alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml"
-      fx:controller="com.compound_calculator.HelloController">
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.collections.FXCollections?>
+<?import java.lang.String?>
+<GridPane alignment="CENTER" xmlns:fx="http://javafx.com/fxml" fx:controller="com.compound_calculator.Controller">
     <padding>
         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
     </padding>
 
-    <Label fx:id="welcomeText"/>
-    <Button text="Hello!" onAction="#onHelloButtonClick"/>
-</VBox>
+    <Label text="Initial Investment ($)" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+    <TextField fx:id="initialInvestment" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+    <Label text="Yearly addition ($)" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+    <TextField fx:id="yearlyAddition" GridPane.rowIndex="1" GridPane.columnIndex="1" />
+
+    <Label text="Interest rate (%)" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+    <TextField fx:id="interestRate" GridPane.rowIndex="2" GridPane.columnIndex="1" />
+
+    <Label text="Compound frequency" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+    <ComboBox fx:id="comboBox" layoutX="100.0" layoutY="100.0" GridPane.rowIndex="3" GridPane.columnIndex="1">
+        <items>
+            <FXCollections fx:factory="observableArrayList">
+                <String fx:value="Monthly" />
+                <String fx:value="Quarterly" />
+                <String fx:value="Semi-annually" />
+                <String fx:value="Yearly" />
+            </FXCollections>
+        </items>
+    </ComboBox>
+
+    <Label text="Number of years" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+    <TextField fx:id="numberOfYears" GridPane.rowIndex="4" GridPane.columnIndex="1" />
+
+    <Button text="Calculate" onAction="#calculate" GridPane.rowIndex="5" GridPane.columnIndex="0" GridPane.columnSpan="2"/>
+
+</GridPane>

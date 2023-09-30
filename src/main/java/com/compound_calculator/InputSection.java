@@ -1,5 +1,3 @@
-
-
 package com.compound_calculator;
 
 import javafx.geometry.Insets;

@@ -7,48 +7,49 @@ import javafx.scene.layout.GridPane;
 
 public class InputSection extends GridPane {
 
-    TextField initInvField;
-    TextField yearlyAdditionField;
-    TextField interestField;
-    TextField yearsField;
-    ComboBox<String> freqBox;
+    private final TextField initInvField;
+    private final TextField yearlyAdditionField;
+    private final TextField interestField;
+    private final TextField yearsField;
+    private final ComboBox<String> freqBox;
 
     public InputSection() {
         this.setAlignment(Pos.CENTER);
         this.setVgap(10.0);
         this.setHgap(10.0);
         this.setPadding(new Insets(20.0, 20.0, 20.0, 20.0));
+        this.setStyle("-fx-border-color: black; -fx-border-width: 1px; -fx-border-radius: 5px; -fx-background-color: #f0f0f0;");
 
         this.add(new Label("Initial Investment ($)"), 0, 0);
 
-        initInvField = new TextField();
+        this.initInvField = new TextField();
         this.add(initInvField, 1, 0);
 
         this.add(new Label("Yearly addition ($)"), 0, 1);
 
-        yearlyAdditionField = new TextField();
+        this.yearlyAdditionField = new TextField();
         this.add(yearlyAdditionField, 1, 1);
 
         this.add(new Label("Interest rate (%)"), 0, 2);
 
-        interestField = new TextField();
+        this.interestField = new TextField();
         this.add(interestField, 1, 2);
 
         this.add(new Label("Compound frequency"), 0, 3);
 
-        freqBox = new ComboBox<>();
-        freqBox.setId("comboBox");
-        freqBox.getItems().addAll("Monthly", "Quarterly", "Semi-annually", "Yearly");
+        this.freqBox = new ComboBox<>();
+        this.freqBox.setId("comboBox");
+        this.freqBox.getItems().addAll("Monthly", "Quarterly", "Semi-annually", "Yearly");
         this.add(freqBox, 1, 3);
 
         this.add(new Label("Number of years"), 0, 4);
 
-        yearsField = new TextField();
+        this.yearsField = new TextField();
         this.add(yearsField, 1, 4);
 
         Button calcBtn = new Button("Calculate");
         calcBtn.setOnAction(event -> calculate());
-        this.add(calcBtn, 1, 5);
+        this.add(calcBtn, 1, 5);;
 
         makeTextFieldsNumeric();
     }

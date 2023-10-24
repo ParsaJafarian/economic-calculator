@@ -15,6 +15,8 @@ public class Table extends TableView{
 
     public Table() {
         super();
+        this.setVisible(false);
+
         TableColumn<Integer,String> timeCol = new TableColumn<>("Time (years)");
         timeCol.setCellValueFactory(new PropertyValueFactory<>("time"));
 
@@ -45,6 +47,12 @@ public class Table extends TableView{
 //            }
 //        });
 
+    }
+
+    public void setData(Row[] data){
+        this.getItems().clear();
+        for(Row row : data)
+            this.getItems().add(row);
     }
 
 //    private ObservableList<String> getItemsForPage(int pageIndex) {

@@ -12,8 +12,12 @@ public class InputSection extends GridPane {
     private final TextField interestField;
     private final TextField yearsField;
     private final ComboBox<String> freqBox;
+    private Table table;
 
-    public InputSection() {
+    public InputSection(Table table) {
+        super();
+
+        this.table = table;
         this.setAlignment(Pos.CENTER);
         this.setVgap(10.0);
         this.setHgap(10.0);
@@ -46,6 +50,16 @@ public class InputSection extends GridPane {
 
         this.yearsField = new TextField();
         this.add(yearsField, 1, 4);
+
+        Button clrBtn = new Button("Clear");
+        clrBtn.setOnAction(event -> {
+            table.setVisible(false);
+            this.getChildren().forEach(n -> {
+                if (n instanceof TextField textField)
+                    textField.clear();
+            });
+        });
+        this.add(clrBtn, 0, 5);
 
         Button calcBtn = new Button("Calculate");
         calcBtn.setOnAction(event -> calculate());
@@ -97,12 +111,18 @@ public class InputSection extends GridPane {
             default -> 0;
         };
 
-        double[] data = new double[years * freq + 1];
-        data[0] = initInv;
+//        double[] data = new double[years * freq + 1];
+//        data[0] = initInv;
+//        for (int i = 1; i < data.length; i++)
+//            data[i] = data[i - 1] * (1 + interest / freq) + yearlyAddition / freq;
+
+        Row[] data = new Row[years * freq + 1];
+        data[0] = new Row(0, initInv);
         for (int i = 1; i < data.length; i++)
-            data[i] = data[i - 1] * (1 + interest / freq) + yearlyAddition / freq;
+            data[i] = new Row(i, data[i - 1].getCapital() * (1 + interest / freq) + yearlyAddition / freq);
 
-
+        table.setData(data);
+        table.setVisible(true);
 
     }
 

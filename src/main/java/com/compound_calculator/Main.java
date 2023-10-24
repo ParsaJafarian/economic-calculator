@@ -17,7 +17,9 @@ public class Main extends Application {
         hBox.setPadding(new Insets(20));
         VBox vBox = new VBox(20);
 
-        vBox.getChildren().addAll(new InputSection(), new Table());
+        Table table = new Table();
+
+        vBox.getChildren().addAll(new InputSection(table), table);
         hBox.getChildren().addAll(vBox);
 
         root.setTop(new Bar());

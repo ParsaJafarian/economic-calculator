@@ -5,6 +5,8 @@ import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 
+import java.util.HashMap;
+
 public class InputSection extends GridPane {
 
     private final TextField initInvField;
@@ -63,7 +65,8 @@ public class InputSection extends GridPane {
 
         Button calcBtn = new Button("Calculate");
         calcBtn.setOnAction(event -> calculate());
-        this.add(calcBtn, 1, 5);;
+        this.add(calcBtn, 1, 5);
+        ;
 
         makeTextFieldsNumeric();
     }
@@ -103,6 +106,8 @@ public class InputSection extends GridPane {
         double yearlyAddition = Double.parseDouble(yearlyAdditionField.getText());
         double interest = Double.parseDouble(interestField.getText()) / 100;
         int years = Integer.parseInt(yearsField.getText());
+
+
         int freq = switch (freqBox.getValue()) {
             case "Monthly" -> 12;
             case "Quarterly" -> 4;
@@ -111,16 +116,21 @@ public class InputSection extends GridPane {
             default -> 0;
         };
 
-//        double[] data = new double[years * freq + 1];
-//        data[0] = initInv;
-//        for (int i = 1; i < data.length; i++)
-//            data[i] = data[i - 1] * (1 + interest / freq) + yearlyAddition / freq;
-
-        Row[] data = new Row[years * freq + 1];
-        data[0] = new Row(0, initInv);
-        for (int i = 1; i < data.length; i++)
-            data[i] = new Row(i, data[i - 1].getCapital() * (1 + interest / freq) + yearlyAddition / freq);
-
+//        Row[] data = new Row[years * freq + 1];
+//        data[0] = new Row(0, initInv);
+//        for (int i = 1; i < data.length; i++) {
+//            data[i] = new Row(i, data[i - 1].getCapital() * (1 + interest / freq) + yearlyAddition / freq);
+//        }
+        
+        Row[] data = new Row[years + 1];
+        Row last = new Row(0, initInv);
+        data[0] = last;
+        for (int i = 1; i < years * freq + 1; i++) {
+            Row curr = new Row(i/freq, last.getCapital() * (1 + interest / freq) + yearlyAddition / freq);
+            if (i % freq == 0)
+                data[i / freq] = curr;
+            last = curr;
+        }
         table.setData(data);
         table.setVisible(true);
 

@@ -14,17 +14,6 @@ import java.io.IOException;
 public class Main extends Application {
     @Override
     public void start(Stage stage) throws IOException {
-//        BorderPane root = new BorderPane();
-//
-//        HBox hBox = new HBox();
-//        hBox.setPadding(new Insets(20));
-//        VBox vBox = new VBox(20);
-//
-//        Table table = new Table();
-//
-//        vBox.getChildren().addAll(new InputSection(table), table);
-//        hBox.getChildren().addAll(vBox);
-
         FXMLLoader loader = new FXMLLoader(Main.class.getResource("index.fxml"));
         Scene scene = new Scene(loader.load(), 320, 240);
         stage.setTitle("Compound Interest Calculator");

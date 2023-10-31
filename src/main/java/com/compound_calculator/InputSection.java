@@ -106,7 +106,6 @@ public class InputSection extends GridPane {
         double interest = Double.parseDouble(interestField.getText()) / 100;
         int years = Integer.parseInt(yearsField.getText());
 
-
         int freq = switch (freqBox.getValue()) {
             case "Monthly" -> 12;
             case "Quarterly" -> 4;

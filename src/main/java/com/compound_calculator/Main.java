@@ -25,6 +25,11 @@ public class Main extends Application {
         root.setTop(new Bar());
         root.setCenter(hBox);
 
+        //provide ArrayList<Double> to this Graph object
+
+        //Graph graph= new Graph();
+        //root.setRight(new );
+
         Scene scene = new Scene(root, 320, 240);
         stage.setTitle("Compound Interest Calculator");
         stage.setScene(scene);

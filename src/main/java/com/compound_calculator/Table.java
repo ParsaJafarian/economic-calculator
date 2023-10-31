@@ -26,7 +26,6 @@ public class Table extends TableView{
         this.getColumns().add(timeCol);
         this.getColumns().add(capitalCol);
 
-        this.getItems().add(new Row(0, 0.0));
 
         this.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 

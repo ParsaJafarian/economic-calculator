@@ -25,9 +25,7 @@ public class Main extends Application {
 //        vBox.getChildren().addAll(new InputSection(table), table);
 //        hBox.getChildren().addAll(vBox);
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("index.fxml"));
-
-
+        FXMLLoader loader = new FXMLLoader(Main.class.getResource("index.fxml"));
         Scene scene = new Scene(loader.load(), 320, 240);
         stage.setTitle("Compound Interest Calculator");
         stage.setScene(scene);

@@ -1,43 +1,140 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<!--
+  Copyright (c) 2015, 2019, Gluon and/or its affiliates.
+  All rights reserved. Use is subject to license terms.
+
+  This file is available and licensed under the following license:
+
+  Redistribution and use in source and binary forms, with or without
+  modification, are permitted provided that the following conditions
+  are met:
+
+  - Redistributions of source code must retain the above copyright
+    notice, this list of conditions and the following disclaimer.
+  - Redistributions in binary form must reproduce the above copyright
+    notice, this list of conditions and the following disclaimer in
+    the documentation and/or other materials provided with the distribution.
+  - Neither the name of Oracle Corporation nor the names of its
+    contributors may be used to endorse or promote products derived
+    from this software without specific prior written permission.
+
+  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+  A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+  OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+  SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+  LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+  DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+  THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+-->
+
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Label?>
-
+<?import javafx.scene.control.Accordion?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ComboBox?>
-<?import javafx.collections.FXCollections?>
-<?import java.lang.String?>
-<GridPane alignment="CENTER" xmlns:fx="http://javafx.com/fxml" fx:controller="com.compound_calculator.Controller">
-    <padding>
-        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
-    </padding>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.SeparatorMenuItem?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
 
-    <Label text="Initial Investment ($)" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
-    <TextField fx:id="initialInvestment" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
-
-    <Label text="Yearly addition ($)" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
-    <TextField fx:id="yearlyAddition" GridPane.rowIndex="1" GridPane.columnIndex="1" />
-
-    <Label text="Interest rate (%)" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
-    <TextField fx:id="interestRate" GridPane.rowIndex="2" GridPane.columnIndex="1" />
-
-    <Label text="Compound frequency" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
-    <ComboBox fx:id="comboBox" layoutX="100.0" layoutY="100.0" GridPane.rowIndex="3" GridPane.columnIndex="1">
-        <items>
-            <FXCollections fx:factory="observableArrayList">
-                <String fx:value="Monthly" />
-                <String fx:value="Quarterly" />
-                <String fx:value="Semi-annually" />
-                <String fx:value="Yearly" />
-            </FXCollections>
-        </items>
-    </ComboBox>
-
-    <Label text="Number of years" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
-    <TextField fx:id="numberOfYears" GridPane.rowIndex="4" GridPane.columnIndex="1" />
-
-    <Button text="Calculate" onAction="#calculate" GridPane.rowIndex="5" GridPane.columnIndex="0" GridPane.columnSpan="2"/>
-
-</GridPane>
+<VBox prefHeight="556.0" prefWidth="778.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+  <children>
+    <MenuBar VBox.vgrow="NEVER">
+      <menus>
+        <Menu mnemonicParsing="false" text="File">
+          <items>
+            <MenuItem mnemonicParsing="false" text="New" />
+            <MenuItem mnemonicParsing="false" text="Open…" />
+            <Menu mnemonicParsing="false" text="Open Recent" />
+            <SeparatorMenuItem mnemonicParsing="false" />
+            <MenuItem mnemonicParsing="false" text="Close" />
+            <MenuItem mnemonicParsing="false" text="Save" />
+            <MenuItem mnemonicParsing="false" text="Save As…" />
+            <MenuItem mnemonicParsing="false" text="Revert" />
+            <SeparatorMenuItem mnemonicParsing="false" />
+            <MenuItem mnemonicParsing="false" text="Preferences…" />
+            <SeparatorMenuItem mnemonicParsing="false" />
+            <MenuItem mnemonicParsing="false" text="Quit" />
+          </items>
+        </Menu>
+        <Menu mnemonicParsing="false" text="Edit">
+          <items>
+            <MenuItem mnemonicParsing="false" text="Undo" />
+            <MenuItem mnemonicParsing="false" text="Redo" />
+            <SeparatorMenuItem mnemonicParsing="false" />
+            <MenuItem mnemonicParsing="false" text="Cut" />
+            <MenuItem mnemonicParsing="false" text="Copy" />
+            <MenuItem mnemonicParsing="false" text="Paste" />
+            <MenuItem mnemonicParsing="false" text="Delete" />
+            <SeparatorMenuItem mnemonicParsing="false" />
+            <MenuItem mnemonicParsing="false" text="Select All" />
+            <MenuItem mnemonicParsing="false" text="Unselect All" />
+          </items>
+        </Menu>
+        <Menu mnemonicParsing="false" text="Help">
+          <items>
+            <MenuItem mnemonicParsing="false" text="About MyHelloApp" />
+          </items>
+        </Menu>
+      </menus>
+    </MenuBar>
+    <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="447.0" prefWidth="655.0" VBox.vgrow="ALWAYS">
+      <children>
+            <Accordion layoutX="146.0" layoutY="116.0" />
+            <GridPane alignment="CENTER" hgap="10.0" layoutX="33.0" layoutY="23.0" prefHeight="231.0" prefWidth="277.0" style="-fx-background-color: #f0f0f0; -fx-border-radius: 5px; -fx-border-width: 1px; -fx-border-color: black;" vgap="10.0" AnchorPane.leftAnchor="33.0">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="148.0" minWidth="10.0" prefWidth="114.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="134.0" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="35.0" minHeight="10.0" prefHeight="35.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="35.0" minHeight="10.0" prefHeight="35.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <Label text="Initial Investment ($)" />
+                  <Label text="Yearly Addition ($)" GridPane.rowIndex="1" />
+                  <Label text="Interest rate (%)" GridPane.rowIndex="2" />
+                  <Label text="Compound frequency" GridPane.rowIndex="3" />
+                  <Label text="Number of years" GridPane.rowIndex="4" />
+                  <TextField id="initInvField" GridPane.columnIndex="1" />
+                  <TextField id="yearlyAdditionField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <TextField id="interestField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <TextField id="yearsField" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                  <ComboBox id="freqBox" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                  <Button id="clrBtn" mnemonicParsing="false" prefHeight="25.0" prefWidth="52.0" text="Clear" GridPane.rowIndex="5" />
+                  <Button id="calcBtn" mnemonicParsing="false" text="Calculate" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+               </children>
+               <padding>
+                  <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+               </padding>
+            </GridPane>
+            <TableView layoutX="35.0" layoutY="266.0" prefHeight="245.0" prefWidth="277.0" visible="false">
+              <columns>
+                <TableColumn prefWidth="75.0" text="Time (years)" />
+                <TableColumn prefWidth="75.0" text="Capital ($)" />
+              </columns>
+               <columnResizePolicy>
+                  <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+               </columnResizePolicy>
+            </TableView>
+      </children>
+    </AnchorPane>
+  </children>
+</VBox>

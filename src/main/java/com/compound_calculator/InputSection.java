@@ -66,7 +66,6 @@ public class InputSection extends GridPane {
         Button calcBtn = new Button("Calculate");
         calcBtn.setOnAction(event -> calculate());
         this.add(calcBtn, 1, 5);
-        ;
 
         makeTextFieldsNumeric();
     }
@@ -115,12 +114,6 @@ public class InputSection extends GridPane {
             case "Yearly" -> 1;
             default -> 0;
         };
-
-//        Row[] data = new Row[years * freq + 1];
-//        data[0] = new Row(0, initInv);
-//        for (int i = 1; i < data.length; i++) {
-//            data[i] = new Row(i, data[i - 1].getCapital() * (1 + interest / freq) + yearlyAddition / freq);
-//        }
         
         Row[] data = new Row[years + 1];
         Row last = new Row(0, initInv);

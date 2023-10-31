@@ -49,7 +49,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<fx:root prefHeight="556.0" prefWidth="778.0" type="VBox" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.compound_calculator.Controller">
+<VBox prefHeight="556.0" prefWidth="778.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
   <children>
     <MenuBar VBox.vgrow="NEVER">
       <menus>
@@ -132,7 +132,8 @@
                   <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                </columnResizePolicy>
             </TableView>
+            <VBox layoutX="389.0" layoutY="23.0" prefHeight="392.0" prefWidth="312.0" />
       </children>
     </AnchorPane>
   </children>
-</fx:root>
+</VBox>

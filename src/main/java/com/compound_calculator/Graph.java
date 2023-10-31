@@ -1,26 +1,43 @@
-//package com.compound_calculator;
-//import javafx.scene.chart.AreaChart;
-//import javafx.scene.chart.Axis;
-//import javafx.scene.chart.NumberAxis;
-//
-//public class Graph extends AreaChart<Double, Double>{
-//
-//    public Graph(){
-//        super(new NumberAxis(), new NumberAxis());
-//        NumberAxis axis = new NumberAxis();
-//        //Defining the X axis
-//        NumberAxis xAxis = new NumberAxis();
-//        xAxis.setLabel("Time (years)");
-//        //Defining the y Axis
-//        NumberAxis yAxis = new NumberAxis(0, 15, 2.5);
-//        yAxis.setLabel("Capital ($)");
-//
-//        System.out.println("Hello there, the angel from my nightmare.");
-//
-//        //Changes ----add changes to stage ------> commit them -----> push them to github
-//    }
-//
-//    public void setData(double[] data) {
-//
-//    }
-//}
+package com.compound_calculator;
+import javafx.scene.chart.*;
+import java.util.ArrayList;
+
+public class Graph{
+    private static CategoryAxis xAxis, yAxis;
+    private static BarChart graph;
+    private static XYChart.Series data;
+    public Graph(ArrayList<Double> chartData){
+
+        xAxis= new CategoryAxis();
+        xAxis.setLabel("Time (Y)");
+        yAxis= new CategoryAxis();
+        yAxis.setLabel("Capital CAD");
+
+        graph= new BarChart(xAxis, yAxis);
+        data= new XYChart.Series();
+        data.setName("data");
+        try {
+            passData(chartData);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        graph.getData().add(data);
+
+    }
+    public void passData(ArrayList<Double> importedData) throws Exception {
+        //Format :
+        //(x, y, x, y, x, y ...)
+        //
+        if(importedData.size()%2!=0){
+            throw new Exception("Unable to match X and Y values 1:1");
+        }
+        for(int i=0; i< importedData.size()-1; i++){
+            Double xValue= importedData.get(i);
+            Double yValue= importedData.get(i+1);
+
+            data.getData().add(new XYChart.Data(xValue, yValue));
+        }
+
+    }
+
+}

@@ -4,13 +4,15 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
+import javafx.stage.FileChooser;
 import org.jetbrains.annotations.NotNull;
+
+import java.io.File;
 
 /**
  * Controller class for the main view
  */
 public class Controller {
-
 
     /**
      * FXML elements imported from index.fxml
@@ -33,6 +35,8 @@ public class Controller {
     private TextField yearlyAdditionField;
     @FXML
     private TextField yearsField;
+    @FXML
+    private Button excelBtn;
 
     /**
      * Initialize the view by adding the options to the frequency combo box,
@@ -46,8 +50,9 @@ public class Controller {
         freqBox.getSelectionModel().selectFirst();
 
         // Add listeners to the buttons
-        calcBtn.setOnAction(event -> calculate());
-        clrBtn.setOnAction(event -> clear());
+        calcBtn.setOnAction(e -> calculate());
+        clrBtn.setOnAction(e -> clear());
+        excelBtn.setOnAction(e -> exportToExcel());
 
         // Initialize the table & make text fields numeric
         initializeTable();
@@ -180,5 +185,16 @@ public class Controller {
         //Set the data in the table to the data array and make the table visible
         setTabularData(data);
         table.setVisible(true);
+    }
+
+    private void exportToExcel() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Save as Excel file");
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Excel file", "*.xlsx"));
+        fileChooser.setInitialFileName("data.xlsx");
+
+        File file = fileChooser.showOpenDialog(table.getScene().getWindow());
+
+
     }
 }

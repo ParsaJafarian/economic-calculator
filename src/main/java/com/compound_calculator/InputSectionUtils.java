@@ -113,7 +113,7 @@ public class InputSection extends GridPane {
             case "Yearly" -> 1;
             default -> 0;
         };
-        
+
         Row[] data = new Row[years + 1];
         Row last = new Row(0, initInv);
         data[0] = last;

@@ -1,62 +1,79 @@
 package com.compound_calculator;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.scene.control.Button;
-import javafx.scene.control.Pagination;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.FileChooser;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.jetbrains.annotations.NotNull;
 
-public class Table extends TableView{
+import java.io.File;
+import java.io.IOException;
 
-//    private final int itemsPerPage = 5; // Define the number of items per page
-//    private ObservableList<String> data = FXCollections.observableArrayList(); // Your data here
+public class TableUtils {
 
-    public Table() {
-        super();
-        this.setVisible(false);
+    private TableUtils(){
+        throw new IllegalStateException("Utility class");
+    }
 
-        TableColumn<Integer,String> timeCol = new TableColumn<>("Time (years)");
+    /**
+     * Initialize the table by adding the columns.
+     * Two columns are added: Time (years) and Capital ($)
+     */
+    public static void initializeTable(@NotNull TableView<Row> table) {
+        // Make the columns
+        TableColumn<Row, Integer> timeCol = new TableColumn<>("Time (years)");
         timeCol.setCellValueFactory(new PropertyValueFactory<>("time"));
 
-        TableColumn<Double, String> capitalCol = new TableColumn<>("Capital ($)");
+        TableColumn<Row, Double> capitalCol = new TableColumn<>("Capital ($)");
         capitalCol.setCellValueFactory(new PropertyValueFactory<>("capital"));
 
-        this.getColumns().add(timeCol);
-        this.getColumns().add(capitalCol);
-
-
-        this.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-
-
-
-        //@TODO: Add pagination
-//        Pagination pagination = new Pagination((int) Math.ceil((double) data.size() / itemsPerPage), 0);
-//        pagination.setPageFactory(pageIndex -> {
-//            this.setItems(getItemsForPage(pageIndex));
-//            return new VBox(this);
-//        });
-//
-//        Button nextButton = new Button("Next");
-//        nextButton.setOnAction(e -> {
-//            int nextPage = pagination.getCurrentPageIndex() + 1;
-//            if (nextPage < pagination.getPageCount()) {
-//                pagination.setCurrentPageIndex(nextPage);
-//            }
-//        });
-
+        // Add the columns to the table
+        table.getColumns().add(timeCol);
+        table.getColumns().add(capitalCol);
     }
 
-    public void setData(Row[] data){
-        this.getItems().clear();
-        for(Row row : data)
-            this.getItems().add(row);
+    /**
+     * Set the data in the table to the given data.
+     * This method is called when the calculate button is pressed.
+     * @param data the data to be displayed in the table. It is an array of Row objects that contain the time and capital
+     */
+    public static void setTabularData(@NotNull TableView<Row> table, @NotNull Row @NotNull [] data) {
+        table.getItems().clear();
+        for (Row row : data)
+            table.getItems().add(row);
     }
 
-//    private ObservableList<String> getItemsForPage(int pageIndex) {
-//        int startIndex = pageIndex * itemsPerPage;
-//        int endIndex = Math.min(startIndex + itemsPerPage, data.size());
-//        return FXCollections.observableArrayList(data.subList(startIndex, endIndex));
-//    }
+
+    public static void exportToExcel(@NotNull TableView<Row> table)  {
+        HSSFWorkbook workbook = new HSSFWorkbook();
+        HSSFSheet sheet = workbook.createSheet("Compound Calculator");
+        HSSFRow firstRow = sheet.createRow(0);
+
+        firstRow.createCell(0).setCellValue("Time (years)");
+        firstRow.createCell(1).setCellValue("Capital ($)");
+
+        for(int i = 0; i < table.getItems().size(); i++){
+            HSSFRow row = sheet.createRow(i + 1);
+            row.createCell(0).setCellValue(table.getItems().get(i).getTime());
+            row.createCell(1).setCellValue(table.getItems().get(i).getCapital());
+        }
+
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Save Excel File");
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Excel Files", "*.xls"));
+        fileChooser.setInitialFileName("data.xls");
+
+        File file = fileChooser.showSaveDialog(table.getScene().getWindow());
+
+        try{
+            workbook.write(file);
+            workbook.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 }

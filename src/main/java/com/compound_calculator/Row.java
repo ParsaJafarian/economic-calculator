@@ -1,8 +1,8 @@
 package com.compound_calculator;
 
 public class Row {
-    private int time;
-    private double capital;
+    private final int time;
+    private final double capital;
     public Row(int time, double capital) {
         this.time = time;
         this.capital = capital;
@@ -12,15 +12,8 @@ public class Row {
         return time;
     }
 
-    public void setTime(int time) {
-        this.time = time;
-    }
-
     public double getCapital() {
-        return capital;
-    }
-
-    public void setCapital(double capital) {
-        this.capital = capital;
+        String capital = String.format("%.2f", this.capital);
+        return Double.parseDouble(capital);
     }
 }

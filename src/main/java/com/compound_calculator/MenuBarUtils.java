@@ -2,33 +2,31 @@ package com.compound_calculator;
 
 import javafx.scene.control.Alert;
 import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import org.jetbrains.annotations.NotNull;
 
-public class MenuBarUtil {
+public class MenuBarUtils {
 
-    private MenuBarUtil(){
+    private MenuBarUtils(){
         throw new IllegalStateException("Utility class");
     }
 
     /**
-     * @param fileMenu The file menu
-     * @param helpMenu The help menu
-     * @param tableController The table controller
-     * Initialize the menu bar by adding the menu items.
-     * Two menu items are added to the file menu: Export to Excel and Quit
-     * One menu item is added to the help menu: About
+     * @param menuBar The menu bar to be initialized
+     * @param table  The table to be exported to Excel
      */
-    public static void initialize(@NotNull Menu fileMenu, @NotNull Menu helpMenu, TableController tableController) {
+    public static void initializeMenuBar(@NotNull MenuBar menuBar, Table table) {
+        Menu fileMenu = new Menu("File");
         MenuItem export = new MenuItem("Export to Excel");
         MenuItem quit = new MenuItem("Quit");
         fileMenu.getItems().addAll(export, quit);
 
+        Menu helpMenu = new Menu("Help");
         MenuItem about = new MenuItem("About");
         helpMenu.getItems().add(about);
 
-
-        export.setOnAction(e -> tableController.exportToExcel());
+        export.setOnAction(e -> table.exportToExcel());
         quit.setOnAction(e -> System.exit(0));
         about.setOnAction(e -> {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -37,5 +35,7 @@ public class MenuBarUtil {
             alert.setContentText("Created by Parsa Jafarian & Mark Rudko");
             alert.showAndWait();
         });
+
+        menuBar.getMenus().addAll(fileMenu, helpMenu);
     }
 }

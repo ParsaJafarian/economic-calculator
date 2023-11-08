@@ -5,6 +5,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Pagination;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -19,20 +20,20 @@ import org.jetbrains.annotations.NotNull;
 import java.io.File;
 import java.io.IOException;
 
-public class TableController {
+public class Table {
 
     private ObservableList<Row> data = FXCollections.observableArrayList();
     public static final int ROWS_PER_PAGE = 10;
-    private final TableView<Row> table ;
+    private final TableView<Row> tableView;
     private final Pagination pagination;
 
     /**
-     * Initialize the table by adding the columns.
+     * Initialize the tableView by adding the columns.
      * Two columns are added: Time (years) and Capital ($)
      */
-    public TableController(TableView<Row> table, @NotNull Pagination pagination){
+    public Table(TableView<Row> tableView, @NotNull Pagination pagination) {
         // Make the columns
-        this.table = table;
+        this.tableView = tableView;
 
         TableColumn<Row, Integer> timeCol = new TableColumn<>("Time (years)");
         timeCol.setCellValueFactory(new PropertyValueFactory<>("time"));
@@ -40,41 +41,67 @@ public class TableController {
         TableColumn<Row, Double> capitalCol = new TableColumn<>("Capital ($)");
         capitalCol.setCellValueFactory(new PropertyValueFactory<>("capital"));
 
-        // Add the columns to the table
-        this.table.getColumns().add(timeCol);
-        this.table.getColumns().add(capitalCol);
+        // Add the columns to the tableView
+        this.tableView.getColumns().add(timeCol);
+        this.tableView.getColumns().add(capitalCol);
 
         this.pagination = pagination;
         this.updatePagination();
         pagination.setPageFactory(this::createPage);
+
+        this.updateVisibility(false);
     }
 
-    private void updatePagination(){
+    private void updatePagination() {
         pagination.setPageCount((int) Math.ceil((double) data.size() / ROWS_PER_PAGE));
         pagination.setCurrentPageIndex(0);
     }
 
 
     /**
-     * Set the data in the table to the given data.
+     * Set the data in the tableView to the given data.
      * This method is called when the calculate button is pressed.
-     * @param data the data to be displayed in the table. It is an array of Row objects that contain the time and capital
+     *
+     * @param data the data to be displayed in the tableView. It is an array of Row objects that contain the time and capital
      */
     public void setData(@NotNull ObservableList<Row> data) {
-        table.getItems().clear();
+        tableView.getItems().clear();
         this.data = data;
-        table.getItems().addAll(data);
+        tableView.getItems().addAll(data);
         this.updatePagination();
+        this.updateVisibility(true);
     }
 
-    private @NotNull Node createPage(int pageIndex){
+    private @NotNull Node createPage(int pageIndex) {
         int fromIndex = pageIndex * ROWS_PER_PAGE;
         int toIndex = Math.min(fromIndex + ROWS_PER_PAGE, data.size());
-        table.setItems(FXCollections.observableArrayList(data.subList(fromIndex, toIndex)));
-        return new VBox(table);
+        tableView.setItems(FXCollections.observableArrayList(data.subList(fromIndex, toIndex)));
+        return new VBox(tableView);
     }
 
-    public void exportToExcel()  {
+    private void updateVisibility(boolean visible) {
+        tableView.setVisible(visible);
+        pagination.setVisible(visible);
+    }
+
+    public void clear() {
+        tableView.getItems().clear();
+        data.clear();
+        this.updatePagination();
+        this.updateVisibility(false);
+    }
+
+    public void exportToExcel() {
+
+        if (data.isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("No data to export");
+            alert.setContentText("Please calculate the compound interest first");
+            alert.showAndWait();
+            return;
+        }
+
         HSSFWorkbook workbook = new HSSFWorkbook();
         HSSFSheet sheet = workbook.createSheet("Compound Calculator");
         HSSFRow firstRow = sheet.createRow(0);
@@ -82,7 +109,7 @@ public class TableController {
         firstRow.createCell(0).setCellValue("Time (years)");
         firstRow.createCell(1).setCellValue("Capital ($)");
 
-        for(int i = 0; i < data.size(); i++){
+        for (int i = 0; i < data.size(); i++) {
             HSSFRow row = sheet.createRow(i + 1);
             row.createCell(0).setCellValue(data.get(i).getTime());
             row.createCell(1).setCellValue(data.get(i).getCapital());
@@ -93,9 +120,10 @@ public class TableController {
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Excel Files", "*.xls"));
         fileChooser.setInitialFileName("data.xls");
 
-        File file = fileChooser.showSaveDialog(table.getScene().getWindow());
+        File file = fileChooser.showSaveDialog(tableView.getScene().getWindow());
+        if (file == null) return;
 
-        try{
+        try {
             workbook.write(file);
             workbook.close();
         } catch (IOException e) {
@@ -106,6 +134,7 @@ public class TableController {
     public static class Row {
         private final ObservableValue<Integer> time;
         private final ObservableValue<Double> capital;
+
         public Row(int time, double capital) {
             this.time = new SimpleObjectProperty<>(time);
             this.capital = new SimpleObjectProperty<>(capital);

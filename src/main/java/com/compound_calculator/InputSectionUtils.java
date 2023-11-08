@@ -10,13 +10,17 @@ public class InputSectionUtils {
         throw new IllegalStateException("Utility class");
     }
 
+    public static void initializeInputSection(@NotNull GridPane inputSection, @NotNull TextField interestField) {
+        makeTextFieldsNumeric(inputSection);
+        limitInterestField(interestField);
+    }
     /**
      * Make all text fields in the input section numeric by
      * looping through all children of the input section.
      * If the child is a text field, add a listener to it
      * that will only allow numeric input.
      */
-    public static void makeTextFieldsNumeric(@NotNull GridPane inputSection) {
+    private static void makeTextFieldsNumeric(@NotNull GridPane inputSection) {
         inputSection.getChildren().forEach(n -> {
             if (n instanceof TextField textField) {
                 textField.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -27,6 +31,13 @@ public class InputSectionUtils {
                     }
                 });
             }
+        });
+    }
+
+    private static void limitInterestField(@NotNull TextField interestField) {
+        interestField.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue.isEmpty() && Double.parseDouble(newValue) > 20)
+                interestField.setText(oldValue);
         });
     }
 

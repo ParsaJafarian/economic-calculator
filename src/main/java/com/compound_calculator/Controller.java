@@ -5,7 +5,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
-import com.compound_calculator.TableController.Row;
+import com.compound_calculator.Table.Row;
 
 /**
  * Controller class for the main view
@@ -18,7 +18,7 @@ public class Controller {
     @FXML
     private GridPane inputSection;
     @FXML
-    private TableView<Row> table;
+    private TableView<Row> tableView;
     @FXML
     private Button calcBtn;
     @FXML
@@ -32,12 +32,12 @@ public class Controller {
     @FXML
     private TextField yearlyAdditionField;
     @FXML
-    private TextField yearsField;
-    @FXML
-    private Button excelBtn;
+    private Slider yearsSlider;
     @FXML
     private Pagination pagination;
-    private TableController tableUtil;
+    @FXML
+    private MenuBar menuBar;
+    private Table table;
 
     /**
      * Initialize the view by adding the options to the frequency combo box,
@@ -47,23 +47,23 @@ public class Controller {
     @FXML
     public void initialize() {
         // Add options to the frequency combo box
-        freqBox.getItems().addAll("Monthly", "Quarterly", "Semi-annually", "Yearly");
+        freqBox.getItems().addAll("Yearly", "Semi-annually", "Quarterly", "Monthly");
         freqBox.getSelectionModel().selectFirst();
 
         // Initialize the table & make text fields numeric
-        tableUtil = new TableController(this.table, pagination);
-        InputSectionUtils.makeTextFieldsNumeric(inputSection);
+        table = new Table(tableView, pagination);
+        //Tableview and pagination are null because they should only be accessed through the table object
+        tableView = null;
+        pagination = null;
+
+        //Initialize the input section
+        InputSectionUtils.initializeInputSection(inputSection, interestField);
+        // Initialize the menu bar
+        MenuBarUtils.initializeMenuBar(menuBar, table);
 
         // Add listeners to the buttons
         calcBtn.setOnAction(e -> calculate());
         clrBtn.setOnAction(e -> clear());
-        excelBtn.setOnAction(e -> tableUtil.exportToExcel());
-    }
-
-    private void updateTableVisibility(boolean visible){
-        table.setVisible(visible);
-        excelBtn.setVisible(visible);
-        pagination.setVisible(visible);
     }
 
     /**
@@ -72,19 +72,20 @@ public class Controller {
      */
     private void clear() {
         //Set table to invisible and select the first option in the frequency combo box
-        table.getItems().clear();
-        updateTableVisibility(false);
+        table.clear();
         freqBox.getSelectionModel().selectFirst();
         //Clear all text fields
         inputSection.getChildren().forEach(n -> {
             if (n instanceof TextField textField)
                 textField.setText("");
         });
+        yearsSlider.setValue(0);
     }
 
     /**
      * Calculate the compound interest and display the results in the table.
      */
+    //@TODO: correct the calculation
     public void calculate() {
 
         //If the input is invalid, display an error message and stop the calculation process
@@ -101,7 +102,7 @@ public class Controller {
         final double initInv = Double.parseDouble(initInvField.getText());
         final double yearlyAddition = Double.parseDouble(yearlyAdditionField.getText());
         final double interest = Double.parseDouble(interestField.getText()) / 100;
-        final int years = Integer.parseInt(yearsField.getText());
+        final int years = (int) yearsSlider.getValue();
 
         //Get the frequency from the combo box
         final int freq = switch (freqBox.getValue()) {
@@ -130,7 +131,6 @@ public class Controller {
             //Set last to the current row
             last = curr;
         }
-        tableUtil.setData(data);
-        updateTableVisibility(true);
+        table.setData(data);
     }
 }

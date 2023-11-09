@@ -37,6 +37,12 @@ public class Controller {
     private Pagination pagination;
     @FXML
     private MenuBar menuBar;
+    @FXML
+    private Label totInterestLabel;
+    @FXML
+    private Label totCapitalLabel;
+    @FXML
+    private GridPane resultsSection;
     private Table table;
 
     /**
@@ -73,6 +79,7 @@ public class Controller {
     private void clear() {
         //Set table to invisible and select the first option in the frequency combo box
         table.clear();
+        resultsSection.setVisible(false);
         freqBox.getSelectionModel().selectFirst();
         //Clear all text fields
         inputSection.getChildren().forEach(n -> {
@@ -97,13 +104,6 @@ public class Controller {
             alert.showAndWait();
             return;
         }
-
-        //Get the input from the text fields
-        final double initInv = Double.parseDouble(initInvField.getText());
-        final double yearlyAddition = Double.parseDouble(yearlyAdditionField.getText());
-        final double interest = Double.parseDouble(interestField.getText()) / 100;
-        final int years = (int) yearsSlider.getValue();
-
         //Get the frequency from the combo box
         final int freq = switch (freqBox.getValue()) {
             case "Monthly" -> 12;
@@ -113,24 +113,34 @@ public class Controller {
             default -> 0;
         };
 
+        //Get the input from the text fields
+        final double initInv = Double.parseDouble(initInvField.getText());
+        final double yearlyAddition = Double.parseDouble(yearlyAdditionField.getText());
+        final double interest = Double.parseDouble(interestField.getText()) / 100;
+        final int years = (int) yearsSlider.getValue();
+
         //Initialize the data array (note: the size is years + 1 because the first row is the initial investment)
         ObservableList<Row> data = FXCollections.observableArrayList();
-        //last is a variable that points to the last row inserted into the data array
-        Row last = new Row(0, initInv);
         //Set the first row to the initial investment
-        data.add(last);
+        data.add(new Row(0, initInv));
 
         //Loop through the years and calculate the compound interest
-        for (int i = 1; i < years * freq + 1; i++) {
-            final int time = i / freq;
-            final double capital = last.getCapital() * (1 + interest / freq) + yearlyAddition / freq;
-            Row curr = new Row(time, capital);
-            //If the current amount of time is a multiple of the frequency, add the row to the data array
-            if (i % freq == 0)
-                data.add(curr);
-            //Set last to the current row
-            last = curr;
+        //capital = lastCapital*(1 + i/n)^n + yearlyAddition
+        for (int i = 1; i <= years; i++) {
+            double lastCapital = data.get(i-1).getCapital();
+            double capital = lastCapital * Math.pow(1 + interest / freq, freq) + yearlyAddition;
+            data.add(new Row(i, capital));
         }
-        table.setData(data);
+        //Pass in a copy of the data to the table so that controller doesn't have access to table's data
+        table.setData(FXCollections.observableArrayList(data));
+
+        //Calculate the total interest and capital
+        double totCapital = data.get(data.size() - 1).getCapital();
+        double totInterest = totCapital - initInv - yearlyAddition * years;
+
+        //Display the total interest and capital
+        totInterestLabel.setText("$" + String.format("%.2f", totInterest));
+        totCapitalLabel.setText("$" + String.format("%.2f", totCapital));
+        resultsSection.setVisible(true);
     }
 }

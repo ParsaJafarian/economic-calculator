@@ -66,7 +66,8 @@ public class Table {
      */
     public void setData(@NotNull ObservableList<Row> data) {
         tableView.getItems().clear();
-        this.data = data;
+        //Copies the data so that the table cannot be updated outside of this class
+        this.data = FXCollections.observableArrayList(data);
         tableView.getItems().addAll(data);
         this.updatePagination();
         this.updateVisibility(true);
@@ -102,6 +103,14 @@ public class Table {
             return;
         }
 
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Save Excel File");
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Excel Files", "*.xls"));
+        fileChooser.setInitialFileName("data.xls");
+
+        File file = fileChooser.showSaveDialog(tableView.getScene().getWindow());
+        if (file == null) return;
+
         HSSFWorkbook workbook = new HSSFWorkbook();
         HSSFSheet sheet = workbook.createSheet("Compound Calculator");
         HSSFRow firstRow = sheet.createRow(0);
@@ -114,14 +123,6 @@ public class Table {
             row.createCell(0).setCellValue(data.get(i).getTime());
             row.createCell(1).setCellValue(data.get(i).getCapital());
         }
-
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Save Excel File");
-        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Excel Files", "*.xls"));
-        fileChooser.setInitialFileName("data.xls");
-
-        File file = fileChooser.showSaveDialog(tableView.getScene().getWindow());
-        if (file == null) return;
 
         try {
             workbook.write(file);

@@ -16,34 +16,24 @@ public class Controller {
      * FXML elements imported from index.fxml
      */
     @FXML
-    private GridPane inputSection;
-    @FXML
-    private TableView<Row> tableView;
-    @FXML
-    private Button calcBtn;
-    @FXML
-    private Button clrBtn;
+    private GridPane inputSection, resultsSection;
     @FXML
     private ComboBox<String> freqBox;
     @FXML
-    private TextField interestField;
-    @FXML
-    private TextField initInvField;
-    @FXML
-    private TextField yearlyAdditionField;
+    private TextField interestField, initInvField, yearlyAdditionField;
     @FXML
     private Slider yearsSlider;
     @FXML
+    private Button calcBtn, clrBtn;
+    @FXML
+    private TableView<Row> tableView;
+    @FXML
     private Pagination pagination;
+    private Table table;
     @FXML
     private MenuBar menuBar;
     @FXML
-    private Label totInterestLabel;
-    @FXML
-    private Label totCapitalLabel;
-    @FXML
-    private GridPane resultsSection;
-    private Table table;
+    private Label totInterestLabel, totCapitalLabel;
 
     /**
      * Initialize the view by adding the options to the frequency combo box,
@@ -92,7 +82,6 @@ public class Controller {
     /**
      * Calculate the compound interest and display the results in the table.
      */
-    //@TODO: correct the calculation
     public void calculate() {
 
         //If the input is invalid, display an error message and stop the calculation process
@@ -127,12 +116,11 @@ public class Controller {
         //Loop through the years and calculate the compound interest
         //capital = lastCapital*(1 + i/n)^n + yearlyAddition
         for (int i = 1; i <= years; i++) {
-            double lastCapital = data.get(i-1).getCapital();
+            double lastCapital = data.get(i - 1).getCapital();
             double capital = lastCapital * Math.pow(1 + interest / freq, freq) + yearlyAddition;
             data.add(new Row(i, capital));
         }
-        //Pass in a copy of the data to the table so that controller doesn't have access to table's data
-        table.setData(FXCollections.observableArrayList(data));
+        table.setData(data);
 
         //Calculate the total interest and capital
         double totCapital = data.get(data.size() - 1).getCapital();

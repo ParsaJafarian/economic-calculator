@@ -1,43 +1,34 @@
 package com.compound_calculator;
+import javafx.collections.ObservableList;
 import javafx.scene.chart.*;
 import java.util.ArrayList;
 
 public class Graph{
-    private static CategoryAxis xAxis, yAxis;
-    private static BarChart graph;
-    private static XYChart.Series data;
-    public Graph(ArrayList<Double> chartData){
+    public static LineChart<Number, Number> getLineChart(ObservableList<Row> data){
+        // Create the x and y axes
+        NumberAxis xAxis = new NumberAxis();
 
-        xAxis= new CategoryAxis();
-        xAxis.setLabel("Time (Y)");
-        yAxis= new CategoryAxis();
-        yAxis.setLabel("Capital CAD");
+        NumberAxis yAxis = new NumberAxis();
 
-        graph= new BarChart(xAxis, yAxis);
-        data= new XYChart.Series();
-        data.setName("data");
-        try {
-            passData(chartData);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        // Create the line chart
+        LineChart<Number, Number> lineChart = new LineChart<>(xAxis, yAxis);
+        lineChart.setTitle("Line Chart Example");
+
+        // Create a data series
+        XYChart.Series<Number, Number> series = new XYChart.Series<>();
+        series.setName("Data Series");
+
+        //If no data is provided, returns a completely virgin line Chart
+        if(data.isEmpty()) return lineChart;
+        // Add data to the series
+        for(Row row: data){
+            series.getData().add(new XYChart.Data<>(row.getTime(), row.getCapital()));
         }
-        graph.getData().add(data);
 
+        // Add the series to the chart
+        lineChart.getData().add(series);
+        return lineChart;
     }
-    public void passData(ArrayList<Double> importedData) throws Exception {
-        //Format :
-        //(x, y, x, y, x, y ...)
-        //
-        if(importedData.size()%2!=0){
-            throw new Exception("Unable to match X and Y values 1:1");
-        }
-        for(int i=0; i< importedData.size()-1; i++){
-            Double xValue= importedData.get(i);
-            Double yValue= importedData.get(i+1);
 
-            data.getData().add(new XYChart.Data(xValue, yValue));
-        }
-
-    }
 
 }

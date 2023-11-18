@@ -12,11 +12,13 @@ public class Main extends Application {
     /**
      * @param stage The stage to be displayed
      * @throws IOException If the FXML file cannot be loaded
+     *
      */
+    private static Scene scene;
     @Override
     public void start(@NotNull Stage stage) throws IOException {
         FXMLLoader loader = new FXMLLoader(Main.class.getResource("index.fxml"));
-        Scene scene = new Scene(loader.load(), 600, 700);
+        scene = new Scene(loader.load(), 900, 700);
         stage.setTitle("Compound Interest Calculator");
         stage.setScene(scene);
         stage.show();

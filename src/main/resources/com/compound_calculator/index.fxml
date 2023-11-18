@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.chart.CategoryAxis?>
-<?import javafx.scene.chart.LineChart?>
-<?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
@@ -57,18 +54,7 @@
                </padding>
             </GridPane>
 
-            <VBox layoutX="323.0" layoutY="18.0" prefHeight="385.0" prefWidth="429.0">
-               <children>
-                  <LineChart prefHeight="373.0" prefWidth="417.0">
-                    <xAxis>
-                      <CategoryAxis label="Time (Years)" prefHeight="24.0" prefWidth="357.0" side="BOTTOM" />
-                    </xAxis>
-                    <yAxis>
-                      <NumberAxis label="Captital ($)" side="LEFT" />
-                    </yAxis>
-                  </LineChart>
-               </children>
-            </VBox>
+            <VBox fx:id="graphContainer" layoutX="333.0" layoutY="14.0" prefHeight="402.0" prefWidth="475.0" />
             <VBox layoutX="33.0" layoutY="253.0" prefHeight="231.0" prefWidth="229.0">
                <children>
                   <Pagination fx:id="pagination" prefHeight="44.0" prefWidth="310.0" />
@@ -80,14 +66,14 @@
                   </TableView>
                </children>
             </VBox>
-            <GridPane fx:id="resultsSection" layoutX="381.0" layoutY="410.0" prefHeight="84.0" prefWidth="342.0" visible="false">
+            <GridPane fx:id="resultsSection" layoutX="398.0" layoutY="412.0" prefHeight="139.0" prefWidth="325.0" visible="false">
               <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="190.0" minWidth="10.0" prefWidth="126.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="166.0" minWidth="10.0" prefWidth="125.0" />
               </columnConstraints>
               <rowConstraints>
-                <RowConstraints maxHeight="43.0" minHeight="10.0" prefHeight="42.0" vgrow="SOMETIMES" />
-                <RowConstraints maxHeight="71.0" minHeight="10.0" prefHeight="42.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="57.0" minHeight="10.0" prefHeight="55.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="71.0" minHeight="10.0" prefHeight="49.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
                   <Label prefHeight="18.0" prefWidth="180.0" text="Total value of your investment: " />

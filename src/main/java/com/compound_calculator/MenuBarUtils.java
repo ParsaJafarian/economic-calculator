@@ -4,6 +4,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
+import javafx.scene.input.KeyCombination;
 import org.jetbrains.annotations.NotNull;
 
 public class MenuBarUtils {
@@ -17,12 +18,14 @@ public class MenuBarUtils {
      * @param table  The table to be exported to Excel
      */
     public static void initializeMenuBar(@NotNull MenuBar menuBar, Table table) {
-        Menu fileMenu = new Menu("File");
+        Menu fileMenu = new Menu("_File");
         MenuItem export = new MenuItem("Export to Excel");
+        export.setAccelerator(KeyCombination.valueOf("Ctrl+E"));
         MenuItem quit = new MenuItem("Quit");
+        quit.setAccelerator(KeyCombination.valueOf("Ctrl+Q"));
         fileMenu.getItems().addAll(export, quit);
 
-        Menu helpMenu = new Menu("Help");
+        Menu helpMenu = new Menu("_Help");
         MenuItem about = new MenuItem("About");
         helpMenu.getItems().add(about);
 

@@ -4,14 +4,14 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import org.jetbrains.annotations.NotNull;
 
-public class InputSectionUtils {
+public class FormUtils {
 
-    private InputSectionUtils(){
+    private FormUtils(){
         throw new IllegalStateException("Utility class");
     }
 
-    public static void initializeInputSection(@NotNull GridPane inputSection, @NotNull TextField interestField) {
-        makeTextFieldsNumeric(inputSection);
+    public static void initializeForm(@NotNull GridPane form, @NotNull TextField interestField) {
+        makeTextFieldsNumeric(form);
         limitInterestField(interestField);
     }
     /**
@@ -20,8 +20,8 @@ public class InputSectionUtils {
      * If the child is a text field, add a listener to it
      * that will only allow numeric input.
      */
-    private static void makeTextFieldsNumeric(@NotNull GridPane inputSection) {
-        inputSection.getChildren().forEach(n -> {
+    private static void makeTextFieldsNumeric(@NotNull GridPane form) {
+        form.getChildren().forEach(n -> {
             if (n instanceof TextField textField) {
                 textField.textProperty().addListener((observable, oldValue, newValue) -> {
                     //If newly typed string is not numeric, replace it with an empty string
@@ -45,8 +45,8 @@ public class InputSectionUtils {
      * @return true if all text fields in the input section are filled in, false otherwise
      * Used to check if the input is valid before calculating
      */
-    public static boolean validFields(@NotNull GridPane inputSection) {
-        return inputSection.getChildren().stream().allMatch(n -> {
+    public static boolean validFields(@NotNull GridPane form) {
+        return form.getChildren().stream().allMatch(n -> {
             if (n instanceof TextField textField)
                 return !textField.getText().isEmpty();
             return true;

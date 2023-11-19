@@ -4,12 +4,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.chart.LineChart;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
-import javafx.scene.Scene;
-import javafx.scene.chart.NumberAxis;
-import javafx.scene.chart.XYChart;
 import javafx.scene.layout.VBox;
 
 /**
@@ -21,7 +17,7 @@ public class Controller {
      * FXML elements imported from index.fxml
      */
     @FXML
-    private GridPane inputSection, resultsSection;
+    private GridPane form, resultsSection;
     @FXML
     private ComboBox<String> freqBox;
     @FXML
@@ -61,7 +57,7 @@ public class Controller {
         pagination = null;
 
         //Initialize the input section
-        InputSectionUtils.initializeInputSection(inputSection, interestField);
+        FormUtils.initializeForm(form, interestField);
         // Initialize the menu bar
         MenuBarUtils.initializeMenuBar(menuBar, table);
 
@@ -80,7 +76,7 @@ public class Controller {
         resultsSection.setVisible(false);
         freqBox.getSelectionModel().selectFirst();
         //Clear all text fields
-        inputSection.getChildren().forEach(n -> {
+        form.getChildren().forEach(n -> {
             if (n instanceof TextField textField)
                 textField.setText("");
         });
@@ -88,7 +84,7 @@ public class Controller {
     }
     public ObservableList<Row> extractDataFromForm(){
         //If the input is invalid, display an error message and stop the calculation process
-        if (!InputSectionUtils.validFields(inputSection)) {
+        if (!FormUtils.validFields(form)) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
             alert.setHeaderText("Invalid input");

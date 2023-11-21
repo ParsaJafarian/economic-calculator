@@ -1,7 +1,5 @@
 package com.compound_calculator;
 
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
@@ -91,7 +89,7 @@ public class Table {
         this.updatePagination();
         this.updateVisibility(false);
     }
-    //TODO: This fct should also export the Chart!
+
     public void exportToExcel() {
 
         if (data.isEmpty()) {

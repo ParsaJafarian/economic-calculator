@@ -1,12 +1,13 @@
 package com.compound_calculator;
 
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.chart.LineChart;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Controller class for the main view
@@ -17,13 +18,7 @@ public class Controller {
      * FXML elements imported from index.fxml
      */
     @FXML
-    private GridPane form, resultsSection;
-    @FXML
-    private ComboBox<String> freqBox;
-    @FXML
-    private TextField interestField, initInvField, yearlyAdditionField;
-    @FXML
-    private Slider yearsSlider;
+    private GridPane compoundForm, resultsSection;
     @FXML
     private Button calcBtn, clrBtn;
     @FXML
@@ -31,12 +26,14 @@ public class Controller {
     @FXML
     private Pagination pagination;
     private Table table;
+    private LineChart<Number,Number> lineChart;
     @FXML
     private VBox graphContainer;
     @FXML
     private MenuBar menuBar;
     @FXML
     private Label totInterestLabel, totCapitalLabel;
+    private Form form;
 
 
     /**
@@ -46,19 +43,9 @@ public class Controller {
      */
     @FXML
     public void initialize() {
-        // Add options to the frequency combo box
-        freqBox.getItems().addAll("Yearly", "Semi-annually", "Quarterly", "Monthly");
-        freqBox.getSelectionModel().selectFirst();
-
-        // Initialize the table & make text fields numeric
         table = new Table(tableView, pagination);
-        //Tableview and pagination are null because they should only be accessed through the table object
-        tableView = null;
-        pagination = null;
-
-        //Initialize the input section
-        FormUtils.initializeForm(form, interestField);
-        // Initialize the menu bar
+        lineChart= Graph.getLineChart();
+        form = new Form(compoundForm);
         MenuBarUtils.initializeMenuBar(menuBar, table);
 
         // Add listeners to the buttons
@@ -70,51 +57,19 @@ public class Controller {
      * Clear the table and the input fields.
      * This method is called when the clear button is pressed.
      */
-    private void clear() {
+    public void clear() {
         //Set table to invisible and select the first option in the frequency combo box
         table.clear();
-        resultsSection.setVisible(false);
-        freqBox.getSelectionModel().selectFirst();
-        //Clear all text fields
-        form.getChildren().forEach(n -> {
-            if (n instanceof TextField textField)
-                textField.setText("");
-        });
-        yearsSlider.setValue(0);
-    }
-    public ObservableList<Row> extractDataFromForm(){
-        //If the input is invalid, display an error message and stop the calculation process
-        if (!FormUtils.validFields(form)) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error");
-            alert.setHeaderText("Invalid input");
-            alert.setContentText("Please fill in all fields");
-            alert.showAndWait();
-            return null;
+        if(!graphContainer.getChildren().isEmpty()){
+            Node n= graphContainer.getChildren().get(0);
+            n.setVisible(false);
+            graphContainer.getChildren().remove(n);
         }
-        //Get the frequency from the combo box
-        final int freq = switch (freqBox.getValue()) {
-            case "Monthly" -> 12;
-            case "Quarterly" -> 4;
-            case "Semi-annually" -> 2;
-            case "Yearly" -> 1;
-            default -> 0;
-        };
 
-        //Get the input from the text fields
-        final double initInv = Double.parseDouble(initInvField.getText());
-        final double yearlyAddition = Double.parseDouble(yearlyAdditionField.getText());
-        final double interest = Double.parseDouble(interestField.getText()) / 100;
-        final int years = (int) yearsSlider.getValue();
-
-        //Initialize the data array (note: the size is years + 1 because the first row is the initial investment)
-        ObservableList<Row> data = FXCollections.observableArrayList();
-        //Set the first row to the initial investment
-        data.add(new Row(0, initInv));
-        computeCompoundInterest(data, years, interest, freq, yearlyAddition);
-        setResultsSection(data, initInv, yearlyAddition, years);
-        return data;
+        resultsSection.setVisible(false);
+        form.clear();
     }
+
     private void computeCompoundInterest(ObservableList<Row> data, int years, double interest, int freq, double yearlyAddition){
 
         //Loop through the years and calculate the compound interest
@@ -142,10 +97,13 @@ public class Controller {
         return v;
     }
 
-    private void setResultsSection(ObservableList<Row> data, double initInv, double yearlyAddition, int years){
+
+    private void setResultsSection(@NotNull ObservableList<Row> data, double yearlyAddition){
         //Calculate the total interest and capital
-        double totCapital = data.get(data.size() - 1).getCapital();
-        double totInterest = totCapital - initInv - yearlyAddition * years;
+        final double initInv = data.get(0).getCapital();
+        final int years = data.size() - 1;
+        final double totCapital = data.get(data.size() - 1).getCapital();
+        final double totInterest = totCapital - initInv - yearlyAddition * years;
 
         //Display the total interest and capital
         totInterestLabel.setText("$" + String.format("%.2f", totInterest));
@@ -157,9 +115,10 @@ public class Controller {
      * Calculate the compound interest and display the results in the table.
      */
     public void calculate() {
-
-        ObservableList<Row> data = extractDataFromForm();
+        ObservableList<Row> data = form.getData();
+        if (data == null) return;
         table.setData(data);
+        setResultsSection(data, form.getYearlyAddition());
         //Creates and adds new Line Chart with chosen data to appropriate VBox container named "graphContainer"
         if(!graphContainer.getChildren().isEmpty()){
             //If a graph was already generated, and the user wishes to generate a new one,
@@ -177,6 +136,8 @@ public class Controller {
     }
     private void addLineChart(ObservableList<Row> data){
         //the '0' in the line below makes sure of the fact that the graph is added to the top of the VBox
-        graphContainer.getChildren().add(0, Graph.getLineChart(data));
+        lineChart= Graph.getLineChart(data);
+        graphContainer.getChildren().add(0, lineChart);
+
     }
 }

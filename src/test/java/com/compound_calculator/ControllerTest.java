@@ -1,6 +1,11 @@
 package com.compound_calculator;
 
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Test;
+
 class ControllerTest {
-  
+
+    @Test
+    void initialize() {
+
+    }
 }

@@ -89,7 +89,7 @@ public class Table {
         this.updatePagination();
         this.updateVisibility(false);
     }
-    //TODO: This fct should also export the Chart!
+
     public void exportToExcel() {
 
         if (data.isEmpty()) {

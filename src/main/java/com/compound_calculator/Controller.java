@@ -32,7 +32,7 @@ public class Controller {
     @FXML
     private Pagination pagination;
     private Table table;
-    private LineChart lineChart;
+    private LineChart<Number,Number> lineChart;
     @FXML
     private VBox graphContainer;
     @FXML
@@ -54,16 +54,10 @@ public class Controller {
 
         // Initialize the table & make text fields numeric
         table = new Table(tableView, pagination);
-
         lineChart= Graph.getLineChart();
-        //Tableview and pagination are null because they should only be accessed through the table object
-        tableView = null;
-        pagination = null;
 
-        //Initialize the input section
         FormUtils.initializeForm(form, interestField);
-        // Initialize the menu bar
-        MenuBarUtils.initializeMenuBar(menuBar, table, lineChart);
+        MenuBarUtils.initializeMenuBar(menuBar, table);
 
         // Add listeners to the buttons
         calcBtn.setOnAction(e -> calculate());
@@ -77,6 +71,12 @@ public class Controller {
     private void clear() {
         //Set table to invisible and select the first option in the frequency combo box
         table.clear();
+        if(!graphContainer.getChildren().isEmpty()){
+            Node n= graphContainer.getChildren().get(0);
+            n.setVisible(false);
+            graphContainer.getChildren().remove(n);
+        }
+
         resultsSection.setVisible(false);
         freqBox.getSelectionModel().selectFirst();
         //Clear all text fields
@@ -141,7 +141,6 @@ public class Controller {
      * Calculate the compound interest and display the results in the table.
      */
     public void calculate() {
-
         ObservableList<Row> data = extractDataFromForm();
         table.setData(data);
         //Creates and adds new Line Chart with chosen data to appropriate VBox container named "graphContainer"

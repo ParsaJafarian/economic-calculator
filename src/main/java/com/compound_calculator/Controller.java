@@ -89,7 +89,7 @@ public class Controller {
     private double computeInflationRate(double currentCPI, double previousCPI){
         return (currentCPI-previousCPI)/previousCPI *100.0f;
     }
-    private double computeYearlyInfaltionRate(double currentCPI, double previousCPI, double currentYear, double previousYear){
+    private double computeYearlyInflationRate(double currentCPI, double previousCPI, double currentYear, double previousYear){
         double inflationRate= computeInflationRate(currentCPI, previousCPI);
         double deltaYears= currentYear-previousYear;
         double v = inflationRate / deltaYears;

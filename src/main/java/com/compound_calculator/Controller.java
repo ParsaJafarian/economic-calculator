@@ -18,7 +18,7 @@ public class Controller {
      * FXML elements imported from index.fxml
      */
     @FXML
-    private GridPane compoundForm, resultsSection;
+    public static GridPane compoundForm, resultsSection;
     @FXML
     private Button calcBtn, clrBtn;
     @FXML
@@ -69,16 +69,6 @@ public class Controller {
         form.clear();
     }
 
-    private void computeCompoundInterest(ObservableList<Row> data, int years, double interest, int freq, double yearlyAddition){
-
-        //Loop through the years and calculate the compound interest
-        //capital = lastCapital*(1 + i/n)^n + yearlyAddition
-        for (int i = 1; i <= years; i++) {
-            double lastCapital = data.get(i - 1).getCapital();
-            double capital = lastCapital * Math.pow(1 + interest / freq, freq) + yearlyAddition;
-            data.add(new Row(i, capital));
-        }
-    }
     private void computePresentValueAnnuity(ObservableList<Row> data, int nbPeriods, double annuityPayment, double yieldToMaturity){
         for(int i=1; i<= nbPeriods; i++) {
             double compoundingFactor = 1.0f - 1.0f / Math.pow(1.0f + i, i);
@@ -89,13 +79,12 @@ public class Controller {
     private double computeInflationRate(double currentCPI, double previousCPI){
         return (currentCPI-previousCPI)/previousCPI *100.0f;
     }
-    private double computeYearlyInfaltionRate(double currentCPI, double previousCPI, double currentYear, double previousYear){
+    private double computeYearlyInflationRate(double currentCPI, double previousCPI, double currentYear, double previousYear){
         double inflationRate= computeInflationRate(currentCPI, previousCPI);
         double deltaYears= currentYear-previousYear;
         double v = inflationRate / deltaYears;
         return v;
     }
-
 
     private void setResultsSection(@NotNull ObservableList<Row> data, double yearlyAddition){
         //Calculate the total interest and capital

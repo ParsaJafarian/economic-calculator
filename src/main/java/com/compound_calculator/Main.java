@@ -14,7 +14,7 @@ public class Main extends Application {
      * @throws IOException If the FXML file cannot be loaded
      *
      */
-    private static Scene scene;
+    public static Scene scene;
     @Override
     public void start(@NotNull Stage stage) throws IOException {
         FXMLLoader loader = new FXMLLoader(Main.class.getResource("index.fxml"));

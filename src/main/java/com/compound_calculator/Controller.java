@@ -4,6 +4,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.chart.LineChart;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
@@ -31,6 +32,7 @@ public class Controller {
     @FXML
     private Pagination pagination;
     private Table table;
+    private LineChart lineChart;
     @FXML
     private VBox graphContainer;
     @FXML
@@ -52,6 +54,8 @@ public class Controller {
 
         // Initialize the table & make text fields numeric
         table = new Table(tableView, pagination);
+
+        lineChart= Graph.getLineChart();
         //Tableview and pagination are null because they should only be accessed through the table object
         tableView = null;
         pagination = null;
@@ -59,7 +63,7 @@ public class Controller {
         //Initialize the input section
         FormUtils.initializeForm(form, interestField);
         // Initialize the menu bar
-        MenuBarUtils.initializeMenuBar(menuBar, table);
+        MenuBarUtils.initializeMenuBar(menuBar, table, lineChart);
 
         // Add listeners to the buttons
         calcBtn.setOnAction(e -> calculate());
@@ -157,6 +161,8 @@ public class Controller {
     }
     private void addLineChart(ObservableList<Row> data){
         //the '0' in the line below makes sure of the fact that the graph is added to the top of the VBox
-        graphContainer.getChildren().add(0, Graph.getLineChart(data));
+        lineChart= Graph.getLineChart(data);
+        graphContainer.getChildren().add(0, lineChart);
+
     }
 }

@@ -111,6 +111,11 @@ public class Controller {
         ObservableList<Row> data = FXCollections.observableArrayList();
         //Set the first row to the initial investment
         data.add(new Row(0, initInv));
+        computeCompoundInterest(data, years, interest, freq, yearlyAddition);
+        setResultsSection(data, initInv, yearlyAddition, years);
+        return data;
+    }
+    private void computeCompoundInterest(ObservableList<Row> data, int years, double interest, int freq, double yearlyAddition){
 
         //Loop through the years and calculate the compound interest
         //capital = lastCapital*(1 + i/n)^n + yearlyAddition
@@ -119,9 +124,24 @@ public class Controller {
             double capital = lastCapital * Math.pow(1 + interest / freq, freq) + yearlyAddition;
             data.add(new Row(i, capital));
         }
-        setResultsSection(data, initInv, yearlyAddition, years);
-        return data;
     }
+    private void computePresentValueAnnuity(ObservableList<Row> data, int nbPeriods, double annuityPayment, double yieldToMaturity){
+        for(int i=1; i<= nbPeriods; i++) {
+            double compoundingFactor = 1.0f - 1.0f / Math.pow(1.0f + i, i);
+            double presentValue = annuityPayment / yieldToMaturity * compoundingFactor;
+            data.add(new Row(i, presentValue));
+        }
+    }
+    private double computeInflationRate(double currentCPI, double previousCPI){
+        return (currentCPI-previousCPI)/previousCPI *100.0f;
+    }
+    private double computeYearlyInfaltionRate(double currentCPI, double previousCPI, double currentYear, double previousYear){
+        double inflationRate= computeInflationRate(currentCPI, previousCPI);
+        double deltaYears= currentYear-previousYear;
+        double v = inflationRate / deltaYears;
+        return v;
+    }
+
     private void setResultsSection(ObservableList<Row> data, double initInv, double yearlyAddition, int years){
         //Calculate the total interest and capital
         double totCapital = data.get(data.size() - 1).getCapital();

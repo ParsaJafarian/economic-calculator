@@ -83,6 +83,8 @@ public class Controller {
         yearsSlider.setValue(0);
     }
     public ObservableList<Row> extractDataFromForm(){
+        //TODO add different code based on form.getType()
+        //TODO for example: if type is 1, form is compound interest, if type is 2 it's present value annuity
         //If the input is invalid, display an error message and stop the calculation process
         if (!FormUtils.validFields(form)) {
             Alert alert = new Alert(Alert.AlertType.ERROR);

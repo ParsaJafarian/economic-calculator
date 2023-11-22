@@ -33,7 +33,7 @@ public class Controller {
     private MenuBar menuBar;
     @FXML
     private Label totInterestLabel, totCapitalLabel;
-    private Form form;
+    private CompoundForm form;
 
 
     /**
@@ -45,7 +45,7 @@ public class Controller {
     public void initialize() {
         table = new Table(tableView, pagination);
         lineChart= Graph.getLineChart();
-        form = new Form(compoundForm);
+        form = new CompoundForm(compoundForm);
         MenuBarUtils.initializeMenuBar(menuBar, table);
 
         // Add listeners to the buttons

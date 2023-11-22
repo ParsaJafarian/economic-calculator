@@ -18,7 +18,7 @@ public class Controller {
      * FXML elements imported from index.fxml
      */
     @FXML
-    public static GridPane compoundForm, resultsSection;
+    private GridPane compoundForm, resultsSection;
     @FXML
     private Button calcBtn, clrBtn;
     @FXML

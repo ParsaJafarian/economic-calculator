@@ -1,5 +1,6 @@
-package com.compound_calculator;
+package com.compound_calculator.utils;
 
+import com.compound_calculator.Row;
 import javafx.collections.ObservableList;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
@@ -13,15 +14,14 @@ import org.apache.poi.ss.usermodel.Workbook;
 import java.io.File;
 import java.io.FileOutputStream;
 
-public class GraphUtils {
+public class GraphUtil {
 
-    private GraphUtils(){
+    private GraphUtil(){
         throw new IllegalStateException("Utility class");
     }
 
     public static LineChart<Number, Number> getLineChart() {
         NumberAxis xAxis = new NumberAxis();
-
         NumberAxis yAxis = new NumberAxis();
         return new LineChart<>(xAxis, yAxis);
     }
@@ -29,7 +29,6 @@ public class GraphUtils {
     public static LineChart<Number, Number> getLineChart(ObservableList<Row> data) {
         // Create the x and y axes
         NumberAxis xAxis = new NumberAxis();
-
         NumberAxis yAxis = new NumberAxis();
 
         // Create the line chart

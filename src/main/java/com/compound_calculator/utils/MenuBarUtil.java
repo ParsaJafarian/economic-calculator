@@ -1,5 +1,6 @@
-package com.compound_calculator;
+package com.compound_calculator.utils;
 
+import com.compound_calculator.Table;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
@@ -7,9 +8,9 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.input.KeyCombination;
 import org.jetbrains.annotations.NotNull;
 
-public class MenuBarUtils {
+public class MenuBarUtil {
 
-    private MenuBarUtils(){
+    private MenuBarUtil(){
         throw new IllegalStateException("Utility class");
     }
 
@@ -17,7 +18,7 @@ public class MenuBarUtils {
      * @param menuBar The menu bar to be initialized
      * @param table  The table to be exported to Excel
      */
-    public static void getMenuBar(@NotNull MenuBar menuBar, Table table) {
+    public static void initializeMenuBar(@NotNull MenuBar menuBar, Table table) {
         Menu fileMenu = new Menu("_File");
         MenuItem export = new MenuItem("Export to Excel");
         export.setAccelerator(KeyCombination.valueOf("Ctrl+E"));

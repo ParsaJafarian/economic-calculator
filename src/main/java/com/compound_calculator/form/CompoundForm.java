@@ -1,41 +1,71 @@
-package com.compound_calculator;
+package com.compound_calculator.form;
 
+import com.compound_calculator.Row;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 
-import java.util.ArrayList;
-
 public class CompoundForm extends Form {
+
+
+    private Label freqLbl, interestLbl, initInvLbl, yearlyAdditionLbl, yearsLbl;
     private ComboBox<String> freqBox;
     private TextField interestField, initInvField, yearlyAdditionField;
     private Slider yearsSlider;
 
-    public CompoundForm(GridPane form) {
+    public CompoundForm() {
         super();
-        //this.fields refers to all fields that need to be filled out.
-        extractFields(form);
+        initInvLbl= new Label("Initial investment ($)");
+        initInvField= new TextField();
 
-        fields.forEach(n -> {
-            if (n instanceof TextField textField && textField.getId().equals("interestField"))
-                interestField = textField;
-            else if (n instanceof TextField textField && textField.getId().equals("initInvField"))
-                initInvField = textField;
-            else if (n instanceof TextField textField && textField.getId().equals("yearlyAdditionField"))
-                yearlyAdditionField = textField;
-            else if (n instanceof ComboBox comboBox && comboBox.getId().equals("freqBox"))
-                freqBox = comboBox;
-            else if (n instanceof Slider slider && slider.getId().equals("yearsSlider"))
-                yearsSlider = slider;
-        });
+        yearlyAdditionLbl= new Label("Yearly addition ($)");
+        yearlyAdditionField= new TextField();
 
+        interestLbl= new Label("Interest Rate (%)");
+        interestField= new TextField();
+        limitInterestField();
+
+
+        freqLbl= new Label("Compound frequency");
+        freqBox= new ComboBox<>();
         freqBox.getItems().addAll("Yearly", "Semi-annually", "Quarterly", "Monthly");
         freqBox.getSelectionModel().selectFirst();
 
+        yearsLbl= new Label("Number of years");
+        yearsSlider= new Slider();
+
+        this.add(initInvLbl, 0, 0);
+        this.add(initInvField, 1, 0);
+        this.add(yearlyAdditionLbl, 0, 1);
+        this.add(yearlyAdditionField, 1, 1);
+        this.add(interestLbl, 0, 2);
+        this.add(interestField, 1, 2);
+        this.add(freqLbl, 0, 3);
+        this.add(freqBox, 1, 3);
+        this.add(yearsLbl, 0, 4);
+        this.add(yearsSlider, 1, 4);
+
+        fields.add(initInvField);
+        fields.add(yearlyAdditionField);
+        fields.add(interestField);
+        fields.add(freqBox);
+        fields.add(yearsSlider);
         makeTextFieldsNumeric();
-        limitInterestField();
+//        if(fields== null)return;
+//        fields.forEach(n -> {
+//            if (n instanceof TextField textField && textField.getId().equals("interestField"))
+//                interestField = textField;
+//            else if (n instanceof TextField textField && textField.getId().equals("initInvField"))
+//                initInvField = textField;
+//            else if (n instanceof TextField textField && textField.getId().equals("yearlyAdditionField"))
+//                yearlyAdditionField = textField;
+//            else if (n instanceof ComboBox comboBox && comboBox.getId().equals("freqBox"))
+//                freqBox = comboBox;
+//            else if (n instanceof Slider slider && slider.getId().equals("yearsSlider"))
+//                yearsSlider = slider;
+//        });
+
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.compound_calculator;
 
+import com.compound_calculator.form.*;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -18,9 +19,9 @@ public class Controller {
      * FXML elements imported from index.fxml
      */
     @FXML
-    private GridPane compoundForm, resultsSection;
+    private GridPane resultsSection;
     @FXML
-    private Button calcBtn, clrBtn;
+    private Button clrBtn, calcBtn;
     @FXML
     private TableView<Row> tableView;
     @FXML
@@ -28,12 +29,14 @@ public class Controller {
     private Table table;
     private LineChart<Number,Number> lineChart;
     @FXML
-    private VBox graphContainer;
+    private VBox formContainer, graphContainer;
     @FXML
     private MenuBar menuBar;
+    //FXML
+    //private Label totInterestLabel, totCapitalLabel;
+    private Form form;
     @FXML
-    private Label totInterestLabel, totCapitalLabel;
-    private CompoundForm form;
+    private ToggleButton compoundTglBtn, presentValueTglBtn, inflationTglBtn;
 
 
     /**
@@ -45,12 +48,40 @@ public class Controller {
     public void initialize() {
         table = new Table(tableView, pagination);
         lineChart= Graph.getLineChart();
-        form = new CompoundForm(compoundForm);
+        addForm(0);
+        //form = new CompoundForm(formGridPane);
         MenuBarUtils.initializeMenuBar(menuBar, table);
 
         // Add listeners to the buttons
         calcBtn.setOnAction(e -> calculate());
         clrBtn.setOnAction(e -> clear());
+
+        //Add functionality to toggleButtons
+        compoundTglBtn.setOnAction(e -> changeFormType(0));
+        presentValueTglBtn.setOnAction(e-> changeFormType(1));
+        inflationTglBtn.setOnAction(e-> changeFormType(2));
+    }
+    private void addForm(int type){
+        Form f;
+        if(type== 0){
+            f= new CompoundForm();
+            formContainer.getChildren().add(f);
+        }
+        else if(type== 1){
+            f= new PresentValueForm();
+            formContainer.getChildren().add(new PresentValueForm());
+        }
+        else{
+            f= new InflationForm();
+            formContainer.getChildren().add(new InflationForm());
+        }
+        this.form= f;
+    }
+
+    private void changeFormType(int formType){
+        if(formContainer.getChildren().size()<2)return;
+        formContainer.getChildren().remove(1);
+        addForm(formType);
     }
 
     /**
@@ -105,8 +136,8 @@ public class Controller {
         final double totInterest = totCapital - initInv - yearlyAddition * years;
 
         //Display the total interest and capital
-        totInterestLabel.setText("$" + String.format("%.2f", totInterest));
-        totCapitalLabel.setText("$" + String.format("%.2f", totCapital));
+        //totInterestLabel.setText("$" + String.format("%.2f", totInterest));
+        //totCapitalLabel.setText("$" + String.format("%.2f", totCapital));
         resultsSection.setVisible(true);
     }
 
@@ -117,7 +148,11 @@ public class Controller {
         ObservableList<Row> data = form.getData();
         if (data == null) return;
         table.setData(data);
-        setResultsSection(data, form.getYearlyAddition());
+        if(this.form instanceof CompoundForm){
+            CompoundForm f=(CompoundForm) form;
+            setResultsSection(data, f.getYearlyAddition());
+        }
+
         //Creates and adds new Line Chart with chosen data to appropriate VBox container named "graphContainer"
         if(!graphContainer.getChildren().isEmpty()){
             //If a graph was already generated, and the user wishes to generate a new one,
@@ -139,4 +174,5 @@ public class Controller {
         graphContainer.getChildren().add(0, lineChart);
 
     }
+
 }

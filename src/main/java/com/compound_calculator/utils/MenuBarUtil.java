@@ -17,7 +17,7 @@ public class MenuBarUtils {
      * @param menuBar The menu bar to be initialized
      * @param table  The table to be exported to Excel
      */
-    public static void initializeMenuBar(@NotNull MenuBar menuBar, Table table) {
+    public static void getMenuBar(@NotNull MenuBar menuBar, Table table) {
         Menu fileMenu = new Menu("_File");
         MenuItem export = new MenuItem("Export to Excel");
         export.setAccelerator(KeyCombination.valueOf("Ctrl+E"));

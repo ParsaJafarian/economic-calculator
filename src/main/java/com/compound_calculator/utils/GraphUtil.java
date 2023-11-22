@@ -13,7 +13,11 @@ import org.apache.poi.ss.usermodel.Workbook;
 import java.io.File;
 import java.io.FileOutputStream;
 
-public class Graph {
+public class GraphUtils {
+
+    private GraphUtils(){
+        throw new IllegalStateException("Utility class");
+    }
 
     public static LineChart<Number, Number> getLineChart() {
         NumberAxis xAxis = new NumberAxis();

@@ -5,18 +5,22 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 
-public class Form extends GridPane {
+public class Form {
 
-    private final GridPane compoundForm;
+    //Form contains the grid pane that contains the input fields
+    private final GridPane gp;
     private ComboBox<String> freqBox;
     private TextField interestField, initInvField, yearlyAdditionField;
     private Slider yearsSlider;
 
     public Form(GridPane form) {
         super();
-        compoundForm = form;
+        gp = form;
 
-        compoundForm.getChildren().forEach(n -> {
+        if(!form.getId().equals("compoundForm"))
+            throw new IllegalArgumentException("The form must have the id 'compoundForm'");
+
+        gp.getChildren().forEach(n -> {
             if (n instanceof TextField textField && textField.getId().equals("interestField"))
                 interestField = textField;
             else if (n instanceof TextField textField && textField.getId().equals("initInvField"))
@@ -33,13 +37,13 @@ public class Form extends GridPane {
         freqBox.getSelectionModel().selectFirst();
 
         makeTextFieldsNumeric();
-        limitInterestField();
+        limitFields();
     }
 
     public void clear() {
         yearsSlider.setValue(0);
         freqBox.getSelectionModel().selectFirst();
-        compoundForm.getChildren().forEach(n -> {
+        gp.getChildren().forEach(n -> {
             if (n instanceof TextField textField)
                 textField.setText("");
         });
@@ -98,7 +102,7 @@ public class Form extends GridPane {
      * that will only allow numeric input.
      */
     private void makeTextFieldsNumeric() {
-        compoundForm.getChildren().forEach(n -> {
+        gp.getChildren().forEach(n -> {
             if (n instanceof TextField textField) {
                 textField.textProperty().addListener((observable, oldValue, newValue) -> {
                     //If newly typed string is not numeric, replace it with an empty string
@@ -111,10 +115,18 @@ public class Form extends GridPane {
         });
     }
 
-    private void limitInterestField() {
+    private void limitFields() {
         interestField.textProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue.isEmpty() && Double.parseDouble(newValue) > 20)
                 interestField.setText(oldValue);
+        });
+        initInvField.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue.isEmpty() && Double.parseDouble(newValue) > 1000000)
+                initInvField.setText(oldValue);
+        });
+        yearlyAdditionField.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue.isEmpty() && Double.parseDouble(newValue) > 1000000)
+                yearlyAdditionField.setText(oldValue);
         });
     }
 
@@ -123,7 +135,7 @@ public class Form extends GridPane {
      * Used to check if the input is valid before calculating
      */
     public boolean validFields() {
-        return compoundForm.getChildren().stream().allMatch(n -> {
+        return gp.getChildren().stream().allMatch(n -> {
             if (n instanceof TextField textField)
                 return !textField.getText().isEmpty();
             return true;

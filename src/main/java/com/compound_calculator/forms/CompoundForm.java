@@ -1,26 +1,24 @@
-package com.compound_calculator;
+package com.compound_calculator.forms;
 
+import com.compound_calculator.Row;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Slider;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 
-public class Form {
+public class CompoundForm extends Form {
 
-    //Form contains the grid pane that contains the input fields
-    private final GridPane gp;
     private ComboBox<String> freqBox;
     private TextField interestField, initInvField, yearlyAdditionField;
     private Slider yearsSlider;
 
-    public Form(GridPane form) {
-        super();
-        gp = form;
+    public CompoundForm(GridPane gridPane) {
+        super(gridPane);
 
-        if(!form.getId().equals("compoundForm"))
-            throw new IllegalArgumentException("The form must have the id 'compoundForm'");
-
-        gp.getChildren().forEach(n -> {
+        this.gridPane.getChildren().forEach(n -> {
             if (n instanceof TextField textField && textField.getId().equals("interestField"))
                 interestField = textField;
             else if (n instanceof TextField textField && textField.getId().equals("initInvField"))
@@ -33,6 +31,8 @@ public class Form {
                 yearsSlider = slider;
         });
 
+        checkNullFields();
+
         freqBox.getItems().addAll("Yearly", "Semi-annually", "Quarterly", "Monthly");
         freqBox.getSelectionModel().selectFirst();
 
@@ -40,15 +40,17 @@ public class Form {
         limitFields();
     }
 
+    @Override
     public void clear() {
         yearsSlider.setValue(0);
         freqBox.getSelectionModel().selectFirst();
-        gp.getChildren().forEach(n -> {
+        gridPane.getChildren().forEach(n -> {
             if (n instanceof TextField textField)
                 textField.setText("");
         });
     }
 
+    @Override
     public ObservableList<Row> getData() {
         //If the input is invalid, display an error message and stop the calculation process
         if (!this.validFields()) {
@@ -102,7 +104,7 @@ public class Form {
      * that will only allow numeric input.
      */
     private void makeTextFieldsNumeric() {
-        gp.getChildren().forEach(n -> {
+        gridPane.getChildren().forEach(n -> {
             if (n instanceof TextField textField) {
                 textField.textProperty().addListener((observable, oldValue, newValue) -> {
                     //If newly typed string is not numeric, replace it with an empty string
@@ -130,12 +132,39 @@ public class Form {
         });
     }
 
+    protected void checkNullFields() throws RuntimeException{
+        boolean hasError = false;
+        StringBuilder errorMessage = new StringBuilder("The following fields are null: ");
+        if (interestField == null) {
+            hasError = true;
+            errorMessage.append("interestField, ");
+        }
+        if (initInvField == null) {
+            hasError = true;
+            errorMessage.append("initInvField, ");
+        }
+        if (yearlyAdditionField == null) {
+            hasError = true;
+            errorMessage.append("yearlyAdditionField, ");
+        }
+        if (freqBox == null) {
+            hasError = true;
+            errorMessage.append("freqBox, ");
+        }
+        if (yearsSlider == null) {
+            hasError = true;
+            errorMessage.append("yearsSlider");
+        }
+        if (hasError) throw new RuntimeException(errorMessage.toString());
+    }
+
     /**
      * @return true if all text fields in the input section are filled in, false otherwise
      * Used to check if the input is valid before calculating
      */
+    @Override
     public boolean validFields() {
-        return gp.getChildren().stream().allMatch(n -> {
+        return gridPane.getChildren().stream().allMatch(n -> {
             if (n instanceof TextField textField)
                 return !textField.getText().isEmpty();
             return true;

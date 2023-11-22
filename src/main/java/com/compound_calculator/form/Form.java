@@ -37,20 +37,6 @@ public class Form extends GridPane {
         this.setBackground(Background.fill(Color.LIGHTGRAY));
 
     }
-    public static void switchToPresentValueForm(GridPane current){
-
-    }
-    public static void switchToCompoundInterestForm(GridPane current){
-
-    }
-    public static void switchToInflationForm(GridPane current){
-
-    }
-
-    public void extractFields(GridPane givenForm){
-        if(givenForm==null)return;
-        this.fields = (ArrayList<Node>) givenForm.getChildren();
-    }
     public void clear(){
         for(Node n: this.fields){
             if(n instanceof TextField) ((TextField) n).setText("");
@@ -69,5 +55,18 @@ public class Form extends GridPane {
     }
     public ObservableList<Row> getData() {
         return null;
+    }
+    protected void makeTextFieldsNumeric() {
+        fields.stream().filter(n -> n instanceof TextField).map(n -> (TextField) n).forEach(textField -> textField.textProperty().addListener((observable, oldValue, newValue) -> {
+            //If newly typed string is not numeric, replace it with an empty string
+            //This is done to avoid having to check if the string is numeric later on
+            if (!newValue.matches("\\d*")) {
+                textField.setText(newValue.replaceAll("\\D", ""));
+            }
+        }));
+    }
+    @Override
+    public String toString(){
+        return "form!";
     }
 }

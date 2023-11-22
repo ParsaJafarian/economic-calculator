@@ -73,6 +73,7 @@ public class Controller {
         }
         else{
             f= new InflationForm();
+            System.out.println("initiating inflation form");
             formContainer.getChildren().add(new InflationForm());
         }
         this.form= f;
@@ -82,6 +83,9 @@ public class Controller {
         if(formContainer.getChildren().size()<2)return;
         formContainer.getChildren().remove(1);
         addForm(formType);
+        for(Node n: formContainer.getChildren()){
+            System.out.println(n.toString());
+        }
     }
 
     /**
@@ -100,34 +104,6 @@ public class Controller {
         form.clear();
     }
 
-    private void computeCompoundInterest(ObservableList<Row> data, int years, double interest, int freq, double yearlyAddition){
-
-        //Loop through the years and calculate the compound interest
-        //capital = lastCapital*(1 + i/n)^n + yearlyAddition
-        for (int i = 1; i <= years; i++) {
-            double lastCapital = data.get(i - 1).getCapital();
-            double capital = lastCapital * Math.pow(1 + interest / freq, freq) + yearlyAddition;
-            data.add(new Row(i, capital));
-        }
-    }
-    private void computePresentValueAnnuity(ObservableList<Row> data, int nbPeriods, double annuityPayment, double yieldToMaturity){
-        for(int i=1; i<= nbPeriods; i++) {
-            double compoundingFactor = 1.0f - 1.0f / Math.pow(1.0f + i, i);
-            double presentValue = annuityPayment / yieldToMaturity * compoundingFactor;
-            data.add(new Row(i, presentValue));
-        }
-    }
-    private double computeInflationRate(double currentCPI, double previousCPI){
-        return (currentCPI-previousCPI)/previousCPI *100.0f;
-    }
-    private double computeYearlyInflationRate(double currentCPI, double previousCPI, double currentYear, double previousYear){
-        double inflationRate= computeInflationRate(currentCPI, previousCPI);
-        double deltaYears= currentYear-previousYear;
-        double v = inflationRate / deltaYears;
-        return v;
-    }
-
-
     private void setResultsSection(@NotNull ObservableList<Row> data, double yearlyAddition){
         //Calculate the total interest and capital
         final double initInv = data.get(0).getCapital();
@@ -145,7 +121,9 @@ public class Controller {
      * Calculate the compound interest and display the results in the table.
      */
     public void calculate() {
+        System.out.println(this.form.getClass());
         ObservableList<Row> data = form.getData();
+
         if (data == null) return;
         table.setData(data);
         if(this.form instanceof CompoundForm){

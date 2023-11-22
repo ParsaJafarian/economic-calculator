@@ -34,6 +34,19 @@ public class CompoundForm extends Form {
 
         yearsLbl= new Label("Number of years");
         yearsSlider= new Slider();
+        yearsSlider.setMin(1.0d);
+        yearsSlider.setMax(50.0d);
+        // Show tick marks
+        yearsSlider.setShowTickMarks(true);
+
+        // Set the major tick unit (the distance between major tick marks)
+
+        yearsSlider.setMinorTickCount(10);
+
+
+        // Set the snap to ticks, which means the slider thumb will snap to the nearest tick mark
+        yearsSlider.setSnapToTicks(true);
+
 
         this.add(initInvLbl, 0, 0);
         this.add(initInvField, 1, 0);
@@ -52,19 +65,6 @@ public class CompoundForm extends Form {
         fields.add(freqBox);
         fields.add(yearsSlider);
         makeTextFieldsNumeric();
-//        if(fields== null)return;
-//        fields.forEach(n -> {
-//            if (n instanceof TextField textField && textField.getId().equals("interestField"))
-//                interestField = textField;
-//            else if (n instanceof TextField textField && textField.getId().equals("initInvField"))
-//                initInvField = textField;
-//            else if (n instanceof TextField textField && textField.getId().equals("yearlyAdditionField"))
-//                yearlyAdditionField = textField;
-//            else if (n instanceof ComboBox comboBox && comboBox.getId().equals("freqBox"))
-//                freqBox = comboBox;
-//            else if (n instanceof Slider slider && slider.getId().equals("yearsSlider"))
-//                yearsSlider = slider;
-//        });
 
     }
 
@@ -109,6 +109,12 @@ public class CompoundForm extends Form {
         //Set the first row to the initial investment
         data.add(new Row(0, initInv));
 
+        computeCompoundInterest(data, years, interest, freq, yearlyAddition);
+
+        return data;
+    }
+    private void computeCompoundInterest(ObservableList<Row> data, int years, double interest, int freq, double yearlyAddition){
+
         //Loop through the years and calculate the compound interest
         //capital = lastCapital*(1 + i/n)^n + yearlyAddition
         for (int i = 1; i <= years; i++) {
@@ -116,8 +122,6 @@ public class CompoundForm extends Form {
             double capital = lastCapital * Math.pow(1 + interest / freq, freq) + yearlyAddition;
             data.add(new Row(i, capital));
         }
-
-        return data;
     }
 
     public double getYearlyAddition() {
@@ -130,19 +134,6 @@ public class CompoundForm extends Form {
      * If the child is a text field, add a listener to it
      * that will only allow numeric input.
      */
-    private void makeTextFieldsNumeric() {
-        fields.forEach(n -> {
-            if (n instanceof TextField textField) {
-                textField.textProperty().addListener((observable, oldValue, newValue) -> {
-                    //If newly typed string is not numeric, replace it with an empty string
-                    //This is done to avoid having to check if the string is numeric later on
-                    if (!newValue.matches("\\d*")) {
-                        textField.setText(newValue.replaceAll("\\D", ""));
-                    }
-                });
-            }
-        });
-    }
 
     private void limitInterestField() {
         interestField.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -151,6 +142,9 @@ public class CompoundForm extends Form {
         });
     }
 
-
+    @Override
+    public String toString(){
+        return "compoundForm!";
+    }
 
 }

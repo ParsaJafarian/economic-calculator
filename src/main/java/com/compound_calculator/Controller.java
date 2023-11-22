@@ -1,5 +1,8 @@
 package com.compound_calculator;
 
+import com.compound_calculator.forms.CompoundForm;
+import com.compound_calculator.utils.GraphUtil;
+import com.compound_calculator.utils.MenuBarUtil;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -18,7 +21,7 @@ public class Controller {
      * FXML elements imported from index.fxml
      */
     @FXML
-    private GridPane compoundForm, resultsSection;
+    private GridPane compoundGridPane, resultsSection;
     @FXML
     private Button calcBtn, clrBtn;
     @FXML
@@ -33,7 +36,7 @@ public class Controller {
     private MenuBar menuBar;
     @FXML
     private Label totInterestLabel, totCapitalLabel;
-    private Form form;
+    private CompoundForm form;
 
 
     /**
@@ -44,9 +47,9 @@ public class Controller {
     @FXML
     public void initialize() {
         table = new Table(tableView, pagination);
-        lineChart= Graph.getLineChart();
-        form = new Form(compoundForm);
-        MenuBarUtils.initializeMenuBar(menuBar, table);
+        lineChart= GraphUtil.getLineChart();
+        form = new CompoundForm(compoundGridPane);
+        MenuBarUtil.initializeMenuBar(menuBar, table);
 
         // Add listeners to the buttons
         calcBtn.setOnAction(e -> calculate());
@@ -67,23 +70,6 @@ public class Controller {
         }
         resultsSection.setVisible(false);
         form.clear();
-    }
-
-    private void computePresentValueAnnuity(ObservableList<Row> data, int nbPeriods, double annuityPayment, double yieldToMaturity){
-        for(int i=1; i<= nbPeriods; i++) {
-            double compoundingFactor = 1.0f - 1.0f / Math.pow(1.0f + i, i);
-            double presentValue = annuityPayment / yieldToMaturity * compoundingFactor;
-            data.add(new Row(i, presentValue));
-        }
-    }
-    private double computeInflationRate(double currentCPI, double previousCPI){
-        return (currentCPI-previousCPI)/previousCPI *100.0f;
-    }
-    private double computeYearlyInflationRate(double currentCPI, double previousCPI, double currentYear, double previousYear){
-        double inflationRate= computeInflationRate(currentCPI, previousCPI);
-        double deltaYears= currentYear-previousYear;
-        double v = inflationRate / deltaYears;
-        return v;
     }
 
     private void setResultsSection(@NotNull ObservableList<Row> data, double yearlyAddition){
@@ -124,8 +110,7 @@ public class Controller {
     }
     private void addLineChart(ObservableList<Row> data){
         //the '0' in the line below makes sure of the fact that the graph is added to the top of the VBox
-        lineChart= Graph.getLineChart(data);
+        lineChart= GraphUtil.getLineChart(data);
         graphContainer.getChildren().add(0, lineChart);
-
     }
 }

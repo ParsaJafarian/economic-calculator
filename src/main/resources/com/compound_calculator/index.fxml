@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.gluonhq.charm.glisten.control.Icon?>
-<?import com.gluonhq.charm.glisten.control.ToggleButtonGroup?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
@@ -15,16 +13,17 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox prefHeight="800.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.compound_calculator.Controller">
+<VBox prefHeight="800.0" prefWidth="1400.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.compound_calculator.Controller">
   <children>
     <MenuBar fx:id="menuBar" VBox.vgrow="NEVER" />
     <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="706.0" prefWidth="1000.0" VBox.vgrow="ALWAYS">
       <children>
 
-            <GridPane fx:id="compoundForm" alignment="CENTER" hgap="10.0" layoutX="33.0" layoutY="95.0" prefHeight="266.0" prefWidth="277.0" style="-fx-background-color: #f0f0f0; -fx-border-radius: 5px; -fx-border-width: 1px; -fx-border-color: black;" vgap="20.0">
+            <GridPane fx:id="compoundForm" alignment="CENTER" hgap="10.0" layoutX="52.0" layoutY="99.0" prefHeight="266.0" prefWidth="450.0" style="-fx-background-color: #f0f0f0; -fx-border-radius: 5px; -fx-border-width: 1px; -fx-border-color: black;" vgap="20.0">
 
               <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" maxWidth="148.0" minWidth="10.0" prefWidth="114.0" />
@@ -57,26 +56,26 @@
                </padding>
             </GridPane>
 
-            <VBox fx:id="graphContainer" layoutX="333.0" layoutY="14.0" prefHeight="402.0" prefWidth="475.0" />
-            <VBox layoutX="33.0" layoutY="376.0" prefHeight="382.0" prefWidth="277.0">
+            <VBox fx:id="graphContainer" layoutX="550.0" layoutY="14.0" prefHeight="459.0" prefWidth="736.0" />
+            <VBox layoutX="54.0" layoutY="392.0" prefHeight="382.0" prefWidth="450.0">
                <children>
                   <Pagination fx:id="pagination" prefHeight="133.0" prefWidth="277.0" />
       
-                                                <TableView id="tableView" fx:id="tableView" maxHeight="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="316.0" prefWidth="273.0">
+                                                <TableView id="tableView" fx:id="tableView" maxHeight="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="316.0" prefWidth="191.0">
                      <columnResizePolicy>
                         <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                      </columnResizePolicy>
                   </TableView>
                </children>
             </VBox>
-            <GridPane fx:id="resultsSection" layoutX="398.0" layoutY="412.0" prefHeight="139.0" prefWidth="325.0" visible="false">
+            <GridPane fx:id="resultsSection" layoutX="601.0" layoutY="491.0" prefHeight="143.0" prefWidth="585.0" visible="false">
               <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" maxWidth="190.0" minWidth="10.0" prefWidth="126.0" />
                 <ColumnConstraints hgrow="SOMETIMES" maxWidth="166.0" minWidth="10.0" prefWidth="125.0" />
               </columnConstraints>
               <rowConstraints>
-                <RowConstraints maxHeight="57.0" minHeight="10.0" prefHeight="55.0" vgrow="SOMETIMES" />
-                <RowConstraints maxHeight="71.0" minHeight="10.0" prefHeight="49.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="86.0" minHeight="10.0" prefHeight="54.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="71.0" minHeight="10.0" prefHeight="54.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
                   <Label prefHeight="18.0" prefWidth="180.0" text="Total value of your investment: " />
@@ -85,33 +84,14 @@
                   <Label fx:id="totInterestLabel" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                </children>
             </GridPane>
-            <ToggleButtonGroup layoutX="52.0" layoutY="47.0" prefHeight="25.0" prefWidth="229.0" selectionType="SINGLE">
-                <toggles>
-                    <ToggleButton fx:id="compoundTglBtn" prefHeight="25.0" prefWidth="80.0" text="Compound Interest" />
-                    <ToggleButton fx:id="presentValueTglBtn" prefWidth="80.0" selected="true" text="Present Value" />
-                    <ToggleButton fx:id="inflationTglBtn" prefHeight="25.0" prefWidth="80.0" text="Inflation" />
-                </toggles>
-            </ToggleButtonGroup>
+            <HBox layoutX="49.0" layoutY="36.0" prefHeight="46.0" prefWidth="450.0">
+                <children>
+                    <ToggleButton fx:id="compoundTglBtn" prefHeight="59.0" prefWidth="150.0" text="Compound Interest" />
+                    <ToggleButton fx:id="presentValueTglBtn" prefHeight="107.0" prefWidth="150.0" selected="true" text="Present Value" />
+                    <ToggleButton fx:id="inflationTglBtn" prefHeight="59.0" prefWidth="150.0" text="Inflation" />
+                </children>
+            </HBox>
       </children>
     </AnchorPane>
-      <ToggleButtonGroup selectionType="SINGLE">
-          <toggles>
-              <ToggleButton>
-                  <graphic>
-                      <Icon content="FORMAT_ALIGN_LEFT" />
-                  </graphic>
-              </ToggleButton>
-              <ToggleButton selected="true">
-                  <graphic>
-                      <Icon content="FORMAT_ALIGN_CENTER" />
-                  </graphic>
-              </ToggleButton>
-              <ToggleButton>
-                  <graphic>
-                      <Icon content="FORMAT_ALIGN_RIGHT" />
-                  </graphic>
-              </ToggleButton>
-          </toggles>
-      </ToggleButtonGroup>
   </children>
 </VBox>

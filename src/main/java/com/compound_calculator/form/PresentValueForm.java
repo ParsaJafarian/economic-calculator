@@ -8,7 +8,7 @@ public class PresentValueForm extends Form {
     private static Label paymentAmountLbl, interestRateLbl, nbYearsLbl, paymentIntervalLbl;
     private static TextField paymentAmountField, interestRateField, nbYearsField;
     private static ComboBox<String> paymentIntervalBox;
-
+    private double presentValue;
     public PresentValueForm(){
         super();
         paymentAmountLbl= new Label("Payment amount ($)");
@@ -58,7 +58,7 @@ public class PresentValueForm extends Form {
         }
 
         //Get the frequency from the combo box
-        final int interval = switch (paymentIntervalBox.getValue()) {
+        final int freq = switch (paymentIntervalBox.getValue()) {
             case "Monthly" -> 12;
             case "Quarterly" -> 4;
             case "Biannually" -> 2;
@@ -71,17 +71,16 @@ public class PresentValueForm extends Form {
 
         //Initialize the data array (note: the size is years + 1 because the first row is the initial investment)
         ObservableList<Row> data = FXCollections.observableArrayList();
-        //Set the first row to the initial investment
-        data.add(new Row(0, 0));
-        computePresentValueAnnuity(data, nbYears, annuityPayment, yieldToMaturity);
+
+        computePresentValueAnnuity(data, nbYears, annuityPayment, yieldToMaturity, Math.pow(freq, -1));
 
         return data;
     }
-    private double computePresentValueAnnuity(ObservableList<Row> data, int n, double pMT, double r){
+    private double computePresentValueAnnuity(ObservableList<Row> data, int n, double pMT, double r, double interval){
         /*
             this is the formula:
 
-            P= pMT/(1+r)^n
+            P= SUM(pMT/(1+r)^n)
             where:
             P= present value of annuity
             pMT= dollar amount each annuity payment
@@ -89,13 +88,19 @@ public class PresentValueForm extends Form {
             n= number of periods in which the payments will be made
 
          */
-        for(int i=1; i<= n; i++) {
+        double totalValue= 0;
+        for(float i=0; i<= n; i+=interval) {
 
-            //double presentValue = pMT * (1- (1/   Math.pow((1+r),i))/r);
-            double presentValue= pMT / Math.pow(1+r/100.0f, i);
-            data.add(new Row(i, presentValue));
+
+            double presentValue= pMT / Math.pow(1+(r/100.0f), i);
+            totalValue+= presentValue;
+            data.add(new Row((int)i, presentValue));
         }
-        return 0;
+        this.presentValue= totalValue;
+        return totalValue;
+    }
+    public double getPresentValue(){
+        return this.presentValue;
     }
     @Override
     public String toString(){

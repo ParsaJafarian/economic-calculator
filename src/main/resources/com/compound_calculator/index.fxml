@@ -12,6 +12,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
 <VBox prefHeight="800.0" prefWidth="1400.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.compound_calculator.Controller">
   <children>
@@ -58,10 +59,15 @@
                   </HBox>
                </children>
             </VBox>
-            <HBox alignment="CENTER" layoutX="42.0" layoutY="327.0" prefHeight="46.0" prefWidth="450.0">
+            <HBox alignment="CENTER" layoutX="42.0" layoutY="327.0" prefHeight="46.0" prefWidth="450.0" spacing="10.0">
                <children>
                   <Button fx:id="clrBtn" mnemonicParsing="false" prefHeight="50.0" prefWidth="100.0" text="Clear" textAlignment="CENTER" />
                   <Button fx:id="calcBtn" mnemonicParsing="false" prefHeight="50.0" prefWidth="100.0" text="Calculate" textAlignment="CENTER" />
+                  <Button fx:id="learnMoreBtn" mnemonicParsing="false" onAction="#displayMoreInformation" prefHeight="50.0" prefWidth="100.0" style="-fx-font-weight: bold;" text="Learn more" textAlignment="CENTER" textFill="#262fff">
+                     <font>
+                        <Font name="Calibri" size="12.0" />
+                     </font>
+                  </Button>
                </children>
             </HBox>
       </children>

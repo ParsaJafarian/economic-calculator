@@ -106,6 +106,27 @@ public class Controller {
         resultsSection.setVisible(false);
         form.clear();
     }
+    @FXML
+    private void displayMoreInformation(){
+
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        if(this.form instanceof CompoundForm){
+            alert.setTitle("Compound Interest");
+            alert.setHeaderText("How it works");
+            alert.setContentText("Compound interest involves earning or paying interest " +
+                    "on both the initial amount and the previously earned interest, " +
+                    "resulting in the exponential growth of the total amount over time. " +
+                    "To learn more, visit https://en.wikipedia.org/wiki/Compound_interest");
+
+        }else if(this.form instanceof InflationForm){
+
+        }else if(this.form instanceof PresentValueForm){
+
+        }
+        alert.showAndWait();
+
+
+    }
 
     private void setResultsSection(@NotNull ObservableList<Row> data, double yearlyAddition){
         //Calculate the total interest and capital
@@ -128,6 +149,12 @@ public class Controller {
         resultsSection.add(new Label("Yearly inflation rate"), 0, 1);
         resultsSection.add(new Label((float)infl+"%"), 1, 0);
         resultsSection.add(new Label((float)yInfl+"%"), 1, 1);
+        resultsSection.setVisible(true);
+    }
+    private void setResultsSection(double presentValue){
+        PresentValueForm pVF= (PresentValueForm) this.form;
+        resultsSection.add(new Label("Present value"), 0, 0);
+        resultsSection.add(new Label(presentValue+""), 1, 0);
         resultsSection.setVisible(true);
     }
     private void clearResultsSection(){
@@ -153,6 +180,10 @@ public class Controller {
         else if(this.form instanceof InflationForm){
             InflationForm infF= (InflationForm) form;
             setResultsSection(infF.getInflRate(), infF.getYearlyInflRate());
+        }
+        else if(this.form instanceof PresentValueForm){
+            PresentValueForm pVF= (PresentValueForm) form;
+            setResultsSection(pVF.getPresentValue());
         }
 
         //Creates and adds new Line Chart with chosen data to appropriate VBox container named "graphContainer"

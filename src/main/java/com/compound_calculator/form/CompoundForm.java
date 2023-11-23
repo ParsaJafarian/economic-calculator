@@ -1,18 +1,9 @@
 package com.compound_calculator.form;
 
-import com.compound_calculator.Controller;
 import com.compound_calculator.Row;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.GridPane;
-
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
 public class CompoundForm extends Form {
     private Label freqLbl, interestLbl, initInvLbl, yearlyAdditionLbl, yearsLbl, yearsSliderLbl;
@@ -102,16 +93,13 @@ public class CompoundForm extends Form {
         final double interest = Double.parseDouble(interestField.getText()) / 100;
         final int years = (int)yearsSlider.getValue();
 
+        return computeCompoundInterest(initInv, years, interest, freq, yearlyAddition);
+    }
+    static ObservableList<Row> computeCompoundInterest(double initInv, int years, double interest, int freq, double yearlyAddition){
         //Initialize the data array (note: the size is years + 1 because the first row is the initial investment)
         ObservableList<Row> data = FXCollections.observableArrayList();
         //Set the first row to the initial investment
         data.add(new Row(0, initInv));
-
-        computeCompoundInterest(data, years, interest, freq, yearlyAddition);
-        return data;
-    }
-    private void computeCompoundInterest(ObservableList<Row> data, int years, double interest, int freq, double yearlyAddition){
-
         //Loop through the years and calculate the compound interest
         //capital = lastCapital*(1 + i/n)^n + yearlyAddition
         for (int i = 1; i <= years; i++) {
@@ -119,6 +107,7 @@ public class CompoundForm extends Form {
             double capital = lastCapital * Math.pow(1 + interest / freq, freq) + yearlyAddition;
             data.add(new Row(i, capital));
         }
+        return data;
     }
 
     public double getYearlyAddition() {

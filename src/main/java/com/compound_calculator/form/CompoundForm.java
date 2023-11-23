@@ -34,7 +34,7 @@ public class CompoundForm extends Form {
 
         freqLbl= new Label("Compound frequency");
         freqBox= new ComboBox<>();
-        freqBox.getItems().addAll("Yearly", "Semi-annually", "Quarterly", "Monthly");
+        freqBox.getItems().addAll("Yearly", "Biannually", "Quarterly", "Monthly");
         freqBox.getSelectionModel().selectFirst();
 
         yearsLbl= new Label("Number of years");
@@ -91,7 +91,7 @@ public class CompoundForm extends Form {
         final int freq = switch (freqBox.getValue()) {
             case "Monthly" -> 12;
             case "Quarterly" -> 4;
-            case "Semi-annually" -> 2;
+            case "Biannually" -> 2;
             case "Yearly" -> 1;
             default -> 0;
         };

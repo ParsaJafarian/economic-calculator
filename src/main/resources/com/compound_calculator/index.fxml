@@ -31,7 +31,7 @@
                   </TableView>
                </children>
             </VBox>
-            <GridPane fx:id="resultsSection" layoutX="601.0" layoutY="491.0" prefHeight="143.0" prefWidth="585.0" visible="false">
+            <GridPane fx:id="resultsSection" gridLinesVisible="true" layoutX="714.0" layoutY="491.0" prefHeight="143.0" prefWidth="472.0" visible="false">
               <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" maxWidth="190.0" minWidth="10.0" prefWidth="126.0" />
                 <ColumnConstraints hgrow="SOMETIMES" maxWidth="166.0" minWidth="10.0" prefWidth="125.0" />

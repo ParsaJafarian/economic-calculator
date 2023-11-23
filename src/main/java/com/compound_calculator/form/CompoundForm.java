@@ -1,15 +1,21 @@
 package com.compound_calculator.form;
 
+import com.compound_calculator.Controller;
 import com.compound_calculator.Row;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+
 public class CompoundForm extends Form {
-
-
-    private Label freqLbl, interestLbl, initInvLbl, yearlyAdditionLbl, yearsLbl;
+    private Label freqLbl, interestLbl, initInvLbl, yearlyAdditionLbl, yearsLbl, yearsSliderLbl;
     private ComboBox<String> freqBox;
     private TextField interestField, initInvField, yearlyAdditionField;
     private Slider yearsSlider;
@@ -26,27 +32,20 @@ public class CompoundForm extends Form {
         interestField= new TextField();
         limitInterestField();
 
-
         freqLbl= new Label("Compound frequency");
         freqBox= new ComboBox<>();
         freqBox.getItems().addAll("Yearly", "Semi-annually", "Quarterly", "Monthly");
         freqBox.getSelectionModel().selectFirst();
 
         yearsLbl= new Label("Number of years");
+
         yearsSlider= new Slider();
+        yearsSliderLbl= new Label("0");
         yearsSlider.setMin(1.0d);
         yearsSlider.setMax(50.0d);
-        // Show tick marks
-        yearsSlider.setShowTickMarks(true);
-
-        // Set the major tick unit (the distance between major tick marks)
-
-        yearsSlider.setMinorTickCount(10);
-
-
-        // Set the snap to ticks, which means the slider thumb will snap to the nearest tick mark
-        yearsSlider.setSnapToTicks(true);
-
+        yearsSlider.setOnMouseReleased(e ->{
+            yearsSliderLbl.setText((int)yearsSlider.getValue()+"");
+        });
 
         this.add(initInvLbl, 0, 0);
         this.add(initInvField, 1, 0);
@@ -58,6 +57,7 @@ public class CompoundForm extends Form {
         this.add(freqBox, 1, 3);
         this.add(yearsLbl, 0, 4);
         this.add(yearsSlider, 1, 4);
+        this.add(yearsSliderLbl, 2, 4);
 
         fields.add(initInvField);
         fields.add(yearlyAdditionField);
@@ -67,7 +67,6 @@ public class CompoundForm extends Form {
         makeTextFieldsNumeric();
 
     }
-
     @Override
     public void clear() {
         yearsSlider.setValue(0);
@@ -77,7 +76,6 @@ public class CompoundForm extends Form {
                 textField.setText("");
         });
     }
-
     public ObservableList<Row> getData() {
         //If the input is invalid, display an error message and stop the calculation process
         if (!this.validFields()) {
@@ -102,7 +100,7 @@ public class CompoundForm extends Form {
         final double initInv = Double.parseDouble(initInvField.getText());
         final double yearlyAddition = Double.parseDouble(yearlyAdditionField.getText());
         final double interest = Double.parseDouble(interestField.getText()) / 100;
-        final int years = (int) yearsSlider.getValue();
+        final int years = (int)yearsSlider.getValue();
 
         //Initialize the data array (note: the size is years + 1 because the first row is the initial investment)
         ObservableList<Row> data = FXCollections.observableArrayList();
@@ -110,7 +108,6 @@ public class CompoundForm extends Form {
         data.add(new Row(0, initInv));
 
         computeCompoundInterest(data, years, interest, freq, yearlyAddition);
-
         return data;
     }
     private void computeCompoundInterest(ObservableList<Row> data, int years, double interest, int freq, double yearlyAddition){

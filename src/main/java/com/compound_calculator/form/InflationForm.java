@@ -13,6 +13,13 @@ public class InflationForm extends Form{
     private static Label currentCPILbl, prevCPILbl, currentYear, prevYear;
     private static TextField currentField, prevField, currentYearField, prevYearField;
     private double inflRate, yearlyInflRate;
+
+    public static void clearForm(){
+        currentField.setText("");
+        prevField.setText("");
+        currentYearField.setText("");
+        prevYearField.setText("");
+    }
     public InflationForm(){
         super();
         currentCPILbl= new Label("Current consumer price index (CPI)");
@@ -35,6 +42,8 @@ public class InflationForm extends Form{
 
         fields.add(currentField);
         fields.add(prevField);
+        fields.add(currentYearField);
+        fields.add(prevYearField);
         makeTextFieldsNumeric();
     }
     @Override

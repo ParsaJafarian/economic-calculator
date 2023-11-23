@@ -6,10 +6,11 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.chart.LineChart;
 import javafx.scene.control.*;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import org.jetbrains.annotations.NotNull;
+
+import java.text.DecimalFormat;
 
 /**
  * Controller class for the main view
@@ -37,7 +38,7 @@ public class Controller {
     @FXML
     private ToggleButton compoundTglBtn, presentValueTglBtn, inflationTglBtn;
 
-
+    private static DecimalFormat dollarFormat= new DecimalFormat("0.00");
     /**
      * Initialize the view by adding the options to the frequency combo box,
      * setting the default value to "Monthly", and adding listeners to the
@@ -83,6 +84,7 @@ public class Controller {
 
     private void changeFormType(int formType){
         if(formContainer.getChildren().size()<2)return;
+        clear();
         formContainer.getChildren().remove(1);
         addForm(formType);
         for(Node n: formContainer.getChildren()){
@@ -104,7 +106,15 @@ public class Controller {
             graphContainer.getChildren().remove(n);
         }
         resultsSection.setVisible(false);
-        form.clear();
+        if(form instanceof CompoundForm){
+            form.clear();
+        }else if(form instanceof InflationForm){
+            InflationForm.clearForm();
+        }else if(form instanceof PresentValueForm){
+            PresentValueForm.clearForm();
+        }
+
+
     }
     @FXML
     private void displayMoreInformation(){
@@ -112,19 +122,29 @@ public class Controller {
         if(this.form instanceof CompoundForm){
             alert.setTitle("Compound Interest");
             alert.setHeaderText("How it works");
-            alert.setContentText("Compound interest involves earning or paying interest " +
-                    "on both the initial amount and the previously earned interest, " +
-                    "resulting in the exponential growth of the total amount over time. " +
-                    "To learn more, visit https://en.wikipedia.org/wiki/Compound_interest");
+            alert.setContentText("Compound interest involves earning or paying interest on" +
+                    " both the initial amount and the previously earned interest, resulting" +
+                    " in the exponential growth of the total amount over time. To learn more," +
+                    " visit https://en.wikipedia.org/wiki/Compound_interest");
 
         }else if(this.form instanceof InflationForm){
-
+            alert.setTitle("Inflation");
+            alert.setHeaderText("How it works");
+            alert.setContentText("Inflation is the continuous increase in prices, diminishing purchasing power," +
+                    " influenced by factors such as demand spikes, supply disruptions, or excess money circulation." +
+                    " To learn more, visit https://www.imf.org/en/Publications/fandd/issues/Series/Back-to-Basics/Inflation");
         }else if(this.form instanceof PresentValueForm){
-
+            alert.setTitle("Present Value");
+            alert.setHeaderText("How it works");
+            alert.setContentText("Present value is an economic concept that reflects the current worth of a sum of" +
+                    " money or a series of future cash flows, taking into account the time value of money." +
+                    " It recognizes that a given amount of money today is more valuable than the same" +
+                    " amount in the future due to the potential for earning returns or interest." +
+                    " To learn more, visit https://www.investopedia.com/terms/p/presentvalue.asp");
         }
         alert.showAndWait();
     }
-    private void setResultsSection(@NotNull ObservableList<Row> data, double yearlyAddition){
+    private void setCpdIntrResultsSection(@NotNull ObservableList<Row> data, double yearlyAddition){
         //Calculate the total interest and capital
         final double initInv = data.get(0).getCapital();
         final int years = data.size() - 1;
@@ -138,19 +158,18 @@ public class Controller {
 
         resultsSection.setVisible(true);
     }
-    private void setResultsSection(double infl, double yInfl){
-        InflationForm f= (InflationForm)this.form;
-
+    private void setInflResultsSection(String infl, String yInfl){
         resultsSection.add(new Label("Inflation rate"), 0, 0);
         resultsSection.add(new Label("Yearly inflation rate"), 0, 1);
-        resultsSection.add(new Label((float)infl+"%"), 1, 0);
-        resultsSection.add(new Label((float)yInfl+"%"), 1, 1);
+        resultsSection.add(new Label(infl+"%"), 1, 0);
+        resultsSection.add(new Label(yInfl+"%"), 1, 1);
         resultsSection.setVisible(true);
     }
-    private void setResultsSection(double presentValue){
-        PresentValueForm pVF= (PresentValueForm) this.form;
+    private void setPresValResultsSection(String presentValue, String lostToInflation){
         resultsSection.add(new Label("Present value"), 0, 0);
-        resultsSection.add(new Label(presentValue+""), 1, 0);
+        resultsSection.add(new Label(presentValue), 1, 0);
+        resultsSection.add(new Label("Lost to inflation"), 0, 1);
+        resultsSection.add(new Label(lostToInflation), 1, 1);
         resultsSection.setVisible(true);
     }
     private void clearResultsSection(){
@@ -171,15 +190,15 @@ public class Controller {
         table.setData(data);
         if(this.form instanceof CompoundForm){
             CompoundForm f=(CompoundForm) form;
-            setResultsSection(data, f.getYearlyAddition());
+            setCpdIntrResultsSection(data, f.getYearlyAddition());
         }
         else if(this.form instanceof InflationForm){
             InflationForm infF= (InflationForm) form;
-            setResultsSection(infF.getInflRate(), infF.getYearlyInflRate());
+            setInflResultsSection(dollarFormat.format(infF.getInflRate()), dollarFormat.format(infF.getYearlyInflRate()));
         }
         else if(this.form instanceof PresentValueForm){
             PresentValueForm pVF= (PresentValueForm) form;
-            setResultsSection(pVF.getPresentValue());
+            setPresValResultsSection(dollarFormat.format(pVF.getPresentValue()), dollarFormat.format(pVF.getLostToInflation()));
         }
 
         //Creates and adds new Line Chart with chosen data to appropriate VBox container named "graphContainer"

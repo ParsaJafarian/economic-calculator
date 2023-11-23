@@ -56,12 +56,25 @@ public class Form extends GridPane {
     public ObservableList<Row> getData() {
         return null;
     }
+    /**
+     * Make all text fields in the input section numeric by
+     * looping through all children of the input section.
+     * If the child is a text field, add a listener to it
+     * that will only allow numeric input.
+     */
     protected void makeTextFieldsNumeric() {
         fields.stream().filter(n -> n instanceof TextField).map(n -> (TextField) n).forEach(textField -> textField.textProperty().addListener((observable, oldValue, newValue) -> {
-            //If newly typed string is not numeric, replace it with an empty string
-            //This is done to avoid having to check if the string is numeric later on
-            if (!newValue.matches("\\d*")) {
-                textField.setText(newValue.replaceAll("\\D", ""));
+
+            //Typed characters can only be numeric (\d)
+            //Or either "." or "-", to allow negative and decimal values
+            if (!newValue.matches("^[\\d-.]+$")) {
+                //removes last character if it doesn't match description above
+                if(textField.getText().isEmpty()){
+                    textField.setText("");
+                }else{
+                    textField.setText(textField.getText().substring(0, textField.getText().length()-1));
+                }
+
             }
         }));
     }

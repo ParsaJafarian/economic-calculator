@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class FormTest {
+public class CompoundFormTest {
 
     /**
      * Compound Data is compared to
@@ -16,7 +16,7 @@ public class FormTest {
      * </a>
      */
     @Test
-    void getCompoundDataTest1() {
+    void computeCompoundInterestTest1() {
         ObservableList<Row> data = CompoundForm.computeCompoundInterest(2000, 20, 0.03, 1, 1000);
 
         assert data.size() == 21;
@@ -31,7 +31,7 @@ public class FormTest {
     }
 
     @Test
-    void getCompoundDataTest2() {
+    void computeCompoundInterestTest2() {
         ObservableList<Row> data = CompoundForm.computeCompoundInterest(1000, 10, 0.05, 12, 100);
 
         assert data.size() == 11;

@@ -3,8 +3,9 @@ package com.compound_calculator.form;
 import com.compound_calculator.Row;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import org.junit.jupiter.api.Test;
 
-public class PresentValueForm {
+public class PresentValueFormTest {
     private ObservableList<Row> computePresentValueAnnuity(int n, double pMT, double r, double interval) {
         /*
             this is the formula:
@@ -26,5 +27,10 @@ public class PresentValueForm {
         return data;
     }
 
-    
+    @Test
+    void computePresentValueAnnuityTest1() {
+        ObservableList<Row> data = computePresentValueAnnuity(10, 100, 5, 1);
+        assert data.size() == 11;
+        assert data.get(0).getTime() == 0;
+    }
 }

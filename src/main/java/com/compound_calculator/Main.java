@@ -18,7 +18,7 @@ public class Main extends Application {
     @Override
     public void start(@NotNull Stage stage) throws IOException {
         FXMLLoader loader = new FXMLLoader(Main.class.getResource("index.fxml"));
-        scene = new Scene(loader.load(), 900, 700);
+        scene = new Scene(loader.load(), 1400, 800);
         stage.setTitle("Compound Interest Calculator");
         stage.setScene(scene);
         stage.show();

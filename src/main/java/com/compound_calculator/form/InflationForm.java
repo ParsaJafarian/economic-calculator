@@ -3,11 +3,9 @@ package com.compound_calculator.form;
 import com.compound_calculator.Row;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import org.apache.poi.ss.formula.functions.T;
 
 public class InflationForm extends Form{
     private static Label currentCPILbl, prevCPILbl, currentYear, prevYear;
@@ -67,10 +65,10 @@ public class InflationForm extends Form{
         return !currentField.getText().isEmpty() && !prevField.getText().isEmpty();
     }
 
-    private double computeInflationRate(double currentCPI, double previousCPI){
+     static double computeInflationRate(double currentCPI, double previousCPI){
         return (currentCPI-previousCPI)/previousCPI *100.0f;
     }
-    private double computeYearlyInflationRate(double currentCPI, double previousCPI, double currentYear, double previousYear){
+     static double computeYearlyInflationRate(double currentCPI, double previousCPI, double currentYear, double previousYear){
         double inflationRate= computeInflationRate(currentCPI, previousCPI);
         double deltaYears= currentYear-previousYear;
         return inflationRate / deltaYears;

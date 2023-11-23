@@ -22,6 +22,7 @@
 
             <VBox fx:id="graphContainer" layoutX="550.0" layoutY="14.0" prefHeight="459.0" prefWidth="736.0" />
             <VBox layoutX="42.0" layoutY="386.0" prefHeight="382.0" prefWidth="450.0">
+
                <children>
                   <Pagination fx:id="pagination" prefHeight="133.0" prefWidth="277.0" />
       

@@ -58,6 +58,7 @@ public class CompoundForm extends Form {
         makeTextFieldsNumeric();
 
     }
+
     @Override
     public void clear() {
         yearsSlider.setValue(0);
@@ -132,5 +133,4 @@ public class CompoundForm extends Form {
     public String toString(){
         return "compoundForm!";
     }
-
 }

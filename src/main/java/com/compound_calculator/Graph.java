@@ -17,7 +17,6 @@ public class Graph {
 
     public static LineChart<Number, Number> getLineChart() {
         NumberAxis xAxis = new NumberAxis();
-
         NumberAxis yAxis = new NumberAxis();
         return new LineChart<>(xAxis, yAxis);
     }
@@ -25,7 +24,6 @@ public class Graph {
     public static LineChart<Number, Number> getLineChart(ObservableList<Row> data) {
         // Create the x and y axes
         NumberAxis xAxis = new NumberAxis();
-
         NumberAxis yAxis = new NumberAxis();
 
         // Create the line chart

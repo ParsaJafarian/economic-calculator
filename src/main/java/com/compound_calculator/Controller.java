@@ -47,14 +47,17 @@ public class Controller {
     public void initialize() {
         table = new Table(tableView, pagination);
         lineChart= Graph.getLineChart();
-        addForm(2);
+        addForm(1);
         //form = new CompoundForm(formGridPane);
         MenuBarUtils.initializeMenuBar(menuBar, table);
 
         // Add listeners to the buttons
         calcBtn.setOnAction(e -> calculate());
         clrBtn.setOnAction(e -> clear());
-
+        ToggleGroup tgg= new ToggleGroup();
+        compoundTglBtn.setToggleGroup(tgg);
+        presentValueTglBtn.setToggleGroup(tgg);
+        inflationTglBtn.setToggleGroup(tgg);
         //Add functionality to toggleButtons
         compoundTglBtn.setOnAction(e -> changeFormType(0));
         presentValueTglBtn.setOnAction(e-> changeFormType(1));

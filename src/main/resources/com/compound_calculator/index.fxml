@@ -24,9 +24,9 @@
             <VBox layoutX="42.0" layoutY="386.0" prefHeight="382.0" prefWidth="450.0">
 
                <children>
-                  <Pagination fx:id="pagination" prefHeight="133.0" prefWidth="277.0" />
+                  <Pagination fx:id="pagination" prefHeight="80.0" prefWidth="450.0" />
       
-                   <TableView id="tableView" fx:id="tableView" maxHeight="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="318.0" prefWidth="450.0">
+                   <TableView id="tableView" fx:id="tableView" maxHeight="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="331.0" prefWidth="450.0">
                      <columnResizePolicy>
                         <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                      </columnResizePolicy>
@@ -43,15 +43,13 @@
                 <RowConstraints maxHeight="71.0" minHeight="10.0" prefHeight="54.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <Label prefHeight="18.0" prefWidth="180.0" text="Total value of your investment: " />
-                  <Label text="Total interest earned:" GridPane.rowIndex="1" />
                   <Label fx:id="totCapitalLabel" GridPane.columnIndex="1" />
                   <Label fx:id="totInterestLabel" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                </children>
             </GridPane>
-            <VBox fx:id="formContainer" layoutX="42.0" layoutY="36.0" prefHeight="291.0" prefWidth="450.0">
+            <VBox fx:id="formContainer" layoutX="42.0" layoutY="36.0" prefHeight="291.0" prefWidth="450.0" spacing="12.0">
                <children>
-                  <HBox prefHeight="46.0" prefWidth="450.0">
+                  <HBox prefHeight="46.0" prefWidth="450.0" spacing="4.0">
                       <children>
                           <ToggleButton fx:id="compoundTglBtn" prefHeight="59.0" prefWidth="150.0" text="Compound Interest" />
                           <ToggleButton fx:id="presentValueTglBtn" prefHeight="107.0" prefWidth="150.0" selected="true" text="Present Value" />

@@ -18,7 +18,7 @@ public class CompoundForm extends Form {
 
         yearlyAdditionLbl= new Label("Yearly addition ($)");
         yearlyAdditionField= new TextField();
-
+        limitFields();
         interestLbl= new Label("Interest Rate (%)");
         interestField= new TextField();
         limitInterestField();
@@ -115,18 +115,25 @@ public class CompoundForm extends Form {
         return Double.parseDouble(yearlyAdditionField.getText());
     }
 
-    /**
-     * Make all text fields in the input section numeric by
-     * looping through all children of the input section.
-     * If the child is a text field, add a listener to it
-     * that will only allow numeric input.
-     */
-
     private void limitInterestField() {
         interestField.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (!newValue.isEmpty() && Double.parseDouble(newValue) > 20)
-                interestField.setText(oldValue);
+            try{
+                if (!newValue.isEmpty() && Double.parseDouble(newValue) > 20)
+                    interestField.setText(oldValue);
+            }catch(Exception e){
+                System.out.println(e +"Exception caught:)");
+            }
+
         });
+    }
+    private void limitFields(){
+        initInvField.textProperty().addListener((observable, oldValue, newValue)->{
+            if (!newValue.isEmpty() && Double.parseDouble(newValue) > 1000000) initInvField.setText(oldValue);
+        });
+        yearlyAdditionField.textProperty().addListener((observable, oldValue, newValue)->{
+            if (!newValue.isEmpty() && Double.parseDouble(newValue) > 1000000) yearlyAdditionField.setText(oldValue);
+        });
+
     }
 
     @Override

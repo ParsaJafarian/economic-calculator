@@ -8,12 +8,13 @@ public class PresentValueForm extends Form {
     private static Label paymentAmountLbl, interestRateLbl, nbYearsLbl, paymentIntervalLbl;
     private static TextField paymentAmountField, interestRateField, nbYearsField;
     private static ComboBox<String> paymentIntervalBox;
-    private double presentValue;
+    private double presentValue, lostToInflation;
+
     public PresentValueForm(){
         super();
         paymentAmountLbl= new Label("Payment amount ($)");
         paymentAmountField= new TextField();
-        interestRateLbl= new Label("Interest rate (%)");
+        interestRateLbl= new Label("Inflation rate (%)");
         interestRateField= new TextField();
         nbYearsLbl= new Label("Number of years");
         nbYearsField= new TextField();
@@ -30,16 +31,17 @@ public class PresentValueForm extends Form {
         this.add(nbYearsField, 1, 2);
         this.add(paymentIntervalLbl, 0, 3);
         this.add(paymentIntervalBox, 1, 3);
-
+        fields.add(paymentAmountField);
+        fields.add(interestRateField);
+        fields.add(nbYearsField);
         makeTextFieldsNumeric();
     }
-    @Override
-    public void clear(){
+
+    public static void clearForm(){
         paymentIntervalBox.getSelectionModel().selectFirst();
-        fields.forEach(n -> {
-            if (n instanceof TextField textField)
-                textField.setText("");
-        });
+        paymentAmountField.setText("");
+        interestRateField.setText("");
+        nbYearsField.setText("");
     }
     @Override
     public boolean validFields(){
@@ -76,7 +78,7 @@ public class PresentValueForm extends Form {
 
         return data;
     }
-    private double computePresentValueAnnuity(ObservableList<Row> data, int n, double pMT, double r, double interval){
+    private double computePresentValueAnnuity(ObservableList<Row> data, int n, double pMT, double rPercent, double interval){
         /*
             this is the formula:
 
@@ -84,24 +86,31 @@ public class PresentValueForm extends Form {
             where:
             P= present value of annuity
             pMT= dollar amount each annuity payment
-            r= discount/interest rate
+            r= discount/interest rate (in decimal form)
             n= number of periods in which the payments will be made
 
          */
+        double rDecimal= rPercent/100.0d;
+        double totalWithOutInflation= pMT*n*(1.0/interval);
+
         double totalValue= 0;
-        for(float i=0; i<= n; i+=interval) {
-
-
-            double presentValue= pMT / Math.pow(1+(r/100.0f), i);
+        for(float i=0; i< n; i+=interval) {
+            double presentValue= pMT / Math.pow(1+rDecimal, i);
             totalValue+= presentValue;
             data.add(new Row((int)i, presentValue));
         }
         this.presentValue= totalValue;
+        this.lostToInflation= totalWithOutInflation-totalValue;
         return totalValue;
     }
     public double getPresentValue(){
         return this.presentValue;
     }
+
+    public double getLostToInflation() {
+        return lostToInflation;
+    }
+
     @Override
     public String toString(){
         return "presentValueForm!";

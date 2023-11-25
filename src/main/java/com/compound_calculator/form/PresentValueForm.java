@@ -94,7 +94,7 @@ public class PresentValueForm extends Form {
         double totalWithOutInflation= pMT*n*(1.0/interval);
 
         double totalValue= 0;
-        for(float i=0; i< n; i+=interval) {
+        for(float i=0; i<= n; i+=interval) {
             double presentValue= pMT / Math.pow(1+rDecimal, i);
             totalValue+= presentValue;
             data.add(new Row((int)i, presentValue));

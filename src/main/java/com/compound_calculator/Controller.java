@@ -153,8 +153,8 @@ public class Controller {
 
         resultsSection.add(new Label("Total value of your investment"), 0, 0);
         resultsSection.add(new Label("Total interest earned"), 0, 1);
-        resultsSection.add(new Label(totCapital+""), 1, 0);
-        resultsSection.add(new Label(totInterest+""), 1, 1);
+        resultsSection.add(new Label(dollarFormat.format(totCapital)), 1, 0);
+        resultsSection.add(new Label(dollarFormat.format(totInterest)), 1, 1);
 
         resultsSection.setVisible(true);
     }

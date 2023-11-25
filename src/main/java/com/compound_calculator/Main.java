@@ -17,9 +17,12 @@ public class Main extends Application {
     public static Scene scene;
     @Override
     public void start(@NotNull Stage stage) throws IOException {
+        /*
+         * pulls the file index.fxml to set the scene
+         */
         FXMLLoader loader = new FXMLLoader(Main.class.getResource("index.fxml"));
-        scene = new Scene(loader.load(), 1400, 800);
-        stage.setTitle("Compound Interest Calculator");
+        scene = new Scene(loader.load(), 1000, 700);
+        stage.setTitle("Economic Functions Calculator");
         stage.setScene(scene);
         stage.show();
     }

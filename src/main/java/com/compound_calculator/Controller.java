@@ -39,7 +39,7 @@ public class Controller {
     @FXML
     private ToggleButton compoundTglBtn, presentValueTglBtn, inflationTglBtn;
 
-    private static DecimalFormat dollarFormat = new DecimalFormat("0.00");
+    private static final DecimalFormat dollarFormat = new DecimalFormat("0.00");
 
     /**
      * Initialize the view by adding the options to the frequency combo box,
@@ -159,8 +159,8 @@ public class Controller {
 
         resultsSection.add(new Label("Total value of your investment"), 0, 0);
         resultsSection.add(new Label("Total interest earned"), 0, 1);
-        resultsSection.add(new Label(totCapital + ""), 1, 0);
-        resultsSection.add(new Label(totInterest + ""), 1, 1);
+        resultsSection.add(new Label(dollarFormat.format(totCapital)), 1, 0);
+        resultsSection.add(new Label(dollarFormat.format(totInterest)), 1, 1);
 
         resultsSection.setVisible(true);
     }
@@ -198,17 +198,6 @@ public class Controller {
         if (data == null) return;
         table.setData(data);
 
-        if (this.form instanceof CompoundForm) {
-            CompoundForm f = (CompoundForm) form;
-            setCpdIntrResultsSection(data, f.getYearlyAddition());
-        } else if (this.form instanceof InflationForm) {
-            InflationForm infF = (InflationForm) form;
-            setInflResultsSection(dollarFormat.format(infF.getInflRate()), dollarFormat.format(infF.getYearlyInflRate()));
-        } else if (this.form instanceof PresentValueForm) {
-            PresentValueForm pVF = (PresentValueForm) form;
-            setPresValResultsSection(dollarFormat.format(pVF.getPresentValue()), dollarFormat.format(pVF.getLostToInflation()));
-        }
-
         //Creates and adds new Line Chart with chosen data to appropriate VBox container named "graphContainer"
         if (!graphContainer.getChildren().isEmpty()) {
             //If a graph was already generated, and the user wishes to generate a new one,
@@ -219,15 +208,27 @@ public class Controller {
             Node n = graphContainer.getChildren().get(0);
             n.setVisible(false);
             graphContainer.getChildren().remove(n);
-
         }
-        addLineChart(data);
+
+        if (this.form instanceof CompoundForm) {
+            CompoundForm f = (CompoundForm) form;
+            setCpdIntrResultsSection(data, f.getYearlyAddition());
+            addLineChart(data, "Compound Interest");
+        } else if (this.form instanceof InflationForm) {
+            InflationForm infF = (InflationForm) form;
+            addLineChart(data, "Inflation");
+            setInflResultsSection(dollarFormat.format(infF.getInflRate()), dollarFormat.format(infF.getYearlyInflRate()));
+        } else if (this.form instanceof PresentValueForm) {
+            PresentValueForm pVF = (PresentValueForm) form;
+            addLineChart(data, "Present Value");
+            setPresValResultsSection(dollarFormat.format(pVF.getPresentValue()), dollarFormat.format(pVF.getLostToInflation()));
+        }
 
     }
 
-    private void addLineChart(ObservableList<Row> data) {
+    private void addLineChart(ObservableList<Row> data, String title) {
         //the '0' in the line below makes sure of the fact that the graph is added to the top of the VBox
-        lineChart = Graph.getLineChart(data);
+        lineChart = Graph.getLineChart(data, title);
         graphContainer.getChildren().add(0, lineChart);
     }
 

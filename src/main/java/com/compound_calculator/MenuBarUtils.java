@@ -51,7 +51,7 @@ public class MenuBarUtils {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("About");
             alert.setHeaderText("Compound Interest Calculator");
-            alert.setContentText("Created by Parsa Jafarian & Mark Rudko as a collective team effort.");
+            alert.setContentText("Created by Mark Rudko & Parsa Jafarian as a collective team effort.");
             alert.showAndWait();
         });
 

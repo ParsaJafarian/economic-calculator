@@ -17,7 +17,8 @@ public class Form extends GridPane {
     protected final ArrayList<Node> fields;
 
     public Form(){
-        fields= new ArrayList<Node>();
+        fields= new ArrayList<>();
+        //making the form have pretty alignment and spacing
         this.setAlignment(Pos.CENTER);
         this.setPadding(new Insets(20.0d));
         this.setVgap(10.0d);
@@ -25,6 +26,7 @@ public class Form extends GridPane {
         this.setBackground(Background.fill(Color.LIGHTGRAY));
     }
     public void clear(){
+        //basic function to set all the fields to ""
         for(Node n: this.fields){
             if(n instanceof TextField) ((TextField) n).setText("");
         }
@@ -67,6 +69,7 @@ public class Form extends GridPane {
     }
     @Override
     public String toString(){
+        //for the culture!
         return "form!";
     }
 }

@@ -6,6 +6,12 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.jetbrains.annotations.NotNull;
 
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
 import java.io.IOException;
 
 public class Main extends Application {
@@ -25,6 +31,22 @@ public class Main extends Application {
         stage.setTitle("Economic Functions Calculator");
         stage.setScene(scene);
         stage.show();
+    }
+    public static void captureScreenshot() throws AWTException, IOException {
+        // Create a Robot
+        Robot robot = new Robot();
+
+        // Get the default toolkit
+        Toolkit toolkit = Toolkit.getDefaultToolkit();
+
+        // Get the screen size
+        Rectangle screenSize = new Rectangle(toolkit.getScreenSize());
+
+        // Capture the screenshot
+        BufferedImage screenshot = robot.createScreenCapture(screenSize);
+
+        // Save the screenshot to a file
+        ImageIO.write(screenshot, "png", new File("Screenshot.png"));
     }
 
     public static void main(String[] args) {

@@ -12,7 +12,7 @@ public class Results {
     private static final DecimalFormat dollarFormat = new DecimalFormat("0.00");
 
 
-    public Results(GridPane resultsSection){
+    public Results(GridPane resultsSection) {
         this.resultsSection = resultsSection;
     }
 

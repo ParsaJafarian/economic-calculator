@@ -12,15 +12,13 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-import java.io.IOException;
-
 public class Main extends Application {
     /**
      * @param stage The stage to be displayed
      * @throws IOException If the FXML file cannot be loaded
-     *
      */
     public static Scene scene;
+
     @Override
     public void start(@NotNull Stage stage) throws IOException {
         /*
@@ -32,6 +30,7 @@ public class Main extends Application {
         stage.setScene(scene);
         stage.show();
     }
+
     public static void captureScreenshot() throws AWTException, IOException {
         // Create a Robot
         Robot robot = new Robot();

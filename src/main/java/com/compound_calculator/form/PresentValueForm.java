@@ -1,4 +1,5 @@
 package com.compound_calculator.form;
+
 import com.compound_calculator.Row;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -9,17 +10,17 @@ public class PresentValueForm extends Form {
     private final ComboBox<String> paymentIntervalBox;
     private double presentValue, lostToInflation;
 
-    public PresentValueForm(){
+    public PresentValueForm() {
         super();
         //instantiating all the labels and fields that comprise this form
-        Label paymentAmountLbl= new Label("Payment amount ($)");
-        paymentAmountField= new TextField();
-        Label interestRateLbl= new Label("Inflation rate (%)");
-        interestRateField= new TextField();
-        Label nbYearsLbl= new Label("Number of years");
-        nbYearsField= new TextField();
-        Label paymentIntervalLbl= new Label("Payment interval");
-        paymentIntervalBox= new ComboBox<>();
+        Label paymentAmountLbl = new Label("Payment amount ($)");
+        paymentAmountField = new TextField();
+        Label interestRateLbl = new Label("Inflation rate (%)");
+        interestRateField = new TextField();
+        Label nbYearsLbl = new Label("Number of years");
+        nbYearsField = new TextField();
+        Label paymentIntervalLbl = new Label("Payment interval");
+        paymentIntervalBox = new ComboBox<>();
         paymentIntervalBox.getItems().addAll("Yearly", "Biannually", "Quarterly", "Monthly");
         paymentIntervalBox.getSelectionModel().selectFirst();
         //adding them to the GridPane that this form extends
@@ -39,19 +40,22 @@ public class PresentValueForm extends Form {
         makeTextFieldsNumeric();
     }
 
-    public void clear(){
+
+    public void clear() {
         paymentIntervalBox.getSelectionModel().selectFirst();
         paymentAmountField.setText("");
         interestRateField.setText("");
         nbYearsField.setText("");
     }
+
     @Override
-    public boolean validFields(){
+    public boolean validFields() {
         //all fields must be filled out to allow for the calculation
         return !paymentAmountField.getText().isEmpty() && !interestRateField.getText().isEmpty() && !nbYearsField.getText().isEmpty();
     }
+
     @Override
-    public ObservableList<Row> getData(){
+    public ObservableList<Row> getData() {
         //If the input is invalid, display an error message and stop the calculation process
         if (!this.validFields()) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -70,7 +74,7 @@ public class PresentValueForm extends Form {
             case "Yearly" -> 1;
             default -> 0;
         };
-        int nbYears= (int)Double.parseDouble(nbYearsField.getText());
+        int nbYears = (int) Double.parseDouble(nbYearsField.getText());
         double annuityPayment = Double.parseDouble(paymentAmountField.getText());
         double yieldToMaturity = Double.parseDouble(interestRateField.getText());
 
@@ -80,7 +84,8 @@ public class PresentValueForm extends Form {
 
         return data;
     }
-    private void computePresentValueAnnuity(ObservableList<Row> data, int n, double pMT, double rPercent, double interval){
+
+    private void computePresentValueAnnuity(ObservableList<Row> data, int n, double pMT, double rPercent, double interval) {
         /*
             this is the formula:
 
@@ -92,22 +97,23 @@ public class PresentValueForm extends Form {
             n= number of periods in which the payments will be made
 
          */
-        double rDecimal= rPercent/100.0d;
+        double rDecimal = rPercent / 100.0d;
         //total without inflation is what the money would be worth in a world where inflation is 0.0%
-        double totalWithOutInflation= pMT*n*(1.0/interval);
+        double totalWithOutInflation = pMT * n * (1.0 / interval);
 
-        double totalValue= 0;
-        for(float i=0; i<= n; i+=interval) {
-            double presentValue= pMT / Math.pow(1+rDecimal, i);
-            totalValue+= presentValue;
-            data.add(new Row((int)i, presentValue));
+        double totalValue = 0;
+        for (float i = 0; i <= n; i += interval) {
+            double presentValue = pMT / Math.pow(1 + rDecimal, i);
+            totalValue += presentValue;
+            data.add(new Row((int) i, presentValue));
         }
-        this.presentValue= totalValue;
+        this.presentValue = totalValue;
         //money lost to inflation is the difference between the theoretical capital from the world with 0 inflation and the real world
         //in which the inflation is given in the form
-        this.lostToInflation= totalWithOutInflation-totalValue;
+        this.lostToInflation = totalWithOutInflation - totalValue;
     }
-    public double getPresentValue(){
+
+    public double getPresentValue() {
         return this.presentValue;
     }
 
@@ -128,7 +134,7 @@ public class PresentValueForm extends Form {
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         //for the culture!
         return "presentValueForm!";
     }

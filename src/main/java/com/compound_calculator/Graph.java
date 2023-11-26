@@ -9,7 +9,7 @@ import javafx.scene.layout.VBox;
 
 public class Graph {
 
-    public static void clear(VBox graphContainer){
+    public static void clear(VBox graphContainer) {
         //Creates and adds new Line Chart with chosen data to appropriate VBox container named "graphContainer"
         if (!graphContainer.getChildren().isEmpty()) {
             //If a graph was already generated, and the user wishes to generate a new one,

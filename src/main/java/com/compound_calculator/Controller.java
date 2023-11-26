@@ -92,12 +92,9 @@ public class Controller {
 
     @FXML
     private void displayMoreInformation() {
-        if (this.form instanceof CompoundForm)
-            CompoundForm.displayInformationAlert();
-        else if (this.form instanceof InflationForm)
-            InflationForm.displayInformationAlert();
-        else if (this.form instanceof PresentValueForm)
-            PresentValueForm.displayInformationAlert();
+        if (this.form instanceof CompoundForm) CompoundForm.displayInformationAlert();
+        else if (this.form instanceof InflationForm) InflationForm.displayInformationAlert();
+        else if (this.form instanceof PresentValueForm) PresentValueForm.displayInformationAlert();
     }
 
     /**

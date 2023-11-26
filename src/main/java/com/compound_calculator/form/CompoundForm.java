@@ -22,6 +22,7 @@ public class CompoundForm extends Form {
 
     public CompoundForm() {
         super();
+        //initiating all the labels and fields that comprise this form
         initInvLbl= new Label("Initial investment ($)");
         initInvField= new TextField();
 
@@ -46,7 +47,7 @@ public class CompoundForm extends Form {
         yearsSlider.setOnMouseReleased(e ->{
             yearsSliderLbl.setText((int)yearsSlider.getValue()+"");
         });
-
+        //adding all labels and fields to the GridPane that this form extends
         this.add(initInvLbl, 0, 0);
         this.add(initInvField, 1, 0);
         this.add(yearlyAdditionLbl, 0, 1);
@@ -58,7 +59,7 @@ public class CompoundForm extends Form {
         this.add(yearsLbl, 0, 4);
         this.add(yearsSlider, 1, 4);
         this.add(yearsSliderLbl, 2, 4);
-
+        //adding the fields to the fields arrayList to make them numeric
         fields.add(initInvField);
         fields.add(yearlyAdditionField);
         fields.add(interestField);
@@ -69,6 +70,9 @@ public class CompoundForm extends Form {
     }
     @Override
     public void clear() {
+        //resetting all the textFields to "" and the slider to 0
+        //also, setting the frequency selection comboBox to the first value
+        //(annually)
         yearsSlider.setValue(0);
         freqBox.getSelectionModel().selectFirst();
         fields.forEach(n -> {
@@ -126,6 +130,7 @@ public class CompoundForm extends Form {
     }
 
     private void limitInterestField() {
+        //this function makes sure that the interest is not above 20%
         interestField.textProperty().addListener((observable, oldValue, newValue) -> {
             try{
                 if (!newValue.isEmpty() && Double.parseDouble(newValue) > 20)
@@ -137,6 +142,7 @@ public class CompoundForm extends Form {
         });
     }
     private void limitFields(){
+        //this function makes sure that the original investment and the yearly addition do not exceed 1'000'000
         initInvField.textProperty().addListener((observable, oldValue, newValue)->{
             if (!newValue.isEmpty() && Double.parseDouble(newValue) > 1000000) initInvField.setText(oldValue);
         });
@@ -148,6 +154,8 @@ public class CompoundForm extends Form {
 
     @Override
     public String toString(){
+        //making sure to add a 'toString()' to respect convention, because this
+        //class will be instantiated
         return "compoundForm!";
     }
 

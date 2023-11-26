@@ -15,6 +15,7 @@ public class InflationForm extends Form{
     private double inflRate, yearlyInflRate;
 
     public static void clearForm(){
+        //setting each TextField to ""
         currentField.setText("");
         prevField.setText("");
         currentYearField.setText("");
@@ -22,6 +23,7 @@ public class InflationForm extends Form{
     }
     public InflationForm(){
         super();
+        //instantiating all the labels and fields that comprise this form
         currentCPILbl= new Label("Current consumer price index (CPI)");
         prevCPILbl = new Label("Previous CPI");
         currentField= new TextField();
@@ -30,7 +32,7 @@ public class InflationForm extends Form{
         prevYear= new Label("Previous year");
         currentYearField= new TextField("2023");
         prevYearField= new TextField();
-
+        //adding them to the GridPane which this form extends
         this.add(currentCPILbl, 0, 0);
         this.add(currentField, 1, 0);
         this.add(prevCPILbl, 0, 1);
@@ -39,7 +41,7 @@ public class InflationForm extends Form{
         this.add(currentYearField, 1, 2);
         this.add(prevYear, 0, 3);
         this.add(prevYearField, 1, 3);
-
+        //adding the textFields to fields to set them to be numeric
         fields.add(currentField);
         fields.add(prevField);
         fields.add(currentYearField);
@@ -73,19 +75,23 @@ public class InflationForm extends Form{
     }
     @Override
     public boolean validFields(){
+        //if any of the required fields are empty, the calculation cannot be made, and we return false
         return !currentField.getText().isEmpty() && !prevField.getText().isEmpty();
     }
 
     private double computeInflationRate(double currentCPI, double previousCPI){
+        //computing the inflation (in %)
         return (currentCPI-previousCPI)/previousCPI *100.0f;
     }
     private double computeYearlyInflationRate(double currentCPI, double previousCPI, double currentYear, double previousYear){
+        //computing the yearly inflation, by dividing the inflation by the amount of years
         double inflationRate= computeInflationRate(currentCPI, previousCPI);
         double deltaYears= currentYear-previousYear;
         return inflationRate / deltaYears;
     }
     @Override
     public String toString(){
+        //For the culture! For Ronnie! For glory!
         return "inflationForm!";
     }
     public double getInflRate(){

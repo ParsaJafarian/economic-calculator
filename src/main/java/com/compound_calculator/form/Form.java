@@ -20,16 +20,11 @@ import org.jetbrains.annotations.NotNull;
 import java.util.*;
 
 public class Form extends GridPane {
-
-    //NB: current type
-    //0 -> compound
-    //1 -> present value
-    //2 -> inflation
-    public static int currentType= 0;
     public ArrayList<Node> fields;
 
     public Form(){
-        fields= new ArrayList<Node>();
+        fields= new ArrayList<>();
+        //making the form have pretty alignment and spacing
         this.setAlignment(Pos.CENTER);
         this.setPadding(new Insets(20.0d));
         this.setVgap(10.0d);
@@ -38,6 +33,7 @@ public class Form extends GridPane {
 
     }
     public void clear(){
+        //basic function to set all the fields to ""
         for(Node n: this.fields){
             if(n instanceof TextField) ((TextField) n).setText("");
         }
@@ -80,6 +76,7 @@ public class Form extends GridPane {
     }
     @Override
     public String toString(){
+        //for the culture!
         return "form!";
     }
 }

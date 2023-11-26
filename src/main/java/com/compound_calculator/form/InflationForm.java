@@ -8,11 +8,10 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
 public class InflationForm extends Form{
-    private static Label currentCPILbl, prevCPILbl, currentYear, prevYear;
-    private static TextField currentField, prevField, currentYearField, prevYearField;
+    private final TextField currentField, prevField, currentYearField, prevYearField;
     private double inflRate, yearlyInflRate;
 
-    public static void clearForm(){
+    public void clear(){
         currentField.setText("");
         prevField.setText("");
         currentYearField.setText("");
@@ -20,12 +19,12 @@ public class InflationForm extends Form{
     }
     public InflationForm(){
         super();
-        currentCPILbl= new Label("Current consumer price index (CPI)");
-        prevCPILbl = new Label("Previous CPI");
+        Label currentCPILbl= new Label("Current consumer price index (CPI)");
+        Label prevCPILbl = new Label("Previous CPI");
         currentField= new TextField();
         prevField = new TextField();
-        currentYear= new Label("Current year");
-        prevYear= new Label("Previous year");
+        Label currentYear= new Label("Current year");
+        Label prevYear= new Label("Previous year");
         currentYearField= new TextField("2023");
         prevYearField= new TextField();
 
@@ -88,6 +87,16 @@ public class InflationForm extends Form{
     }
     public double getInflRate(){
         return this.inflRate;
+    }
+
+    public static void displayInformationAlert(){
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Inflation");
+        alert.setHeaderText("How it works");
+        alert.setContentText("Inflation is the continuous increase in prices, diminishing purchasing power," +
+                " influenced by factors such as demand spikes, supply disruptions, or excess money circulation." +
+                " To learn more, visit https://www.imf.org/en/Publications/fandd/issues/Series/Back-to-Basics/Inflation");
+        alert.showAndWait();
     }
 
     public double getYearlyInflRate() {

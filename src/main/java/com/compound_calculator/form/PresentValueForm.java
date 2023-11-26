@@ -5,20 +5,19 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.*;
 
 public class PresentValueForm extends Form {
-    private static Label paymentAmountLbl, interestRateLbl, nbYearsLbl, paymentIntervalLbl;
-    private static TextField paymentAmountField, interestRateField, nbYearsField;
-    private static ComboBox<String> paymentIntervalBox;
+    private final TextField paymentAmountField, interestRateField, nbYearsField;
+    private final ComboBox<String> paymentIntervalBox;
     private double presentValue, lostToInflation;
 
     public PresentValueForm(){
         super();
-        paymentAmountLbl= new Label("Payment amount ($)");
+        Label paymentAmountLbl= new Label("Payment amount ($)");
         paymentAmountField= new TextField();
-        interestRateLbl= new Label("Inflation rate (%)");
+        Label interestRateLbl= new Label("Inflation rate (%)");
         interestRateField= new TextField();
-        nbYearsLbl= new Label("Number of years");
+        Label nbYearsLbl= new Label("Number of years");
         nbYearsField= new TextField();
-        paymentIntervalLbl= new Label("Payment interval");
+        Label paymentIntervalLbl= new Label("Payment interval");
         paymentIntervalBox= new ComboBox<>();
         paymentIntervalBox.getItems().addAll("Yearly", "Biannually", "Quarterly", "Monthly");
         paymentIntervalBox.getSelectionModel().selectFirst();
@@ -37,7 +36,7 @@ public class PresentValueForm extends Form {
         makeTextFieldsNumeric();
     }
 
-    public static void clearForm(){
+    public void clear(){
         paymentIntervalBox.getSelectionModel().selectFirst();
         paymentAmountField.setText("");
         interestRateField.setText("");
@@ -109,6 +108,18 @@ public class PresentValueForm extends Form {
 
     public double getLostToInflation() {
         return lostToInflation;
+    }
+
+    public static void displayInformationAlert() {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Present Value");
+        alert.setHeaderText("How it works");
+        alert.setContentText("Present value is an economic concept that reflects the current worth of a sum of" +
+                " money or a series of future cash flows, taking into account the time value of money." +
+                " It recognizes that a given amount of money today is more valuable than the same" +
+                " amount in the future due to the potential for earning returns or interest." +
+                " To learn more, visit https://www.investopedia.com/terms/p/presentvalue.asp");
+        alert.showAndWait();
     }
 
     @Override

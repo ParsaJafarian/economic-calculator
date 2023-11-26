@@ -1,11 +1,27 @@
 package com.compound_calculator;
 
 import javafx.collections.ObservableList;
+import javafx.scene.Node;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
+import javafx.scene.layout.VBox;
 
 public class Graph {
+
+    public static void clear(VBox graphContainer){
+        //Creates and adds new Line Chart with chosen data to appropriate VBox container named "graphContainer"
+        if (!graphContainer.getChildren().isEmpty()) {
+            //If a graph was already generated, and the user wishes to generate a new one,
+            //everything is removed form graphContainer to allow a new graph to be added.
+            //Since there can only be one chart at a time, we only need to remove element 0 form the container.
+            //We set it to be invisible first, because otherwise the graphics don't update, and it stays on the screen
+            //despite having been deleted.
+            Node n = graphContainer.getChildren().get(0);
+            n.setVisible(false);
+            graphContainer.getChildren().remove(n);
+        }
+    }
 
     public static LineChart<Number, Number> getLineChart() {
         NumberAxis xAxis = new NumberAxis();

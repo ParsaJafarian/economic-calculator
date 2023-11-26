@@ -6,29 +6,29 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.*;
 
 public class CompoundForm extends Form {
-    private Label freqLbl, interestLbl, initInvLbl, yearlyAdditionLbl, yearsLbl, yearsSliderLbl;
-    private ComboBox<String> freqBox;
-    private TextField interestField, initInvField, yearlyAdditionField;
-    private Slider yearsSlider;
+    private final  Label yearsSliderLbl;
+    private final ComboBox<String> freqBox;
+    private final TextField interestField, initInvField, yearlyAdditionField;
+    private final Slider yearsSlider;
 
     public CompoundForm() {
         super();
-        initInvLbl= new Label("Initial investment ($)");
+        Label initInvLbl= new Label("Initial investment ($)");
         initInvField= new TextField();
 
-        yearlyAdditionLbl= new Label("Yearly addition ($)");
+        Label yearlyAdditionLbl= new Label("Yearly addition ($)");
         yearlyAdditionField= new TextField();
         limitFields();
-        interestLbl= new Label("Interest Rate (%)");
+        Label interestLbl= new Label("Interest Rate (%)");
         interestField= new TextField();
         limitInterestField();
 
-        freqLbl= new Label("Compound frequency");
+        Label freqLbl= new Label("Compound frequency");
         freqBox= new ComboBox<>();
         freqBox.getItems().addAll("Yearly", "Biannually", "Quarterly", "Monthly");
         freqBox.getSelectionModel().selectFirst();
 
-        yearsLbl= new Label("Number of years");
+        Label yearsLbl= new Label("Number of years");
 
         yearsSlider= new Slider();
         yearsSliderLbl= new Label("0");
@@ -62,6 +62,7 @@ public class CompoundForm extends Form {
     @Override
     public void clear() {
         yearsSlider.setValue(0);
+        yearsSliderLbl.setText("0");
         freqBox.getSelectionModel().selectFirst();
         fields.forEach(n -> {
             if (n instanceof TextField textField)
@@ -133,7 +134,17 @@ public class CompoundForm extends Form {
         yearlyAdditionField.textProperty().addListener((observable, oldValue, newValue)->{
             if (!newValue.isEmpty() && Double.parseDouble(newValue) > 1000000) yearlyAdditionField.setText(oldValue);
         });
+    }
 
+    public static void displayInformationAlert(){
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Compound Interest");
+        alert.setHeaderText("How it works");
+        alert.setContentText("Compound interest involves earning or paying interest on" +
+                " both the initial amount and the previously earned interest, resulting" +
+                " in the exponential growth of the total amount over time. To learn more," +
+                " visit https://en.wikipedia.org/wiki/Compound_interest");
+        alert.showAndWait();
     }
 
     @Override

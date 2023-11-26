@@ -1,16 +1,15 @@
 package com.compound_calculator;
 
-import com.compound_calculator.form.*;
+import com.compound_calculator.form.CompoundForm;
+import com.compound_calculator.form.Form;
+import com.compound_calculator.form.InflationForm;
+import com.compound_calculator.form.PresentValueForm;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.chart.LineChart;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
-import org.jetbrains.annotations.NotNull;
-
-import java.text.DecimalFormat;
 
 /**
  * Controller class for the main view
@@ -38,8 +37,7 @@ public class Controller {
     private Form form;
     @FXML
     private ToggleButton compoundTglBtn, presentValueTglBtn, inflationTglBtn;
-
-    private static final DecimalFormat dollarFormat = new DecimalFormat("0.00");
+    private Results results;
 
     /**
      * Initialize the view by adding the options to the frequency combo box,
@@ -49,12 +47,10 @@ public class Controller {
     @FXML
     public void initialize() {
         table = new Table(tableView, pagination);
-
         lineChart = Graph.getLineChart();
-        addForm(1);
-        //form = new CompoundForm(formGridPane);
         MenuBarUtils.initializeMenuBar(menuBar, table);
-
+        addForm(new CompoundForm());
+        results = new Results(resultsSection);
 
         // Add listeners to the buttons
         calcBtn.setOnAction(e -> calculate());
@@ -64,36 +60,22 @@ public class Controller {
         presentValueTglBtn.setToggleGroup(tgg);
         inflationTglBtn.setToggleGroup(tgg);
         //Add functionality to toggleButtons
-        compoundTglBtn.setOnAction(e -> changeFormType(0));
-        presentValueTglBtn.setOnAction(e -> changeFormType(1));
-        inflationTglBtn.setOnAction(e -> changeFormType(2));
+        compoundTglBtn.setOnAction(e -> changeFormType(new CompoundForm()));
+        presentValueTglBtn.setOnAction(e -> changeFormType(new PresentValueForm()));
+        inflationTglBtn.setOnAction(e -> changeFormType(new InflationForm()));
     }
 
-    private void addForm(int type) {
-        Form f;
-        if (type == 0) {
-            f = new CompoundForm();
-            formContainer.getChildren().add(f);
-        } else if (type == 1) {
-            f = new PresentValueForm();
-            formContainer.getChildren().add(new PresentValueForm());
-        } else {
-            f = new InflationForm();
-            System.out.println("initiating inflation form");
-            formContainer.getChildren().add(new InflationForm());
-        }
-        this.form = f;
+    private void addForm(Form form) {
+        formContainer.getChildren().add(form);
+        this.form = form;
     }
 
 
-    private void changeFormType(int formType) {
+    private void changeFormType(Form form) {
         if (formContainer.getChildren().size() < 2) return;
         clear();
         formContainer.getChildren().remove(1);
-        addForm(formType);
-        for (Node n : formContainer.getChildren()) {
-            System.out.println(n.toString());
-        }
+        addForm(form);
         resultsSection.setVisible(false);
     }
 
@@ -102,128 +84,47 @@ public class Controller {
      * This method is called when the clear button is pressed.
      */
     public void clear() {
-        //Set table to invisible and select the first option in the frequency combo box
         table.clear();
-        if (!graphContainer.getChildren().isEmpty()) {
-            Node n = graphContainer.getChildren().get(0);
-            n.setVisible(false);
-            graphContainer.getChildren().remove(n);
-        }
-        resultsSection.setVisible(false);
-        if (form instanceof CompoundForm) {
-            form.clear();
-        } else if (form instanceof InflationForm) {
-            InflationForm.clearForm();
-        } else if (form instanceof PresentValueForm) {
-            PresentValueForm.clearForm();
-        }
-
-
+        Graph.clear(graphContainer);
+        results.clear();
+        form.clear();
     }
 
     @FXML
     private void displayMoreInformation() {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        if (this.form instanceof CompoundForm) {
-            alert.setTitle("Compound Interest");
-            alert.setHeaderText("How it works");
-            alert.setContentText("Compound interest involves earning or paying interest on" +
-                    " both the initial amount and the previously earned interest, resulting" +
-                    " in the exponential growth of the total amount over time. To learn more," +
-                    " visit https://en.wikipedia.org/wiki/Compound_interest");
-
-        } else if (this.form instanceof InflationForm) {
-            alert.setTitle("Inflation");
-            alert.setHeaderText("How it works");
-            alert.setContentText("Inflation is the continuous increase in prices, diminishing purchasing power," +
-                    " influenced by factors such as demand spikes, supply disruptions, or excess money circulation." +
-                    " To learn more, visit https://www.imf.org/en/Publications/fandd/issues/Series/Back-to-Basics/Inflation");
-        } else if (this.form instanceof PresentValueForm) {
-            alert.setTitle("Present Value");
-            alert.setHeaderText("How it works");
-            alert.setContentText("Present value is an economic concept that reflects the current worth of a sum of" +
-                    " money or a series of future cash flows, taking into account the time value of money." +
-                    " It recognizes that a given amount of money today is more valuable than the same" +
-                    " amount in the future due to the potential for earning returns or interest." +
-                    " To learn more, visit https://www.investopedia.com/terms/p/presentvalue.asp");
-        }
-        alert.showAndWait();
-    }
-
-    private void setCpdIntrResultsSection(@NotNull ObservableList<Row> data, double yearlyAddition) {
-        //Calculate the total interest and capital
-        final double initInv = data.get(0).getCapital();
-        final int years = data.size() - 1;
-        final double totCapital = data.get(data.size() - 1).getCapital();
-        final double totInterest = totCapital - initInv - yearlyAddition * years;
-
-        resultsSection.add(new Label("Total value of your investment"), 0, 0);
-        resultsSection.add(new Label("Total interest earned"), 0, 1);
-        resultsSection.add(new Label(dollarFormat.format(totCapital)), 1, 0);
-        resultsSection.add(new Label(dollarFormat.format(totInterest)), 1, 1);
-
-        resultsSection.setVisible(true);
-    }
-
-    private void setInflResultsSection(String infl, String yInfl) {
-        resultsSection.add(new Label("Inflation rate"), 0, 0);
-        resultsSection.add(new Label("Yearly inflation rate"), 0, 1);
-        resultsSection.add(new Label(infl + "%"), 1, 0);
-        resultsSection.add(new Label(yInfl + "%"), 1, 1);
-        resultsSection.setVisible(true);
-    }
-
-    private void setPresValResultsSection(String presentValue, String lostToInflation) {
-        resultsSection.add(new Label("Present value"), 0, 0);
-        resultsSection.add(new Label(presentValue), 1, 0);
-        resultsSection.add(new Label("Lost to inflation"), 0, 1);
-        resultsSection.add(new Label(lostToInflation), 1, 1);
-        resultsSection.setVisible(true);
-    }
-
-    private void clearResultsSection() {
-        for (Node n : resultsSection.getChildren()) {
-            n.setVisible(false);
-        }
+        if (this.form instanceof CompoundForm)
+            CompoundForm.displayInformationAlert();
+        else if (this.form instanceof InflationForm)
+            InflationForm.displayInformationAlert();
+        else if (this.form instanceof PresentValueForm)
+            PresentValueForm.displayInformationAlert();
     }
 
     /**
      * Calculate the compound interest and display the results in the table.
      */
     public void calculate() {
-        clearResultsSection();
+        results.clear();
         System.out.println(this.form.getClass());
         ObservableList<Row> data = form.getData();
 
         if (data == null) return;
         table.setData(data);
-
-        //Creates and adds new Line Chart with chosen data to appropriate VBox container named "graphContainer"
-        if (!graphContainer.getChildren().isEmpty()) {
-            //If a graph was already generated, and the user wishes to generate a new one,
-            //everything is removed form graphContainer to allow a new graph to be added.
-            //Since there can only be one chart at a time, we only need to remove element 0 form the container.
-            //We set it to be invisible first, because otherwise the graphics don't update, and it stays on the screen
-            //despite having been deleted.
-            Node n = graphContainer.getChildren().get(0);
-            n.setVisible(false);
-            graphContainer.getChildren().remove(n);
-        }
+        Graph.clear(graphContainer);
 
         if (this.form instanceof CompoundForm) {
             CompoundForm f = (CompoundForm) form;
-            setCpdIntrResultsSection(data, f.getYearlyAddition());
+            results.setToCpdIntr(data, f.getYearlyAddition());
             addLineChart(data, "Compound Interest");
         } else if (this.form instanceof InflationForm) {
             InflationForm infF = (InflationForm) form;
             addLineChart(data, "Inflation");
-            setInflResultsSection(dollarFormat.format(infF.getInflRate()), dollarFormat.format(infF.getYearlyInflRate()));
+            results.setToInfl(infF.getInflRate(), infF.getYearlyInflRate());
         } else if (this.form instanceof PresentValueForm) {
             PresentValueForm pVF = (PresentValueForm) form;
             addLineChart(data, "Present Value");
-            setPresValResultsSection(dollarFormat.format(pVF.getPresentValue()), dollarFormat.format(pVF.getLostToInflation()));
+            results.setToPresVal(pVF.getPresentValue(), pVF.getLostToInflation());
         }
-
     }
 
     private void addLineChart(ObservableList<Row> data, String title) {

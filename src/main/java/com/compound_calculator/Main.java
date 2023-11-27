@@ -13,12 +13,12 @@ import java.io.File;
 import java.io.IOException;
 
 public class Main extends Application {
+
+    public static Scene scene;
     /**
      * @param stage The stage to be displayed
      * @throws IOException If the FXML file cannot be loaded
      */
-    public static Scene scene;
-
     @Override
     public void start(@NotNull Stage stage) throws IOException {
         //pulls the file index.fxml to set the scene

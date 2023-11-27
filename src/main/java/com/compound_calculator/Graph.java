@@ -9,6 +9,11 @@ import javafx.scene.layout.VBox;
 
 public class Graph {
 
+    /**
+     * this function allows to remove the graph from the container (VBox)
+     * this is done when, for example, new data is entered, or when the user clears the form
+     * @param graphContainer
+     */
     public static void clear(VBox graphContainer) {
         //Creates and adds new Line Chart with chosen data to appropriate VBox container named "graphContainer"
         if (!graphContainer.getChildren().isEmpty()) {
@@ -23,6 +28,9 @@ public class Graph {
         }
     }
 
+    /**
+     * @return virgin LineChart
+     */
     public static LineChart<Number, Number> getLineChart() {
         NumberAxis xAxis = new NumberAxis();
         xAxis.setLabel("Time (years)");
@@ -31,6 +39,11 @@ public class Graph {
         return new LineChart<>(xAxis, yAxis);
     }
 
+    /**
+     * @param data the data to be used to generate the graph
+     * @param title the title of the graph
+     * @return LineChart based on the data provided
+     */
     public static LineChart<Number, Number> getLineChart(ObservableList<Row> data, String title) {
         // Create the x and y axes
         NumberAxis xAxis = new NumberAxis();

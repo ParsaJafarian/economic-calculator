@@ -26,8 +26,8 @@ public class Results {
 
         resultsSection.add(new Label("Total value of your investment"), 0, 0);
         resultsSection.add(new Label("Total interest earned"), 0, 1);
-        resultsSection.add(new Label(dollarFormat.format(totCapital)), 1, 0);
-        resultsSection.add(new Label(dollarFormat.format(totInterest)), 1, 1);
+        resultsSection.add(new Label("$"+dollarFormat.format(totCapital)), 1, 0);
+        resultsSection.add(new Label("$"+dollarFormat.format(totInterest)), 1, 1);
 
         resultsSection.setVisible(true);
     }
@@ -42,9 +42,9 @@ public class Results {
 
     public void setToPresVal(double presentValue, double lostToInflation) {
         resultsSection.add(new Label("Present value"), 0, 0);
-        resultsSection.add(new Label(dollarFormat.format(presentValue)), 1, 0);
+        resultsSection.add(new Label("$"+dollarFormat.format(presentValue)), 1, 0);
         resultsSection.add(new Label("Lost to inflation"), 0, 1);
-        resultsSection.add(new Label(dollarFormat.format(lostToInflation)), 1, 1);
+        resultsSection.add(new Label("$"+dollarFormat.format(lostToInflation)), 1, 1);
         resultsSection.setVisible(true);
     }
 

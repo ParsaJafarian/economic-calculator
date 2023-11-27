@@ -10,6 +10,11 @@ public class PresentValueForm extends Form {
     private final ComboBox<String> paymentIntervalBox;
     private double presentValue, lostToInflation;
 
+    /**
+     * <h1>Present Value Form</h1>
+     * <h2>This class extends Form() and allows to specify all the necessary fields that are required to make the 'present value' form</h2>
+     * <h3>These fields include: payment amount, inflation rate, number of years, payment interval</h3>
+     */
     public PresentValueForm() {
         super();
         //instantiating all the labels and fields that comprise this form
@@ -71,6 +76,13 @@ public class PresentValueForm extends Form {
         return computePresentValueAnnuity(nbYears, annuityPayment, yieldToMaturity);
     }
 
+    /**
+     * <h1>The purpose of this function is to compute the present value of annuity</h1>
+     * <h2>See the comment below to understand the inner-workings of how the math works</h2>
+     * @param n number of years
+     * @param pMT payment amount per year
+     * @param rPercent interest rate in percent
+     */
     private ObservableList<Row> computePresentValueAnnuity(int n, double pMT, double rPercent) {
         /*
             this is the formula:

@@ -2,10 +2,19 @@ package com.compound_calculator;
 
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
+import javafx.scene.SnapshotParameters;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
+import javafx.scene.image.PixelWriter;
+import javafx.scene.image.PixelWriter;
+import javafx.scene.image.WritableImage;
 import javafx.scene.layout.VBox;
+
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
 public class Graph {
 
@@ -36,12 +45,15 @@ public class Graph {
         xAxis.setLabel("Time (years)");
         NumberAxis yAxis = new NumberAxis();
         yAxis.setLabel("Capital ($)");
+        LineChart<Number, Number> lineChart= new LineChart<>(xAxis, yAxis);
+        lineChart.setOnMouseClicked(e-> {
+            System.out.println("HI");
+        });
         return new LineChart<>(xAxis, yAxis);
     }
-
     /**
-     * @param data
-     * @param title
+     * @param data the data to be used to generate the graph
+     * @param title the title of the graph
      * @return LineChart based on the data provided
      */
     public static LineChart<Number, Number> getLineChart(ObservableList<Row> data, String title) {
@@ -69,6 +81,9 @@ public class Graph {
 
         // Add the series to the chart
         lineChart.getData().add(series);
+        lineChart.setOnMouseClicked(e-> {
+            System.out.println("HI");
+        });
         return lineChart;
     }
 }

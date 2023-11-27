@@ -111,11 +111,11 @@ public class CompoundForm extends Form {
 
     /**
      * <h1>The purpose of this function is to return the capital after a given amount of years, given the parameters of the interest rate at the bank</h1>
-     * @param initInv
-     * @param years
-     * @param interest
-     * @param freq
-     * @param yearlyAddition
+     * @param initInv initial investment
+     * @param years number of years
+     * @param interest interest rate
+     * @param freq compound frequency
+     * @param yearlyAddition yearly addition
      * @return Observable list of rows to add to the table
      */
     static ObservableList<Row> computeCompoundInterest(double initInv, int years, double interest, int freq, double yearlyAddition){

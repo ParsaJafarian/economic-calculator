@@ -76,7 +76,6 @@ public class InflationForm extends Form {
         this.inflRate = computeInflationRate(currentCPI, previousCPI);
         this.yearlyInflRate = computeYearlyInflationRate(currentCPI, previousCPI, currentYear, prevYear);
         return data;
-
     }
 
     @Override
@@ -87,8 +86,8 @@ public class InflationForm extends Form {
 
     /**
      * <h1>the purpose of this function is to compute the inflation rate<h1/>
-     * @param currentCPI
-     * @param previousCPI
+     * @param currentCPI current consumer price index
+     * @param previousCPI previous consumer price index
      * @return inflation rate
      *
      */
@@ -99,16 +98,14 @@ public class InflationForm extends Form {
 
     /**
      *<h1>the purpose of this function is to compute the yearly inflation rate</h1>
-     * @param currentCPI
-     * @param previousCPI
-     * @param currentYear
-     * @param previousYear
+     * @param currentCPI current consumer price index
+     * @param previousCPI previous consumer price index
+     * @param currentYear current year
+     * @param previousYear previous year
      * @return yearly inflation rate
      */
     static double computeYearlyInflationRate(double currentCPI, double previousCPI, double currentYear, double previousYear) {
-
         //computing the yearly inflation, by dividing the inflation by the amount of years
-
         double inflationRate = computeInflationRate(currentCPI, previousCPI);
         double deltaYears = currentYear - previousYear;
         return inflationRate / deltaYears;
@@ -116,7 +113,6 @@ public class InflationForm extends Form {
 
     @Override
     public String toString() {
-        //For the culture! For Ronnie! For glory!
         return "inflationForm!";
     }
 

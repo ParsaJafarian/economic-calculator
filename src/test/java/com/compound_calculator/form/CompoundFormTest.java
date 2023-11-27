@@ -6,15 +6,17 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+/**
+ * Compound Data is compared to
+ * <br>
+ * <a href="https://www.getsmarteraboutmoney.ca/calculators/compound-interest-calculator/">
+ * Get Smarter About Money Calculator
+ * </a>
+ * Moreover, the data size is compared to the number of years.
+ */
+
 public class CompoundFormTest {
 
-    /**
-     * Compound Data is compared to
-     * <br>
-     * <a href="https://www.getsmarteraboutmoney.ca/calculators/compound-interest-calculator/">
-     * Get Smarter About Money Calculator
-     * </a>
-     */
     @Test
     void computeCompoundInterestTest1() {
         ObservableList<Row> data = CompoundForm.computeCompoundInterest(2000, 20, 0.03, 1, 1000);

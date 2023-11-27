@@ -4,6 +4,9 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+/**
+ * Inflation Data is compared to calculations done by hand.
+ */
 public class InflationFormTest {
 
     @Test

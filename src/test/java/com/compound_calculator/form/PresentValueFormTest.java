@@ -7,18 +7,24 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+/**
+ * Present Value Data is compared to
+ * <a href="https://www.calculators.org/retirement/annuity.php">
+ * Retirement annuity calculator
+ * </a>
+ */
 public class PresentValueFormTest {
+    /**
+     * The present value of an annuity
+     */
     private double presentValue;
     private double lostToInflation;
 
 
     /**
+     * Extracted from PresentValueForm.java because it is private
      * Computes the present value of an annuity
      * It also computes the money lost to inflation
-     * Compared to
-     * <a href="https://www.calculators.org/retirement/annuity.php">
-     * Retirement annuity calculator
-     * </a>
      *
      * @param n        The number of years
      * @param pMT      The payment amount
@@ -30,11 +36,11 @@ public class PresentValueFormTest {
 
         double rDecimal = rPercent / 100.0d;
         //total without inflation is what the money would be worth in a world where inflation is 0.0%
-        double totalWithOutInflation = pMT * n ;
+        double totalWithOutInflation = pMT * n;
 
         double totalValue = 0;
         data.add(new Row(0, pMT));
-        for (int i = 1; i <= n; i ++) {
+        for (int i = 1; i <= n; i++) {
             double presentValue = pMT / Math.pow(1 + rDecimal, i);
             totalValue += presentValue;
             data.add(new Row(i, presentValue));
@@ -57,7 +63,7 @@ public class PresentValueFormTest {
 
     @Test
     void computePresentValueAnnuityTest2() {
-        final ObservableList<Row> data = computePresentValueAnnuity(20,10000,5);
+        final ObservableList<Row> data = computePresentValueAnnuity(20, 10000, 5);
         final double expectedPV = 124622.10;
         assertEquals(21, data.size(), "The size of the data is not equal to number of years");
         //Assert that the actual value is equal to the expected value within a margin of error of 1$

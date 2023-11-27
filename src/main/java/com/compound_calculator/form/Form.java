@@ -9,6 +9,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
@@ -76,13 +77,35 @@ public class Form extends GridPane {
         }));
     }
 
-    protected void limitFields(){
+    /**
+     * Limit the input of all text fields in the input section to 1 million.
+     */
+    protected void limitFields() {
         fields.forEach(n -> {
-            if(n instanceof TextField textField){
+            if (n instanceof TextField textField) {
                 textField.textProperty().addListener((observable, oldValue, newValue) -> {
-                    if (!newValue.isEmpty() && Double.parseDouble(newValue) > 1000000)
+                    try {
+                        if (!newValue.isEmpty() && Double.parseDouble(newValue) > 1000000) textField.setText(oldValue);
+                    } catch (Exception e) {
                         textField.setText(oldValue);
+                    }
                 });
+            }
+        });
+    }
+
+    /**
+     * Limit the input of a text field to 20%.
+     *
+     * @param field The text field to be limited to 20%
+     */
+    protected void limitPercentField(@NotNull TextField field) {
+        field.textProperty().addListener((observable, oldValue, newValue) -> {
+            try {
+                if (!newValue.isEmpty() && Double.parseDouble(newValue) > 20) field.setText(oldValue);
+            } catch (Exception e) {
+                //if the input is not numeric, set the text to the old value
+                field.setText(oldValue);
             }
         });
     }

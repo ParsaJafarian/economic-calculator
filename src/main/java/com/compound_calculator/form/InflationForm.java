@@ -126,9 +126,7 @@ public class InflationForm extends Form {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Inflation");
         alert.setHeaderText("How it works");
-        alert.setContentText("Inflation is the continuous increase in prices, diminishing purchasing power," +
-                " influenced by factors such as demand spikes, supply disruptions, or excess money circulation." +
-                " To learn more, visit https://www.imf.org/en/Publications/fandd/issues/Series/Back-to-Basics/Inflation");
+        alert.setContentText("Inflation is the continuous increase in prices, diminishing purchasing power," + " influenced by factors such as demand spikes, supply disruptions, or excess money circulation." + " To learn more, visit https://www.imf.org/en/Publications/fandd/issues/Series/Back-to-Basics/Inflation");
         alert.showAndWait();
     }
 

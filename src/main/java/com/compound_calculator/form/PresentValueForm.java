@@ -38,13 +38,14 @@ public class PresentValueForm extends Form {
         this.add(nbYearsLbl, 0, 2);
         this.add(yearsSlider, 1, 2);
         this.add(yearsSliderLbl, 2, 2);
-        //adding the textFiels to the fields arrayList to make the numeric
+        //adding the textFields to the fields arrayList to make the numeric
 
         fields.add(paymentAmountField);
         fields.add(interestRateField);
 
         makeTextFieldsNumeric();
         limitFields();
+        limitPercentField(interestRateField);
     }
 
 

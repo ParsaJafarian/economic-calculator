@@ -10,6 +10,12 @@ import org.jetbrains.annotations.NotNull;
 import java.awt.*;
 import java.io.IOException;
 
+/**
+ * Utility class for the menu bar.
+ * It initializes the menu bar and adds the event handlers to the menu items.
+ * Moreover, it interacts with the table to export the data to Excel.
+ * It also adds the event handler to the screenshot menu item.
+ */
 public class MenuBarUtils {
 
     private MenuBarUtils() {
@@ -35,10 +41,7 @@ public class MenuBarUtils {
         MenuItem about = new MenuItem("About");
         helpMenu.getItems().add(about);
 
-        export.setOnAction(e -> {
-            table.exportToExcel();
-
-        });
+        export.setOnAction(e -> table.exportToExcel());
         screenShot.setOnAction(e -> {
             try {
                 Main.captureScreenshot();

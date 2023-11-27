@@ -49,7 +49,7 @@ public class Controller {
         table = new Table(tableView, pagination);
         lineChart = Graph.getLineChart();
         MenuBarUtils.initializeMenuBar(menuBar, table);
-        addForm(new CompoundForm());
+        addForm(new PresentValueForm());
         results = new Results(resultsSection);
 
         // Add listeners to the buttons

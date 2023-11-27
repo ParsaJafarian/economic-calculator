@@ -46,9 +46,10 @@ public class Main extends Application {
             BufferedImage screenshot = robot.createScreenCapture(screenSize);
 
             // Define the region to capture (you can adjust these values)
-            int x = 100;
-            int y = 100;
-            int width = 500;
+            //only works for 1080p screen
+            int x = 980;
+            int y = 200;
+            int width = 470;
             int height = 300;
 
             // Create a rectangle representing the region to capture

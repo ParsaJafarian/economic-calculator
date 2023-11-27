@@ -6,8 +6,8 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.*;
 
 public class PresentValueForm extends Form {
-    private final TextField paymentAmountField, interestRateField, nbYearsField;
-    private final ComboBox<String> paymentIntervalBox;
+    private final TextField paymentAmountField, interestRateField;
+    private final Slider yearsSlider;
     private double presentValue, lostToInflation;
 
     /**
@@ -23,37 +23,40 @@ public class PresentValueForm extends Form {
         Label interestRateLbl = new Label("Inflation rate (%)");
         interestRateField = new TextField();
         Label nbYearsLbl = new Label("Number of years");
-        nbYearsField = new TextField();
-        paymentIntervalBox = new ComboBox<>();
-        paymentIntervalBox.getItems().addAll("Yearly", "Biannually", "Quarterly", "Monthly");
-        paymentIntervalBox.getSelectionModel().selectFirst();
+        yearsSlider= new Slider();
+        Label yearsSliderLbl= new Label("0");
+        yearsSlider.setMin(1.0d);
+        yearsSlider.setMax(50.0d);
+        yearsSlider.setOnMouseReleased(e ->{
+            yearsSliderLbl.setText((int)yearsSlider.getValue()+"");
+        });
         //adding them to the GridPane that this form extends
         this.add(paymentAmountLbl, 0, 0);
         this.add(paymentAmountField, 1, 0);
         this.add(interestRateLbl, 0, 1);
         this.add(interestRateField, 1, 1);
         this.add(nbYearsLbl, 0, 2);
-        this.add(nbYearsField, 1, 2);
-        //adding the textFields to the fields arrayList to make the numeric
+        this.add(yearsSlider, 1, 2);
+        this.add(yearsSliderLbl, 2, 2);
+        //adding the textFiels to the fields arrayList to make the numeric
+
         fields.add(paymentAmountField);
         fields.add(interestRateField);
-        fields.add(nbYearsField);
 
         makeTextFieldsNumeric();
     }
 
 
     public void clear() {
-        paymentIntervalBox.getSelectionModel().selectFirst();
         paymentAmountField.setText("");
         interestRateField.setText("");
-        nbYearsField.setText("");
+        yearsSlider.setValue(0);
     }
 
     @Override
     public boolean validFields() {
         //all fields must be filled out to allow for the calculation
-        return !paymentAmountField.getText().isEmpty() && !interestRateField.getText().isEmpty() && !nbYearsField.getText().isEmpty();
+        return !paymentAmountField.getText().isEmpty() && !interestRateField.getText().isEmpty();
     }
 
     @Override
@@ -67,8 +70,7 @@ public class PresentValueForm extends Form {
             alert.showAndWait();
             return null;
         }
-
-        int nbYears = (int) Double.parseDouble(nbYearsField.getText());
+        int nbYears =(int) yearsSlider.getValue();
         double annuityPayment = Double.parseDouble(paymentAmountField.getText());
         double yieldToMaturity = Double.parseDouble(interestRateField.getText());
 

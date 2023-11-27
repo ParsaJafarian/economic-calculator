@@ -32,19 +32,40 @@ public class Main extends Application {
 
     public static void captureScreenshot() throws AWTException, IOException {
         // Create a Robot
-        Robot robot = new Robot();
+        try {
+            // Create a Robot object
+            Robot robot = new Robot();
 
-        // Get the default toolkit
-        Toolkit toolkit = Toolkit.getDefaultToolkit();
+            // Get the default toolkit
+            Toolkit toolkit = Toolkit.getDefaultToolkit();
 
-        // Get the screen size
-        Rectangle screenSize = new Rectangle(toolkit.getScreenSize());
+            // Get the screen size
+            Rectangle screenSize = new Rectangle(toolkit.getScreenSize());
 
-        // Capture the screenshot
-        BufferedImage screenshot = robot.createScreenCapture(screenSize);
+            // Capture the screen
+            BufferedImage screenshot = robot.createScreenCapture(screenSize);
 
-        // Save the screenshot to a file
-        ImageIO.write(screenshot, "png", new File("Screenshot.png"));
+            // Define the region to capture (you can adjust these values)
+            int x = 100;
+            int y = 100;
+            int width = 500;
+            int height = 300;
+
+            // Create a rectangle representing the region to capture
+            Rectangle captureRect = new Rectangle(x, y, width, height);
+
+            // Crop the screenshot to the specified region
+            BufferedImage croppedImage = screenshot.getSubimage(captureRect.x, captureRect.y, captureRect.width, captureRect.height);
+
+            // Save the cropped image to a file
+            File outputfile = new File("screenshot.png");
+            ImageIO.write(croppedImage, "png", outputfile);
+
+            System.out.println("Screenshot saved to: " + outputfile.getAbsolutePath());
+
+        } catch (AWTException | IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public static void main(String[] args) {

@@ -18,6 +18,11 @@ public class InflationForm extends Form {
         prevYearField.setText("");
     }
 
+    /**
+     *<h1>Inflation Form</h1>
+     *<h2>This class extends Form() and allows to specify all the necessary fields that are required to make the 'Inflation' form</h2>
+     *<h3>These fields include: current CPI, previous CPI, current Year, previous Year</h3>
+     */
     public InflationForm() {
         super();
 
@@ -80,11 +85,26 @@ public class InflationForm extends Form {
         return !currentField.getText().isEmpty() && !prevField.getText().isEmpty();
     }
 
+    /**
+     * <h1>the purpose of this function is to compute the inflation rate<h1/>
+     * @param currentCPI
+     * @param previousCPI
+     * @return inflation rate
+     *
+     */
     static double computeInflationRate(double currentCPI, double previousCPI) {
         //computing the inflation (in %)
         return (currentCPI - previousCPI) / previousCPI * 100.0f;
     }
 
+    /**
+     *<h1>the purpose of this function is to compute the yearly inflation rate</h1>
+     * @param currentCPI
+     * @param previousCPI
+     * @param currentYear
+     * @param previousYear
+     * @return yearly inflation rate
+     */
     static double computeYearlyInflationRate(double currentCPI, double previousCPI, double currentYear, double previousYear) {
 
         //computing the yearly inflation, by dividing the inflation by the amount of years

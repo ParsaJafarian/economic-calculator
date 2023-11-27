@@ -11,6 +11,14 @@ public class CompoundForm extends Form {
     private final TextField interestField, initInvField, yearlyAdditionField;
     private final Slider yearsSlider;
 
+    /**
+     *
+     *
+ *      <h1>Compound calculator Form</h1>
+ *       <h2>This class extends Form() and allows to specify all the necessary fields that are required to make the 'compound' form</h2>
+ *       <h3>These fields include: initial investment, yearly addition, interest rate, compound frequency, and the number of years</h3>
+     *
+     */
     public CompoundForm() {
         super();
         //initiating all the labels and fields that comprise this form
@@ -100,6 +108,16 @@ public class CompoundForm extends Form {
 
         return computeCompoundInterest(initInv, years, interest, freq, yearlyAddition);
     }
+
+    /**
+     * <h1>The purpose of this function is to return the capital after a given amount of years, given the parameters of the interest rate at the bank</h1>
+     * @param initInv
+     * @param years
+     * @param interest
+     * @param freq
+     * @param yearlyAddition
+     * @return Observable list of rows to add to the table
+     */
     static ObservableList<Row> computeCompoundInterest(double initInv, int years, double interest, int freq, double yearlyAddition){
         //Initialize the data array (note: the size is years + 1 because the first row is the initial investment)
         ObservableList<Row> data = FXCollections.observableArrayList();

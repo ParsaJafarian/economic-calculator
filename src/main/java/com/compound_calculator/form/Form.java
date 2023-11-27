@@ -16,6 +16,14 @@ public class Form extends GridPane {
 
     protected final ArrayList<Node> fields;
 
+
+    /**
+     * <h1>The Form class</h1>
+     * <h2>The form class allows to take input from the user for all the necessary fields.</h2>
+     * <h7>For each economic formula included in this project, there is one form class that extends this one.
+     * The class provides all the fields required to make the calculations, whether it's the amount of years or the
+     * inflation rate, etc. This class is just an abstraction from which the other forms can inherit their important functions and attributes</h7>
+     */
     public Form() {
         fields = new ArrayList<>();
         //making the form have pretty alignment and spacing
@@ -26,6 +34,9 @@ public class Form extends GridPane {
         this.setBackground(Background.fill(Color.LIGHTGRAY));
     }
 
+    /**
+     * <h3>Clears all the fields that are TextFields: sets them to ""</h3>
+     */
     public void clear() {
         //basic function to set all the fields to ""
         for (Node n : this.fields)

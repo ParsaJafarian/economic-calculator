@@ -149,15 +149,6 @@ public class CompoundForm extends Form {
 
         });
     }
-    private void limitFields(){
-        //this function makes sure that the original investment and the yearly addition do not exceed 1'000'000
-        initInvField.textProperty().addListener((observable, oldValue, newValue)->{
-            if (!newValue.isEmpty() && Double.parseDouble(newValue) > 1000000) initInvField.setText(oldValue);
-        });
-        yearlyAdditionField.textProperty().addListener((observable, oldValue, newValue)->{
-            if (!newValue.isEmpty() && Double.parseDouble(newValue) > 1000000) yearlyAdditionField.setText(oldValue);
-        });
-    }
 
     public void displayInformationAlert(){
         Alert alert = new Alert(Alert.AlertType.INFORMATION);

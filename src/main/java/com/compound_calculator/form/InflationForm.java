@@ -51,6 +51,7 @@ public class InflationForm extends Form {
         fields.add(currentYearField);
         fields.add(prevYearField);
         makeTextFieldsNumeric();
+        limitFields();
     }
 
     @Override

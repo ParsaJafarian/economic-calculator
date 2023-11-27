@@ -72,9 +72,19 @@ public class Form extends GridPane {
                 //removes last character if it doesn't match description above
                 if (textField.getText().isEmpty()) textField.setText("");
                 else textField.setText(textField.getText().substring(0, textField.getText().length() - 1));
-
             }
         }));
+    }
+
+    protected void limitFields(){
+        fields.forEach(n -> {
+            if(n instanceof TextField textField){
+                textField.textProperty().addListener((observable, oldValue, newValue) -> {
+                    if (!newValue.isEmpty() && Double.parseDouble(newValue) > 1000000)
+                        textField.setText(oldValue);
+                });
+            }
+        });
     }
 
     public void displayInformationAlert() {

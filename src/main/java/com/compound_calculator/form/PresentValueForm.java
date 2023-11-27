@@ -44,6 +44,7 @@ public class PresentValueForm extends Form {
         fields.add(interestRateField);
 
         makeTextFieldsNumeric();
+        limitFields();
     }
 
 

@@ -4,7 +4,7 @@ import com.compound_calculator.Row;
 import javafx.collections.ObservableList;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class CompoundFormTest {
 
@@ -27,7 +27,7 @@ public class CompoundFormTest {
         final double expectedFinalCapital = 30482.60;
 
         // The final capital should be within 1 dollar of the expected final capital
-        assertTrue(Math.abs(finalCapital - expectedFinalCapital) < 1, "Final capital: " + finalCapital + " Expected final capital: " + expectedFinalCapital);
+        assertEquals(expectedFinalCapital, finalCapital, 1);
     }
 
     @Test
@@ -42,6 +42,6 @@ public class CompoundFormTest {
         final double expectedFinalCapital = 2911.64;
 
         // The final capital should be within 1 dollar of the expected final capital
-        assertTrue(Math.abs(finalCapital - expectedFinalCapital) < 1, "Final capital: " + finalCapital + " Expected final capital: " + expectedFinalCapital);
+        assertEquals(expectedFinalCapital, finalCapital, 1);
     }
 }

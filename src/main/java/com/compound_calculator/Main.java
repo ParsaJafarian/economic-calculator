@@ -64,7 +64,7 @@ public class Main extends Application {
             System.out.println("Screenshot saved to: " + outputfile.getAbsolutePath());
 
         } catch (AWTException | IOException e) {
-            e.printStackTrace();
+            throw new RuntimeException("Failed to capture screenshot!", e);
         }
     }
 

@@ -2,28 +2,21 @@ package com.compound_calculator;
 
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
-import javafx.scene.SnapshotParameters;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
-import javafx.scene.image.PixelWriter;
-import javafx.scene.image.PixelWriter;
-import javafx.scene.image.WritableImage;
 import javafx.scene.layout.VBox;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-
-public class Graph {
+public class GraphUtils {
 
     /**
      * this function allows to remove the graph from the container (VBox)
      * this is done when, for example, new data is entered, or when the user clears the form
      * @param graphContainer the container in which the graph is displayed
      */
-    public static void clear(VBox graphContainer) {
+    public static void clear(@NotNull VBox graphContainer) {
         //Creates and adds new Line Chart with chosen data to appropriate VBox container named "graphContainer"
         if (!graphContainer.getChildren().isEmpty()) {
             //If a graph was already generated, and the user wishes to generate a new one,
@@ -40,7 +33,8 @@ public class Graph {
     /**
      * @return virgin LineChart
      */
-    public static LineChart<Number, Number> getLineChart() {
+    @Contract(" -> new")
+    public static @NotNull LineChart<Number, Number> getLineChart() {
         NumberAxis xAxis = new NumberAxis();
         xAxis.setLabel("Time (years)");
         NumberAxis yAxis = new NumberAxis();
@@ -56,7 +50,7 @@ public class Graph {
      * @param title the title of the graph
      * @return LineChart based on the data provided
      */
-    public static LineChart<Number, Number> getLineChart(ObservableList<Row> data, String title) {
+    public static @NotNull LineChart<Number, Number> getLineChart(@NotNull ObservableList<Row> data, String title) {
         // Create the x and y axes
         NumberAxis xAxis = new NumberAxis();
         xAxis.setLabel("Time (years)");

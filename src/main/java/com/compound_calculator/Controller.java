@@ -70,7 +70,7 @@ public class Controller {
     public void initialize() {
         //Initialize all needed components
         table = new Table(tableView, pagination);
-        lineChart = Graph.getLineChart();
+        lineChart = GraphUtils.getLineChart();
         MenuBarUtils.initializeMenuBar(menuBar, table);
         addForm(new PresentValueForm());
         results = new Results(resultsSection);
@@ -119,7 +119,7 @@ public class Controller {
      */
     public void clear() {
         table.clear();
-        Graph.clear(graphContainer);
+        GraphUtils.clear(graphContainer);
         results.clear();
         form.clear();
     }
@@ -142,18 +142,15 @@ public class Controller {
 
         if (data == null) return;
         table.setData(data);
-        Graph.clear(graphContainer);
+        GraphUtils.clear(graphContainer);
 
-        if (this.form instanceof CompoundForm) {
-            CompoundForm f = (CompoundForm) form;
-            results.setToCpdIntr(data, f.getYearlyAddition());
+        if (this.form instanceof CompoundForm cf) {
+            results.setToCpdIntr(data, cf.getYearlyAddition());
             addLineChart(data, "Compound Interest");
-        } else if (this.form instanceof InflationForm) {
-            InflationForm infF = (InflationForm) form;
+        } else if (this.form instanceof InflationForm infF) {
             addLineChart(data, "Inflation");
             results.setToInfl(infF.getInflRate(), infF.getYearlyInflRate());
-        } else if (this.form instanceof PresentValueForm) {
-            PresentValueForm pVF = (PresentValueForm) form;
+        } else if (this.form instanceof PresentValueForm pVF) {
             addLineChart(data, "Present Value");
             results.setToPresVal(pVF.getPresentValue(), pVF.getLostToInflation());
         }
@@ -161,7 +158,7 @@ public class Controller {
 
     private void addLineChart(ObservableList<Row> data, String title) {
         //the '0' in the line below makes sure of the fact that the graph is added to the top of the VBox
-        lineChart = Graph.getLineChart(data, title);
+        lineChart = GraphUtils.getLineChart(data, title);
         graphContainer.getChildren().add(0, lineChart);
     }
 

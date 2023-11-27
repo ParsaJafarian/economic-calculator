@@ -18,8 +18,10 @@ import java.io.IOException;
  */
 public class MenuBarUtils {
 
+    /**
+     * Cannot be instantiated
+     */
     private MenuBarUtils() {
-        //parsa wrote this and man this is so corny! who taught him to program this way???
         throw new IllegalStateException("Utility class");
     }
 

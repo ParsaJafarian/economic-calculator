@@ -29,7 +29,8 @@ public class Results {
 
     /**
      * This method is used to display the results of the compound interest form.
-     * @param data The data coming from the table
+     *
+     * @param data           The data coming from the table
      * @param yearlyAddition The yearly addition
      */
     public void setToCpdIntr(@NotNull ObservableList<Row> data, double yearlyAddition) {
@@ -41,15 +42,16 @@ public class Results {
 
         resultsSection.add(new Label("Total value of your investment"), 0, 0);
         resultsSection.add(new Label("Total interest earned"), 0, 1);
-        resultsSection.add(new Label("$"+dollarFormat.format(totCapital)), 1, 0);
-        resultsSection.add(new Label("$"+dollarFormat.format(totInterest)), 1, 1);
+        resultsSection.add(new Label("$" + dollarFormat.format(totCapital)), 1, 0);
+        resultsSection.add(new Label("$" + dollarFormat.format(totInterest)), 1, 1);
 
         resultsSection.setVisible(true);
     }
 
     /**
      * This method is used to display the results of the inflation form.
-     * @param infl The inflation rate
+     *
+     * @param infl  The inflation rate
      * @param yInfl The yearly inflation rate
      */
     public void setToInfl(double infl, double yInfl) {
@@ -62,14 +64,15 @@ public class Results {
 
     /**
      * This method is used to display the results of the present value form.
-     * @param presentValue The present value
+     *
+     * @param presentValue    The present value
      * @param lostToInflation The money lost to inflation
      */
     public void setToPresVal(double presentValue, double lostToInflation) {
         resultsSection.add(new Label("Present value"), 0, 0);
-        resultsSection.add(new Label("$"+dollarFormat.format(presentValue)), 1, 0);
+        resultsSection.add(new Label("$" + dollarFormat.format(presentValue)), 1, 0);
         resultsSection.add(new Label("Lost to inflation"), 0, 1);
-        resultsSection.add(new Label("$"+dollarFormat.format(lostToInflation)), 1, 1);
+        resultsSection.add(new Label("$" + dollarFormat.format(lostToInflation)), 1, 1);
         resultsSection.setVisible(true);
     }
 

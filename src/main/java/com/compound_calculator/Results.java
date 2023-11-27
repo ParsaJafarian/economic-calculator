@@ -7,16 +7,31 @@ import org.jetbrains.annotations.NotNull;
 
 import java.text.DecimalFormat;
 
+/**
+ * This class is used to display the results of the calculations in each form.
+ * It does so by manipulating the GridPane that contains the results.
+ */
 public class Results {
     private final GridPane resultsSection;
+    /**
+     * This is the format used to display the results.
+     */
     private static final DecimalFormat dollarFormat = new DecimalFormat("0.00");
 
 
+    /**
+     * @param resultsSection The GridPane that contains the results
+     */
     public Results(GridPane resultsSection) {
         this.resultsSection = resultsSection;
     }
 
 
+    /**
+     * This method is used to display the results of the compound interest form.
+     * @param data The data coming from the table
+     * @param yearlyAddition The yearly addition
+     */
     public void setToCpdIntr(@NotNull ObservableList<Row> data, double yearlyAddition) {
         //Calculate the total interest and capital
         final double initInv = data.get(0).getCapital();
@@ -32,6 +47,11 @@ public class Results {
         resultsSection.setVisible(true);
     }
 
+    /**
+     * This method is used to display the results of the inflation form.
+     * @param infl The inflation rate
+     * @param yInfl The yearly inflation rate
+     */
     public void setToInfl(double infl, double yInfl) {
         resultsSection.add(new Label("Inflation rate"), 0, 0);
         resultsSection.add(new Label("Yearly inflation rate"), 0, 1);
@@ -40,6 +60,11 @@ public class Results {
         resultsSection.setVisible(true);
     }
 
+    /**
+     * This method is used to display the results of the present value form.
+     * @param presentValue The present value
+     * @param lostToInflation The money lost to inflation
+     */
     public void setToPresVal(double presentValue, double lostToInflation) {
         resultsSection.add(new Label("Present value"), 0, 0);
         resultsSection.add(new Label("$"+dollarFormat.format(presentValue)), 1, 0);
@@ -48,6 +73,9 @@ public class Results {
         resultsSection.setVisible(true);
     }
 
+    /**
+     * Clear the results section.
+     */
     public void clear() {
         resultsSection.getChildren().forEach(n -> n.setVisible(false));
         resultsSection.setVisible(false);

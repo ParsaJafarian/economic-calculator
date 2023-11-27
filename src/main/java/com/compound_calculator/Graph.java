@@ -12,7 +12,7 @@ public class Graph {
     /**
      * this function allows to remove the graph from the container (VBox)
      * this is done when, for example, new data is entered, or when the user clears the form
-     * @param graphContainer
+     * @param graphContainer the container in which the graph is displayed
      */
     public static void clear(VBox graphContainer) {
         //Creates and adds new Line Chart with chosen data to appropriate VBox container named "graphContainer"

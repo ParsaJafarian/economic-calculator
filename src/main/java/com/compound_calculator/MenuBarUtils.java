@@ -28,19 +28,27 @@ public class MenuBarUtils {
      * @param table   The table to be exported to Excel
      */
     public static void initializeMenuBar(@NotNull MenuBar menuBar, Table table) {
+        // Create the menus
         Menu fileMenu = new Menu("_File");
+        Menu helpMenu = new Menu("_Help");
+
+        // Create the menu items for the file menu
         MenuItem export = new MenuItem("Export to Excel");
-        export.setAccelerator(KeyCombination.valueOf("Ctrl+E"));
         MenuItem screenShot = new MenuItem("Export screenshot");
-        screenShot.setAccelerator(KeyCombination.valueOf("Ctrl+S"));
         MenuItem quit = new MenuItem("Quit");
-        quit.setAccelerator(KeyCombination.valueOf("Ctrl+Q"));
+
         fileMenu.getItems().addAll(export, screenShot, quit);
 
-        Menu helpMenu = new Menu("_Help");
+        // Set the accelerators
+        screenShot.setAccelerator(KeyCombination.valueOf("Ctrl+S"));
+        export.setAccelerator(KeyCombination.valueOf("Ctrl+E"));
+        quit.setAccelerator(KeyCombination.valueOf("Ctrl+Q"));
+
+        // Create the menu items for the help menu
         MenuItem about = new MenuItem("About");
         helpMenu.getItems().add(about);
 
+        // Add the event handlers
         export.setOnAction(e -> table.exportToExcel());
         screenShot.setOnAction(e -> {
             try {
@@ -51,10 +59,11 @@ public class MenuBarUtils {
         });
         quit.setOnAction(e -> System.exit(0));
         about.setOnAction(e -> {
+            //Display an alert with the information about the program
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("About");
             alert.setHeaderText("Compound Interest Calculator");
-            alert.setContentText("Created by Mark Rudko & Parsa Jafarian as a collective team effort.");
+            alert.setContentText("Created by Parsa Jafarian & Mark Rudko.");
             alert.showAndWait();
         });
 

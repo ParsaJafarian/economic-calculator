@@ -18,16 +18,26 @@ import org.jetbrains.annotations.NotNull;
 import java.io.File;
 import java.io.IOException;
 
+/**
+ * This class is used to display data in a tableview with a pagination.
+ */
 public class Table {
 
+    /**
+     * The data to be displayed in the tableView.
+     * Initially, it is empty.
+     */
     private ObservableList<Row> data = FXCollections.observableArrayList();
+    /**
+     * The number of rows per page.
+     */
     public static final int ROWS_PER_PAGE = 10;
     private final TableView<Row> tableView;
     private final Pagination pagination;
 
     /**
-     * Initialize the tableView by adding the columns.
-     * Two columns are added: Time (years) and Capital ($)
+     * @param tableView  The tableView to be displayed
+     * @param pagination The pagination to be displayed
      */
     public Table(TableView<Row> tableView, @NotNull Pagination pagination) {
         // Make the columns
@@ -43,6 +53,7 @@ public class Table {
         this.tableView.getColumns().add(timeCol);
         this.tableView.getColumns().add(capitalCol);
 
+        // Set the pagination
         this.pagination = pagination;
         this.updatePagination();
         pagination.setPageFactory(this::createPage);
@@ -50,6 +61,10 @@ public class Table {
         this.updateVisibility(false);
     }
 
+    /**
+     * This method is used to update the pagination
+     * by setting the number of pages to the number of rows divided by the number of rows per page.
+     */
     private void updatePagination() {
         pagination.setPageCount((int) Math.ceil((double) data.size() / ROWS_PER_PAGE));
         pagination.setCurrentPageIndex(0);
@@ -57,10 +72,10 @@ public class Table {
 
 
     /**
-     * Set the data in the tableView to the given data.
-     * This method is called when the calculate button is pressed.
+     * Set the data in the tableView with the given data.
+     * This method also updates the pagination and makes the tableView and pagination visible.
      *
-     * @param data the data to be displayed in the tableView. It is an array of Row objects that contain the time and capital
+     * @param data the data to be inserted to the tableView
      */
     public void setData(@NotNull ObservableList<Row> data) {
         tableView.getItems().clear();
@@ -71,6 +86,12 @@ public class Table {
         this.updateVisibility(true);
     }
 
+    /**
+     * This method is used to create a page(a set of 10 rows from the data) to be displayed in the pagination.
+     *
+     * @param pageIndex The index of the page to be created
+     * @return The page to be displayed
+     */
     private @NotNull Node createPage(int pageIndex) {
         int fromIndex = pageIndex * ROWS_PER_PAGE;
         int toIndex = Math.min(fromIndex + ROWS_PER_PAGE, data.size());
@@ -78,11 +99,17 @@ public class Table {
         return new VBox(tableView);
     }
 
+    /**
+     * @param visible Whether the tableView and pagination should be visible or not
+     */
     private void updateVisibility(boolean visible) {
         tableView.setVisible(visible);
         pagination.setVisible(visible);
     }
 
+    /**
+     * Clear the tableView and the pagination.
+     */
     public void clear() {
         tableView.getItems().clear();
         data.clear();
@@ -90,8 +117,13 @@ public class Table {
         this.updateVisibility(false);
     }
 
+    /**
+     * Export the data to an excel file using Apache POI.
+     * <a href="https://poi.apache.org/">Apache POI</a>
+     */
     public void exportToExcel() {
 
+        // If there is no data, show an error message and return
         if (data.isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
@@ -101,34 +133,40 @@ public class Table {
             return;
         }
 
+        // Create a file chooser
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Save Excel File");
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Excel Files", "*.xls"));
         fileChooser.setInitialFileName("data.xls");
 
+        //Show the file chooser
         File file = fileChooser.showSaveDialog(tableView.getScene().getWindow());
+        //If the user cancels the file chooser, stop the process
         if (file == null) return;
 
+        //Create the workbook and the sheet
         HSSFWorkbook workbook = new HSSFWorkbook();
         HSSFSheet sheet = workbook.createSheet("Compound Calculator");
         HSSFRow firstRow = sheet.createRow(0);
 
+        //Create the first row which are the headers
         firstRow.createCell(0).setCellValue("Time (years)");
         firstRow.createCell(1).setCellValue("Capital ($)");
 
+        //Create the rest of the rows
         for (int i = 0; i < data.size(); i++) {
             HSSFRow row = sheet.createRow(i + 1);
             row.createCell(0).setCellValue(data.get(i).getTime());
             row.createCell(1).setCellValue(data.get(i).getCapital());
         }
 
+        //Write the workbook to the file
         try {
             workbook.write(file);
             workbook.close();
         } catch (IOException e) {
+            //If there is an error, throw a runtime exception
             throw new RuntimeException(e);
         }
     }
-
-
 }

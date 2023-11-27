@@ -79,8 +79,9 @@ public class PresentValueForm extends Form {
     /**
      * <h1>The purpose of this function is to compute the present value of annuity</h1>
      * <h2>See the comment below to understand the inner-workings of how the math works</h2>
-     * @param n number of years
-     * @param pMT payment amount per year
+     *
+     * @param n        number of years
+     * @param pMT      payment amount per year
      * @param rPercent interest rate in percent
      */
     private ObservableList<Row> computePresentValueAnnuity(int n, double pMT, double rPercent) {
@@ -100,7 +101,7 @@ public class PresentValueForm extends Form {
 
         double totalValue = 0;
         data.add(new Row(0, 0));
-        for (int i = 1; i <= n; i ++) {
+        for (int i = 1; i <= n; i++) {
             double presentValue = pMT / Math.pow(1 + rDecimal, i);
             totalValue += presentValue;
             data.add(new Row(i, totalValue));
@@ -120,7 +121,7 @@ public class PresentValueForm extends Form {
         return lostToInflation;
     }
 
-    public static void displayInformationAlert() {
+    public void displayInformationAlert() {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Present Value");
         alert.setHeaderText("How it works");

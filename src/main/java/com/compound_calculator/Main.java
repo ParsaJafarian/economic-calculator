@@ -15,6 +15,7 @@ import java.io.IOException;
 public class Main extends Application {
 
     public static Scene scene;
+
     /**
      * @param stage The stage to be displayed
      * @throws IOException If the FXML file cannot be loaded

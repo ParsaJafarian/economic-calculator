@@ -22,66 +22,100 @@ public class Controller {
     @FXML
     private GridPane resultsSection;
 
+    /**
+     * This button is used to either calculate or clear.
+     */
     @FXML
     private Button clrBtn, calcBtn;
+    /**
+     * The tableView that displays the data.
+     */
     @FXML
     private TableView<Row> tableView;
+    /**
+     * The pagination that allows to navigate through the data.
+     */
     @FXML
     private Pagination pagination;
+    /**
+     * The table that manipulates the tableView and pagination.
+     */
     private Table table;
+    /**
+     * The lineChart that displays the graph.
+     */
     private LineChart<Number, Number> lineChart;
+    /**
+     * Container of either form or graph
+     */
     @FXML
     private VBox formContainer, graphContainer;
+    /**
+     * The menuBar that contains the menuItems.
+     */
     @FXML
     private MenuBar menuBar;
     private Form form;
-    @FXML
-    private ToggleButton compoundTglBtn, presentValueTglBtn, inflationTglBtn;
-    private Results results;
-
     /**
-     * Initialize the view by adding the options to the frequency combo box,
-     * setting the default value to "Monthly", and adding listeners to the
-     * buttons.
+     * ToggleButton that allows to switch between forms
      */
     @FXML
+    private ToggleButton compoundTglBtn, presentValueTglBtn, inflationTglBtn;
+    /**
+     * The results which manipulates the results section
+     */
+    private Results results;
+
+    @FXML
     public void initialize() {
+        //Initialize all needed components
         table = new Table(tableView, pagination);
         lineChart = Graph.getLineChart();
         MenuBarUtils.initializeMenuBar(menuBar, table);
         addForm(new PresentValueForm());
         results = new Results(resultsSection);
 
-        // Add listeners to the buttons
-        calcBtn.setOnAction(e -> calculate());
-        clrBtn.setOnAction(e -> clear());
+        //Add toggleButtons to a group
         ToggleGroup tgg = new ToggleGroup();
         compoundTglBtn.setToggleGroup(tgg);
         presentValueTglBtn.setToggleGroup(tgg);
         inflationTglBtn.setToggleGroup(tgg);
-        //Add functionality to toggleButtons
+
+        // Add listeners to the buttons
+        calcBtn.setOnAction(e -> calculate());
+        clrBtn.setOnAction(e -> clear());
         compoundTglBtn.setOnAction(e -> changeFormType(new CompoundForm()));
         presentValueTglBtn.setOnAction(e -> changeFormType(new PresentValueForm()));
         inflationTglBtn.setOnAction(e -> changeFormType(new InflationForm()));
     }
 
+    /**
+     * Add the form to the formContainer.
+     *
+     * @param form The form to be added to the formContainer
+     */
     private void addForm(Form form) {
         formContainer.getChildren().add(form);
         this.form = form;
     }
 
 
+    /**
+     * Change the form type.
+     *
+     * @param form The form to be added to the formContainer
+     */
     private void changeFormType(Form form) {
+        //If the form is already displayed, do nothing
         if (formContainer.getChildren().size() < 2) return;
+        //Remove the old form and add the new one while clearing components
         clear();
         formContainer.getChildren().remove(1);
         addForm(form);
-        resultsSection.setVisible(false);
     }
 
     /**
-     * Clear the table and the input fields.
-     * This method is called when the clear button is pressed.
+     * Clear table, graph, results and form.
      */
     public void clear() {
         table.clear();
@@ -90,11 +124,12 @@ public class Controller {
         form.clear();
     }
 
+    /**
+     * Display the information alert depending on the form type.
+     */
     @FXML
     private void displayMoreInformation() {
-        if (this.form instanceof CompoundForm) CompoundForm.displayInformationAlert();
-        else if (this.form instanceof InflationForm) InflationForm.displayInformationAlert();
-        else if (this.form instanceof PresentValueForm) PresentValueForm.displayInformationAlert();
+        form.displayInformationAlert();
     }
 
     /**

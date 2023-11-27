@@ -159,7 +159,7 @@ public class CompoundForm extends Form {
         });
     }
 
-    public static void displayInformationAlert(){
+    public void displayInformationAlert(){
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Compound Interest");
         alert.setHeaderText("How it works");

@@ -77,6 +77,10 @@ public class Form extends GridPane {
         }));
     }
 
+    public void displayInformationAlert() {
+
+    }
+
     @Override
     public String toString() {
         //for the culture!

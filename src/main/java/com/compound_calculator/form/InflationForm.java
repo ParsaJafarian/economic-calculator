@@ -19,9 +19,9 @@ public class InflationForm extends Form {
     }
 
     /**
-     *<h1>Inflation Form</h1>
-     *<h2>This class extends Form() and allows to specify all the necessary fields that are required to make the 'Inflation' form</h2>
-     *<h3>These fields include: current CPI, previous CPI, current Year, previous Year</h3>
+     * <h1>Inflation Form</h1>
+     * <h2>This class extends Form() and allows to specify all the necessary fields that are required to make the 'Inflation' form</h2>
+     * <h3>These fields include: current CPI, previous CPI, current Year, previous Year</h3>
      */
     public InflationForm() {
         super();
@@ -86,10 +86,10 @@ public class InflationForm extends Form {
 
     /**
      * <h1>the purpose of this function is to compute the inflation rate<h1/>
-     * @param currentCPI current consumer price index
+     *
+     * @param currentCPI  current consumer price index
      * @param previousCPI previous consumer price index
      * @return inflation rate
-     *
      */
     static double computeInflationRate(double currentCPI, double previousCPI) {
         //computing the inflation (in %)
@@ -97,10 +97,11 @@ public class InflationForm extends Form {
     }
 
     /**
-     *<h1>the purpose of this function is to compute the yearly inflation rate</h1>
-     * @param currentCPI current consumer price index
-     * @param previousCPI previous consumer price index
-     * @param currentYear current year
+     * <h1>the purpose of this function is to compute the yearly inflation rate</h1>
+     *
+     * @param currentCPI   current consumer price index
+     * @param previousCPI  previous consumer price index
+     * @param currentYear  current year
      * @param previousYear previous year
      * @return yearly inflation rate
      */
@@ -120,7 +121,7 @@ public class InflationForm extends Form {
         return this.inflRate;
     }
 
-    public static void displayInformationAlert() {
+    public void displayInformationAlert() {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Inflation");
         alert.setHeaderText("How it works");

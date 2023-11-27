@@ -52,6 +52,8 @@ Thus, there is communication between a Table & Graph with this class.
 
 ### UML Diagram
 
+![UML Diagram](uml.png)
+
 ## How git was Used
 
 This git repository is split into two branches: main & parsa. The parsa branch is named after one of the developers of this project (Parsa Jafarian). 

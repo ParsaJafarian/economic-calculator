@@ -4,6 +4,8 @@ import com.compound_calculator.form.CompoundForm;
 import com.compound_calculator.form.Form;
 import com.compound_calculator.form.InflationForm;
 import com.compound_calculator.form.PresentValueForm;
+import com.compound_calculator.util.GraphUtils;
+import com.compound_calculator.util.MenuBarUtils;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.chart.LineChart;

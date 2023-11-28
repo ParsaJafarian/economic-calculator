@@ -1,5 +1,7 @@
-package com.compound_calculator;
+package com.compound_calculator.util;
 
+import com.compound_calculator.Main;
+import com.compound_calculator.Table;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;

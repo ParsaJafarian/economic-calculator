@@ -1,5 +1,6 @@
-package com.compound_calculator;
+package com.compound_calculator.util;
 
+import com.compound_calculator.Row;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.chart.LineChart;

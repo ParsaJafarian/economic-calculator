@@ -3,6 +3,7 @@ package com.compound_calculator.form;
 import com.compound_calculator.Row;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -31,7 +32,7 @@ public class PresentValueFormTest {
      * @param rPercent The interest rate in percent
      * @return The data to be displayed in the tableView
      */
-    private ObservableList<Row> computePresentValueAnnuity(int n, double pMT, double rPercent) {
+    private @NotNull ObservableList<Row> computePresentValueAnnuity(int n, double pMT, double rPercent) {
         ObservableList<Row> data = FXCollections.observableArrayList();
 
         double rDecimal = rPercent / 100.0d;

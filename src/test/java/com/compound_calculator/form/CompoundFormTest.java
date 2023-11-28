@@ -12,6 +12,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * <a href="https://www.getsmarteraboutmoney.ca/calculators/compound-interest-calculator/">
  * Get Smarter About Money Calculator
  * </a>
+ * <br>
  * Moreover, the data size is compared to the number of years.
  */
 
@@ -28,8 +29,14 @@ public class CompoundFormTest {
         final double finalCapital = data.get(data.size() - 1).getCapital();
         final double expectedFinalCapital = 30482.60;
 
+        final double totalInterest = finalCapital - 2000 - 1000 * 20;
+        final double expectedTotalInterest = 8482.60;
+
         // The final capital should be within 1 dollar of the expected final capital
         assertEquals(expectedFinalCapital, finalCapital, 1);
+
+        // The total interest should be within 1 dollar of the expected total interest
+        assertEquals(expectedTotalInterest, totalInterest, 1);
     }
 
     @Test
@@ -43,7 +50,13 @@ public class CompoundFormTest {
         final double finalCapital = data.get(data.size() - 1).getCapital();
         final double expectedFinalCapital = 2911.64;
 
+        final double totalInterest = finalCapital - 1000 - 100 * 10;
+        final double expectedTotalInterest = 911.64;
+
         // The final capital should be within 1 dollar of the expected final capital
         assertEquals(expectedFinalCapital, finalCapital, 1);
+
+        // The total interest should be within 1 dollar of the expected total interest
+        assertEquals(expectedTotalInterest, totalInterest, 1);
     }
 }

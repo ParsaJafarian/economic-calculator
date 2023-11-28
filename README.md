@@ -1,58 +1,65 @@
-# Compound Interest Calculator JavaFX Project
+# Economic Calculator JavaFX Project
 
 ## How to run the application 
 
 1. `cd {your directory}`
 2. `git clone {repo_url}`
-3. Run main.java file in your IDE of choice
+3. Run Main.java file in your IDE of choice
 
 ## Introduction
 
-This app has the main goal of calculating the compound growth of the user's money. For instance, a user enters 10000$ as a starting investment and 
-wants to see how much this investment would be after 10 years with an interest rate of 5%. Moreover, this program displays the growth of the investment
-every year through two illustrations:
+This app has the goal of calculating Present Value, Inflation Rate and Compound Interest.
+Thus, three different forms are provided to the user to input the necessary information.
+After the user calculates the desired value, the resulting data is displayed in a table and graph. 
+The user can also save the table into an excel file for further analysis.
 
-* Table 
-* Graph
+## Previous version & Changes made after feedback
 
-The user can then export these illustrations into an excel file. 
+At first when the project was assigned, we had a simpler idea of what we wanted to do.
+The sole goal of the application was to calculate Compound Interest and display the results in a table and graph. 
+However, due to the program's simplicity, the following feedback was given to us by Miss Nagat Drawel (our professor):
+
+![Feedback](images/feedback.png)
+
+In short, the feedback was to add more features to the application.
+Thus, we implemented the additional features that were mentioned in the feedback (Inflation Rate & Present Value
+as well as the ability to save the table into an excel file).
+
+Furthermore, we decided to use Git & GitHub as our version source control. 
+For more information regarding that, please check [How git was used](#how-git-was-used).
+
+**TODO: Write about exporting graph as a photo**
 
 ## Program Structure
 
-The program is organized into the following classes
+The program is split into 3 different packages:
 
-* Controller
-* FormUtils
-* Table
-* Graph 
-* MenuBarUtils
-* Row
+1. `com.compound_calculator.form` - Contains the Form classes (Compound Interest, Inflation Rate & Present Value)
+2. `com.compound_calculator.util` - Contains the Utility classes (GraphUtils & MenuBarUtils)
+3. `com.compound_calculator` - Contains other classes (Main, Controller, Result, Table & Row)
 
-The Controller class is the intermediate communicator between the index.fxml and the other classes. 
-Note that any Class ending with Utils denotes a utility class that can never be instantiated. These classes are only used to organize certain methods.
-In the next parts, a brief overview of each class will be given.
+Now, let's look at each package in more detail.
 
-### Table Class
+### Form Package
 
-The table class contains two attributes: a TableView and a Pagination. Thanks to the Table class, the tableView and pagination can interact with each other 
-without being accessible to outside classes such as Controller. The Row class is declared under the Table class because a table is made of multiple rows.
+This package uses inheritance to create the three different forms that have similar functionality.
+The Form class is the parent class that contains the common functionality between the three forms.
+Each Form has the important method of `getData()` which returns tabular data related to the form's calculations.
 
-### FormUtils
+### Util Package
 
-FormUtils contains all methods that validate or invalidate the Form section of the program (the section where the  user enters their input).
+This package contains two classes: GraphUtils & MenuBarUtils.
+These classes cannot be instantiated and are used to provide utility static methods to other classes.
 
-### MenuBarUtils
+### Other Classes
 
-MenuBarUtils initializes the menu bar of the program. This class is important because it gives the option to the user to export the table and graph to excel.
-Thus, there is communication between a Table & Graph with this class. 
+The Three important classes outside of Main & Controller are:
 
-### Graph
+1. `Result` - This class is used to store the results of the calculations. (final amount, interest rate, etc.)
+2. `Table` - This class contains a tableView and pagination to display the data in a table.
+3. `Row` - This class is used to store the data of a single row in the table.
 
-//TODO
-
-### UML Diagram
-
-![UML Diagram](uml.png)
+![UML Diagram](images/uml.png)
 
 ## How git was Used
 

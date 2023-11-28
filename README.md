@@ -11,7 +11,7 @@
 This app has the goal of calculating Present Value, Inflation Rate and Compound Interest.
 Thus, three different forms are provided to the user to input the necessary information.
 After the user calculates the desired value, the resulting data is displayed in a table and graph. 
-The user can also save the table into an excel file for further analysis.
+The user can also save the table into an excel file for further analysis as well as export the graph as a photo.
 
 ## Previous version & Changes made after feedback
 
@@ -28,7 +28,17 @@ as well as the ability to save the table into an excel file).
 Furthermore, we decided to use Git & GitHub as our version source control. 
 For more information regarding that, please check [How git was used](#how-git-was-used).
 
-**TODO: Write about exporting graph as a photo**
+### Results
+
+Everything from the feedback was resolved and implemented into the application except for 
+exporting the graph as a photo. This feature was not implemented due to time constraints.
+
+A screenshot of the application is taken instead but it is not ideal.
+Errors can be made when taking a screenshot and the graph might not be fully visible as well
+as when the screen is not adjusted to the correct size. 
+
+In short, the application can only export the graph as a photo only on some devices & on some occasions.
+The other functionalities work as intended.
 
 ## Program Structure
 
@@ -59,7 +69,27 @@ The Three important classes outside of Main & Controller are:
 2. `Table` - This class contains a tableView and pagination to display the data in a table.
 3. `Row` - This class is used to store the data of a single row in the table.
 
+### UML Diagram
+
 ![UML Diagram](images/uml.png)
+
+## Outputs Images
+
+### Blank Compound Interest Form
+
+![Blank Compound Interest Form](images/blankForm.png)
+
+### Filled Compound Interest Form
+
+![Filled Compound Interest Form](images/results.png)
+
+### Learn More Information Alert Dialog
+
+![Learn More Information Alert Dialog](images/learnMore.png)
+
+### FileChooser for Saving Table as Excel File
+
+![FileChooser for Saving Table as Excel File](images/filePicker.png)
 
 ## How git was Used
 

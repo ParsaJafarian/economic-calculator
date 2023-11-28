@@ -27,6 +27,7 @@ public class Main extends Application {
         scene = new Scene(loader.load(), 1000, 700);
         stage.setTitle("Economic Functions Calculator");
         stage.setScene(scene);
+        stage.setResizable(false);
         stage.show();
     }
 

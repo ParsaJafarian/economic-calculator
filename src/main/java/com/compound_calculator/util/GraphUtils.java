@@ -12,6 +12,11 @@ import org.jetbrains.annotations.NotNull;
 
 public class GraphUtils {
 
+
+    private GraphUtils() {
+        throw new IllegalStateException("Utility class");
+    }
+
     /**
      * this function allows to remove the graph from the container (VBox)
      * this is done when, for example, new data is entered, or when the user clears the form

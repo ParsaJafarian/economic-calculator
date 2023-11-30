@@ -13,6 +13,27 @@ Thus, three different forms are provided to the user to input the necessary info
 After the user calculates the desired value, the resulting data is displayed in a table and graph. 
 The user can also save the table into an excel file for further analysis as well as export the graph as a photo.
 
+## Table of contents
+
+1. [Troubleshooting](#troubleshooting)
+2. [Previous version & changes made after feedback](#previous-version-&-changes-made-after-feedback)
+3. [Results](#results)
+4. [Program structure](#program-structure)
+5. [Form package](#form-package)
+6. [Util pacakage](#util-packaga)
+7. [Other classes](#other-classes)
+8. [UML diagram](#uml-diagram)
+9. [Output images](#output-images)
+10. [How git was used](#how-git-was-used)
+
+## Troubleshooting
+
+We preface this by saying that a lot of tests have been run on this app to make it as rigid and polished as possible. However, with every technology can arise a series of issues. In our case, to prevent any errors, we recommend running the project in the IntelliJ IDE. This is the environment we used to create it.
+
+If the project does not compile, the issue is likely with loading the FXML file, because its relative location was altered. We recommend reading the error messages, and to adjust the location of the FXML file accordingly. Additionally, make sure that your machine is running on JDK 18 or higher.
+
+If the screenshot taken does not show the graph, as advertised, simply re-run the program and do not drag or maximise/minimise your application. Take the screenshot again. You will find it in the source directory.
+
 ## Previous version & Changes made after feedback
 
 At first when the project was assigned, we had a simpler idea of what we wanted to do.

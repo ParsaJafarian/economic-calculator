@@ -26,6 +26,10 @@ The user can also save the table into an excel file for further analysis as well
 9. [Output images](#output-images)
 10. [How git was used](#how-git-was-used)
 
+## User's guide
+
+On account of being carefully designed, our program is very simple to use. To begin, select the economic function that you are interested in using. The buttons are on the top of the form, on the left of the screen. Fill in all the fields. When you are done, submit the form by clicking 'claculate'. You will find this button below the form. A table will appear below the form and a graph to the right. To see the 'about' page of our app, go to Help -> About. To export the table to excel or to File -> Export. Have fun!
+
 ## Troubleshooting
 
 We preface this by saying that a lot of tests have been run on this app to make it as rigid and polished as possible. However, with every technology can arise a series of issues. In our case, to prevent any errors, we recommend running the project in the IntelliJ IDE. This is the environment we used to create it.
